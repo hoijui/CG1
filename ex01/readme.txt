@@ -8,6 +8,13 @@
                    tu berlin
    ------------------------------------------------------------- */
 
+to compile & run:
+
+	mkdir build
+	cd build
+	cmake ..
+	make
+	./cg1_ex01
 
 Enclosed you will find all files necessary for assignment 1
 of computer graphics 1 (CG 1). you will need GLUT to compile

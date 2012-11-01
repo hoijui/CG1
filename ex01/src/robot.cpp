@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------
-   name:           robot.c
-   purpose:        implementation of the scenegraph construction
-   version:	   SKELETON CODE
-   TODO:           buildRobot
-   author:         katrin lang
-		   computer graphics
-		   tu berlin
-   ------------------------------------------------------------- */
+name:           robot.c
+purpose:        implementation of the scenegraph construction
+version:	   SKELETON CODE
+TODO:           buildRobot
+author:         katrin lang
+computer graphics
+tu berlin
+------------------------------------------------------------- */
 
 #include "robot.h"
 
@@ -23,30 +23,30 @@
 // build the robot scenegraph
 Node *buildRobot(){
 
-  // torso attributes and initial position.
-  // for parameters of constructor and their meanings,
-  // see file node.h
-  Node *torso= new Node(0, 0, 0,
+	// torso attributes and initial position.
+	// for parameters of constructor and their meanings,
+	// see file node.h
+	Node *torso= new Node(0, 0, 0,
 			200, 300, 100,
 			0, 0, 0,
 			0, 0, 0);
 
-  // XXX: implement more body/robot/whatever parts here
+	// XXX: implement more body/robot/whatever parts here
 
-  // INSERT YOUR CODE HERE
+	// INSERT YOUR CODE HERE
 
-  // END XXX
+	// END XXX
 
-  // finally, attach the robot/model parts
-  // example: leftArm->setParent(torso), etc...
-  // BUILD THE SCENEGRAPH
+	// finally, attach the robot/model parts
+	// example: leftArm->setParent(torso), etc...
+	// BUILD THE SCENEGRAPH
 
-  // XXX: attach body parts here
+	// XXX: attach body parts here
 
-  // INSERT YOUR CODE HERE
+	// INSERT YOUR CODE HERE
 
-  // END XXX
+	// END XXX
 
-  // return root node
-  return torso;
+	// return root node
+	return torso;
 }

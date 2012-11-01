@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------
-   name:           node.cpp
-   purpose:        implementation for a scenegraph node
-   version:	   SKELETON CODE
-   TODO:           transform, drawJoint
-   author:         katrin lang
-		   computer graphics
-		   tu berlin
-   ------------------------------------------------------------- */
+name:           node.cpp
+purpose:        implementation for a scenegraph node
+version:	   SKELETON CODE
+TODO:           transform, drawJoint
+author:         katrin lang
+computer graphics
+tu berlin
+------------------------------------------------------------- */
 
 #include <iostream>
 #ifdef __APPLE__
@@ -24,35 +24,35 @@
 // printline debugging won't work
 using namespace std;
 
- // constructor
-  Node::Node(float x, float y, float z,
-       float length, float height, float width,
-       float jointx, float jointy, float jointz,
-       float rotx, float roty, float rotz){
+// constructor
+Node::Node(float x, float y, float z,
+		float length, float height, float width,
+		float jointx, float jointy, float jointz,
+		float rotx, float roty, float rotz){
 
-    this->selected= false;
+	this->selected= false;
 
-    this->x= x;
-    this->y= y;
-    this->z= z;
+	this->x= x;
+	this->y= y;
+	this->z= z;
 
-    this->length= length;
-    this->height= height;
-    this->width= width;
+	this->length= length;
+	this->height= height;
+	this->width= width;
 
-    this->jointx= jointx;
-    this->jointy= jointy;
-    this->jointz= jointz;
+	this->jointx= jointx;
+	this->jointy= jointy;
+	this->jointz= jointz;
 
-    this->rotx= rotx;
-    this->roty= roty;
-    this->rotz= rotz;
+	this->rotx= rotx;
+	this->roty= roty;
+	this->rotz= rotz;
 
-    this->parent= NULL;
-    this->child= NULL;
-    this->previous= NULL;
-    this->next= NULL;
-  }
+	this->parent= NULL;
+	this->child= NULL;
+	this->previous= NULL;
+	this->next= NULL;
+}
 
 // destructor
 // nothing to do so far
@@ -63,22 +63,22 @@ Node::~Node(){}
 // to the list of the parent's children
 void Node::setParent(Node* parent){
 
-  this->parent= parent;
-  if(parent->child==NULL){
-    parent->child= this;
-  }
-  else{
-    Node *sibling= parent->child;
-    while(sibling->next != NULL) sibling= sibling->next;
-    sibling->next= this;
-    this->previous= sibling;
-  }
+	this->parent= parent;
+	if(parent->child==NULL){
+		parent->child= this;
+	}
+	else{
+		Node *sibling= parent->child;
+		while(sibling->next != NULL) sibling= sibling->next;
+		sibling->next= this;
+		this->previous= sibling;
+	}
 }
 
-  // transform an individual node
-  // according to its position,
-  // rotation, and rotation center
-  // XXX: NEEDS TO BE IMPLEMENTED
+// transform an individual node
+// according to its position,
+// rotation, and rotation center
+// XXX: NEEDS TO BE IMPLEMENTED
 void Node::transform(){
 
 	// note the order of the operations:
@@ -103,7 +103,7 @@ void Node::transform(){
 	// apply this node's rotation
 	// XXX
 
-        // INSERT YOUR CODE HERE
+	// INSERT YOUR CODE HERE
 
 	// END XXX
 
@@ -174,32 +174,32 @@ void Node::drawJoint(){
 // increment / decrement rotation
 void Node::rotate(float x, float y, float z){
 
-  rotx+= x;
-  roty+= y;
-  rotz+= z;
+	rotx+= x;
+	roty+= y;
+	rotz+= z;
 }
 
 Node *Node::getNext(){
-  return next;
+	return next;
 }
 
 Node *Node::getPrevious(){
-  return previous;
+	return previous;
 }
 
 Node *Node::getParent(){
-  return parent;
+	return parent;
 }
 
 Node *Node::getChild(){
-  return child;
+	return child;
 }
 
 void Node::select(){
-  selected= true;
+	selected= true;
 }
 
 void Node::deselect(){
-  selected= false;
+	selected= false;
 }
 

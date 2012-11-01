@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------
-   name:           scenegraph.h
-   purpose:        scenegraph class declaration
-   version:	   SKELETON CODE
-   TODO:           nothing (see scenegraph.cpp)
-   author:         katrin lang
-		   computer graphics
-		   tu berlin
-   ------------------------------------------------------------- */
+name:           scenegraph.h
+purpose:        scenegraph class declaration
+version:	   SKELETON CODE
+TODO:           nothing (see scenegraph.cpp)
+author:         katrin lang
+computer graphics
+tu berlin
+------------------------------------------------------------- */
 
 #pragma once
 
@@ -19,42 +19,42 @@ extern SceneGraph *sceneGraph;
 
 class SceneGraph{
 
- public:
+	public:
 
-  SceneGraph(Node *root);
+		SceneGraph(Node *root);
 
-  ~SceneGraph();
+		~SceneGraph();
 
-  // traverse and draw the scenegraph
-  void traverse();
+		// traverse and draw the scenegraph
+		void traverse();
 
-  // navigation in tree
-  // (needed for node selection)
-  void up();
-  void down();
-  void left();
-  void right();
+		// navigation in tree
+		// (needed for node selection)
+		void up();
+		void down();
+		void left();
+		void right();
 
-  // increment / decrement rotation of selected node
-  void rotate(float x, float y, float z);
+		// increment / decrement rotation of selected node
+		void rotate(float x, float y, float z);
 
-  // reset all rotations
-  void reset();
+		// reset all rotations
+		void reset();
 
- private:
+	private:
 
-  // root node
-  Node *root;
+		// root node
+		Node *root;
 
-  // currently selected node
-  Node *selected;
+		// currently selected node
+		Node *selected;
 
-  // traverse and draw the scenegraph from a given node
-  void traverse(Node *node);
+		// traverse and draw the scenegraph from a given node
+		void traverse(Node *node);
 
-  // reset all rotations below given node
-  void reset(Node *node);
+		// reset all rotations below given node
+		void reset(Node *node);
 
-  // destroy all nodes
-  void clear(Node *node);
+		// destroy all nodes
+		void clear(Node *node);
 };

@@ -34,6 +34,18 @@ Node *buildRobot(){
 	// XXX: implement more body/robot/whatever parts here
 
 	// INSERT YOUR CODE HERE
+	Node *head= new Node(0, 165, 0,
+			40, 30, 10,
+			0, 0, 0,
+			0, 0, 0);
+	Node *leftLeg= new Node(60, -400, 0,
+			80, 350, 100,
+			0, 0, 0,
+			0, 0, 0);
+	Node *rightLeg= new Node(-60, -400, 0,
+			80, 350, 100,
+			0, 0, 0,
+			0, 0, 0);
 
 	// END XXX
 
@@ -44,6 +56,9 @@ Node *buildRobot(){
 	// XXX: attach body parts here
 
 	// INSERT YOUR CODE HERE
+	head->setParent(torso);
+	leftLeg->setParent(torso);
+	rightLeg->setParent(torso);
 
 	// END XXX
 

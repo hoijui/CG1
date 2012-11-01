@@ -90,6 +90,7 @@ void SceneGraph::traverse(Node *node){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glPushMatrix();
 
 	// END XXX
 
@@ -103,6 +104,14 @@ void SceneGraph::traverse(Node *node){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	if (node->child != NULL) {
+		Node *child = node->child;
+		traverse(child);
+		while (child->next != NULL) {
+			child = child->next;
+			traverse(child);
+		}
+	}
 
 	// END XXX
 
@@ -111,6 +120,7 @@ void SceneGraph::traverse(Node *node){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glPopMatrix();
 
 	// END XXX
 
@@ -118,6 +128,11 @@ void SceneGraph::traverse(Node *node){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	Node *sibling = node->next;
+	while (sibling != NULL) {
+		traverse(sibling);
+		sibling = sibling->next;
+	}
 
 	// END XXX
 }

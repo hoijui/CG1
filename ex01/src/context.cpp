@@ -206,6 +206,10 @@ void Context::keyPressed(unsigned char key, int x, int y){
 				  // XXX: reset rotations
 
 				  // INSERT YOUR CODE HERE
+		case 'r':
+				  sceneGraph->reset();
+				  display();
+				  break;
 
 				  // END XXX
 

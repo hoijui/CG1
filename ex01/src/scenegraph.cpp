@@ -153,6 +153,14 @@ void SceneGraph::reset(Node* node){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	node->rotx = 0;
+	node->roty = 0;
+	node->rotz = 0;
+	Node* child = node->child;
+	while (child != NULL) {
+		reset(child);
+		child = child->next;
+	}
 
 	// END XXX
 }

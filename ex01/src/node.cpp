@@ -90,6 +90,7 @@ void Node::transform(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTranslatef(x, y, z);
 
 	// END XXX
 
@@ -97,6 +98,7 @@ void Node::transform(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTranslatef(jointx, jointy, jointz);
 
 	// END XXX
 
@@ -104,6 +106,8 @@ void Node::transform(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glRotatef(rotx, 1, 0, 0);
+	glRotatef(roty, 0, 1, 0);
 
 	// END XXX
 

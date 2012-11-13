@@ -144,7 +144,10 @@ void Node::draw(){
 // draw the joint (rotation center)
 // of an individual node
 // XXX: NEEDS TO BE IMPLEMENTED
-void Node::drawJoint(){
+void Node::drawJoint() {
+
+	static const float SPHERE_SIZE = 30.0f;
+	static const float AXIS_SIZE = 1.5f * SPHERE_SIZE;
 
 	// save enable bit for lighting
 	// and current bit for color
@@ -159,6 +162,7 @@ void Node::drawJoint(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glutWireSphere(SPHERE_SIZE, 18, 18);
 
 	// END XXX
 
@@ -168,6 +172,21 @@ void Node::drawJoint(){
 	//      SEE PROVIDED cg1_ex1.exe (win32) AND cg1_ex1 (linux)
 
 	// INSERT YOUR CODE HERE
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+		glVertex3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(AXIS_SIZE, 0.0f, 0.0f);
+	glEnd();
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBegin(GL_LINES);
+		glVertex3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(0.0f, AXIS_SIZE, 0.0f);
+	glEnd();
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glBegin(GL_LINES);
+		glVertex3f(0.0f, 0.0f, 0.0f);
+		glVertex3f(0.0f, 0.0f, AXIS_SIZE);
+	glEnd();
 
 	// END XXX
 

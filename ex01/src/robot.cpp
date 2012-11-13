@@ -26,26 +26,30 @@ Node *buildRobot(){
 	// torso attributes and initial position.
 	// for parameters of constructor and their meanings,
 	// see file node.h
-	Node *torso= new Node(0, 0, 0,
-			200, 300, 100,
-			0, 0, 0,
-			0, 0, 0);
+	Node* torso = new Node(
+			0.0f, 0.0f, 0.0f, // position
+			200.0f, 300.0f, 100.0f, // size
+			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, 0.0f, 0.0f); // default rotation
 
 	// XXX: implement more body/robot/whatever parts here
 
 	// INSERT YOUR CODE HERE
-	Node *head= new Node(0, 165, 0,
-			40, 30, 10,
-			0, 0, 0,
-			0, 0, 0);
-	Node *leftLeg= new Node(60, -400, 0,
-			80, 350, 100,
-			0, 0, 0,
-			0, 0, 0);
-	Node *rightLeg= new Node(-60, -400, 0,
-			80, 350, 100,
-			0, 0, 0,
-			0, 0, 0);
+	Node* head = new Node(
+			0.0f, 165.0f, 0.0f, // position
+			40.0f, 30.0f, 10.0f, // size
+			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, 0.0f, 0.0f); // default rotation
+	Node* leftLeg = new Node(
+			60.0f, -400.0f, 0.0f, // position
+			80.0f, 350.0f, 100.0f, // size
+			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, 0.0f, 0.0f); // default rotation
+	Node* rightLeg = new Node(
+			-60.0f, -400.0f, 0.0f, // position
+			80.0f, 350.0f, 100.0f, // size
+			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, 0.0f, 0.0f); // default rotation
 
 	// END XXX
 

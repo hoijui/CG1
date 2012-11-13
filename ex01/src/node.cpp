@@ -118,6 +118,7 @@ void Node::transform(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTranslatef(-jointx, -jointy, -jointz);
 
 	// END XXX
 }

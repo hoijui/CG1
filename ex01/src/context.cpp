@@ -54,7 +54,7 @@ void Context::config(){
 
 	// window size and position
 	width= 600;
-	height= 600;
+	height= 1200;
 	x= 100;
 	y= 100;
 	title= "cg1 assignment 1 - robot scenegraph";

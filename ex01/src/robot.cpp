@@ -36,19 +36,19 @@ Node *buildRobot(){
 
 	// INSERT YOUR CODE HERE
 	Node* head = new Node(
-			0.0f, 165.0f, 0.0f, // position
+			0.0f, 190.0f, 0.0f, // position
 			40.0f, 30.0f, 10.0f, // size
-			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, -30.0f, 0.0f, // joint position
 			0.0f, 0.0f, 0.0f); // default rotation
 	Node* leftLeg = new Node(
 			60.0f, -400.0f, 0.0f, // position
 			80.0f, 350.0f, 100.0f, // size
-			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, 220.0f, 0.0f, // joint position
 			0.0f, 0.0f, 0.0f); // default rotation
 	Node* rightLeg = new Node(
 			-60.0f, -400.0f, 0.0f, // position
 			80.0f, 350.0f, 100.0f, // size
-			0.0f, 0.0f, 0.0f, // joint position
+			0.0f, 220.0f, 0.0f, // joint position
 			0.0f, 0.0f, 0.0f); // default rotation
 
 	// END XXX

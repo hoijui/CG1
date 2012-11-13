@@ -108,6 +108,7 @@ void Node::transform(){
 	// INSERT YOUR CODE HERE
 	glRotatef(rotx, 1, 0, 0);
 	glRotatef(roty, 0, 1, 0);
+	glRotatef(rotz, 0, 0, 1);
 
 	// END XXX
 

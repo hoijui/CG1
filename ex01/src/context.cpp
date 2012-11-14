@@ -32,7 +32,7 @@ string Context::title;
 // field of view (in degrees)
 GLfloat Context::fov;
 // camera position
-GLfloat Context::cameraZ;
+GLfloat Context::cameraY;
 // near and far plane
 GLfloat Context::nearPlane, Context::farPlane;
 // left mouse button pressed?
@@ -61,9 +61,9 @@ void Context::config(){
 
 	// camera setup
 	fov= 40.0;
-	cameraZ= (height/2) / tan(fov/180.0);
-	nearPlane= cameraZ/10.0;
-	farPlane= cameraZ*10.0;
+	cameraY= (height/2) / tan(fov/180.0);
+	nearPlane= cameraY/10.0;
+	farPlane= cameraY*10.0;
 }
 
 void Context::init(int argc, char **argv){
@@ -135,9 +135,9 @@ void Context::display(void){
 	// switch to opengl modelview matrix
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	// position the camera at (0,0,cameraZ) looking down the
+	// position the camera at (0,0,cameraY) looking down the
 	// negative z-axis at (0,0,0)
-	gluLookAt(0.0, 0.0, cameraZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(0.0, cameraY, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
 
 	// draw the scenegraph
 	sceneGraph->traverse();

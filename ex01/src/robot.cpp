@@ -29,7 +29,7 @@ Node *buildRobot(){
 	Node *torso0= new Node(0, 0, 0,
 			150, 150, 200,
 			0, 0, 0,
-			90, 180, 0);
+			0,0,0);//90, 180, 0);
 
 	// XXX: implement more body/robot/whatever parts here
 

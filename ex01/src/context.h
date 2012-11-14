@@ -37,7 +37,7 @@ namespace Context{
 	// field of view (in degrees)
 	extern GLfloat fov;
 	// camera position
-	extern GLfloat cameraZ;
+	extern GLfloat cameraY;
 	// near and far plane
 	extern GLfloat nearPlane, farPlane;
 	// material ambient color

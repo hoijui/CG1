@@ -149,7 +149,10 @@ void Node::draw(){
 void Node::drawJoint() {
 
 	static const float SPHERE_SIZE = 30.0f;
-	static const float AXIS_SIZE = 1.5f * SPHERE_SIZE;
+	float AXIS_SIZE = 1.5f * SPHERE_SIZE;
+	if (selected) {
+		AXIS_SIZE *= 10.0f;
+	}
 
 	// save enable bit for lighting
 	// and current bit for color

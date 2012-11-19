@@ -28,10 +28,10 @@ using namespace std;
 static const int GAP= 25;
 
 // window size and position
-static int width= 512+GAP*3;
-static int height= 512+GAP*3;
+static int width= 900+GAP*4;
+static int height= 512+GAP*4;
 
-static int subWidth= (width-GAP*3)/3.0;
+static int subWidth= (width-GAP*4)/3.0;
 static int subHeight= (height-GAP*3)/2.0;
 
 // initial window position
@@ -58,7 +58,7 @@ static GLvoid *font= GLUT_BITMAP_HELVETICA_10;
 // redisplay scene after window reshape
 static void reshape(int width, int height);
  
-static Window main, world, screen, command;
+static Window main, world, screen, clip, command;
 
 static void createWindows(void){
 
@@ -80,6 +80,13 @@ static void createWindows(void){
   screen.registerMenu(Screen::menu);
   screen.addMenu(Screen::menuOptions, Screen::menuText, Screen::numOptions);
   screen.registerKeyPressed(keyPressed);
+
+  clip= Window(&main, "Clip-space view", 2*subWidth+3*GAP, GAP, subWidth, subHeight);
+  clip.registerDisplay(Clip::display);
+  clip.registerReshape(Clip::reshape);
+ // clip.registerMenu(Screen::menu);
+  //clip.addMenu(Screen::menuOptions, Screen::menuText, Screen::numOptions);
+  //clip.registerKeyPressed(keyPressed);
 
   command= Window(&main, "Command manipulation window", GAP, subHeight+2*GAP, width-2*GAP, subHeight);
   command.registerDisplay(Command::display);
@@ -135,11 +142,13 @@ void Context::display(void){
   
   drawString(GAP, GAP-5, "World-space view");
   drawString(GAP+subWidth+GAP, GAP-5, "Screen-space view");
+  drawString(2*subWidth+3*GAP, GAP-5, "Clip-space view");
   
   drawString(GAP, GAP+subHeight+GAP-5, "Command manipulation window");
 
   world.redisplay();
   screen.redisplay(); 
+  clip.redisplay();
   command.redisplay(); 
 }
 
@@ -156,11 +165,12 @@ static void reshape(int w, int h){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  subWidth= (width-GAP*3)/2.0;
+  subWidth= (width-GAP*4)/3.0;
   subHeight= (height-GAP*3)/2.0;
 
   world.reshape(GAP, GAP, subWidth, subHeight);
   screen.reshape(subWidth+2*GAP, GAP, subWidth, subHeight);
+  clip.reshape(2*subWidth+3*GAP, GAP, subWidth, subHeight);
   command.reshape(GAP, subHeight+2*GAP, width-2*GAP, subHeight);
 }
 

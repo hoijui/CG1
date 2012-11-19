@@ -393,6 +393,33 @@ void Screen::display(void){
   glutSwapBuffers();
 }
 
+void Clip::reshape(int width, int height){
+
+  glViewport(0, 0, width, height);
+  glShadeModel(GL_SMOOTH);
+}
+
+void Clip::display(void){
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadMatrixf(&projection[0][0]);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadMatrixf(&modelView[0][0]);
+
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+
+  glClearColor(0.2, 0.2, 0.2, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  // directional light in positve z-direction
+  // must have modelview transform applied to it in order
+  // to have correct light position in eye coordinates
+  glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
+  model.draw();
+  glutSwapBuffers();
+}
+
 char Screen::menuOptions[]= {0, 0, 'a', 's', 'd', 'f', 'j', 'p', 'r', };
 string Screen::menuText[]= {"Model", "", "Al Capone", "Soccerball", "Dolphins", "Flowers", "F-16", "Porsche", "Rose"};
 int Screen::numOptions= 9;

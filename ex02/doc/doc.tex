@@ -55,6 +55,45 @@
 
 \section{Theorieaufgaben}
 
+\subsection{1}
+
+Bei Clipping muss berechnet werden, ob ein Objekt sich außerhalb oder innerhalb des Sichtvolumens befindet (oder eventuell beides). Dazu werden die Schnittpunkte des Objekts mit dem Sichtvolumen benötigt. Die Berechnung der Schnittpunkte mit dem kanonischen Sichtvolumen (d.h. in einem normierten Würfel parallel zu den Sichtachsen) ist einfacher als diejenige zur Berechnung der Schnittpunkte mit einer Pyramide.
+
+\subsection{2}
+
+Das kanonische Sichtvolumen hat 6 Halbräume (oben, unten, links, rechts, davor, dahinter). Deshalb braucht man einen 6-Bit-Outcode. Wir übernehmen die Codierung für 2D und hängen zwei Ziffern für davor und dahinter hinten an. Das fünfte Bit wird auf 1 gesetzt, wenn sich das Objekt vor dem Sichtvolumen befindet; das sechste Bit wird auf ein gesetzt, wenn sich das Objekt hinter dem Sichtvolumen befindet.
+
+Endpunkte vor dem Sichtvolumen:
+\begin{verbatim}
+100110 | 100010 | 101010
+------------------------
+000110 | 000010 | 001010
+------------------------
+010110 | 010010 | 011010
+\end{verbatim}
+
+Endpunkte auf Höhe (z-Achse) des Sichtvolumen:
+\begin{verbatim}
+100100 | 100000 | 101000
+------------------------
+000100 | 000000 | 001000
+------------------------
+010100 | 010000 | 011000
+\end{verbatim}
+
+Endpunkte hinter dem Sichtvolumen:
+\begin{verbatim}
+100101 | 100001 | 101001
+------------------------
+000101 | 000001 | 001001
+------------------------
+010101 | 010001 | 011001
+\end{verbatim}
+
+\subsection{5}
+
+Im kanonische Sichtvolumen weisen alle Blickstrahlen in dieselbe Richtung. Dadurch gibt es zwischen Normalenvektore eines Polygons und den Blickstrahlen nur genau einen Winkel. Und dann weiter ...
+
 \subsection{6}
 
 \subsubsection{a}

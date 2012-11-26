@@ -438,10 +438,6 @@ void Screen::menu(int value){
 // -------------------------------------------------------
 
 void Clip::reshape(int width, int height){
-
-	// glRotatef(5, 0, 1, 0);
-	// glViewport(0, 0, width, height);
-	// glShadeModel(GL_SMOOTH);
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -487,12 +483,12 @@ void Clip::display(void){
 
 		glPushMatrix();
 
+
+			glMultMatrixf(&(projection)[0][0]);
+			glMultMatrixf(&(modelView)[0][0]);
+
 			glEnable(GL_LIGHTING);
-			glLightfv(GL_LIGHT0, GL_POSITION, &lightPosNegZ[0]);
-
-			glMultMatrixf(&inverse(modelView)[0][0]);
-			glMultMatrixf(&inverse(projection)[0][0]);
-
+			glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
 			model.draw();
 			glDisable(GL_LIGHTING);
 		glPopMatrix();

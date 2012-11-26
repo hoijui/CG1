@@ -587,7 +587,7 @@ void Clip::mousePressed(int button, int state, int x, int y){
 void Clip::mouseMoved(int x, int y){
 
 	// rotate selected node when left mouse button is pressed
-//	if (leftButton) {
+//	if (leftButton) mouseX{
 		//rotx = x-mouseX;
 		//roty = y-mouseY;
 //		mouseX = x;
@@ -595,7 +595,7 @@ void Clip::mouseMoved(int x, int y){
 		//roty = roty + x;
 		//rotx -= x;
 		rotx = mouseX - x;
-		mouseX = x;
+		//mouseX = x;
 		//std::cout << mouseY << endl;
 		display();
 //	}

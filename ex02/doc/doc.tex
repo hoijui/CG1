@@ -58,10 +58,9 @@
 \subsection{1. Wieso wird in OpenGL das Clipping am kanonischen Sichtvolumen vorgenommen?}
 
 Bei Clipping muss berechnet werden, ob ein Objekt sich außerhalb oder innerhalb des Sichtvolumens befindet (oder eventuell beides). Dazu werden die Schnittpunkte des Objekts mit dem Sichtvolumen benötigt. Die Berechnung der Schnittpunkte mit dem kanonischen Sichtvolumen (d.h. in einem normierten Würfel, parallel zu den Sichtachsen) ist einfacher als diejenige zur Berechnung der Schnittpunkte mit einer Pyramide.
+TODO: wieso einfacher?
 
-\subsection{2. Entwickeln Sie den Outcode für das kanonische Sichtvolumen. Welche Primitive können im 3D-Fall
-behandelt werden?
-}
+\subsection{2. Entwickeln Sie den Outcode für das kanonische Sichtvolumen. Welche Primitive können im 3D-Fall behandelt werden?}
 
 Das kanonische Sichtvolumen hat 6 Halbräume (oben, unten, links, rechts, davor, dahinter). Deshalb braucht man einen 6-Bit-Outcode. Wir übernehmen die Codierung für 2D und hängen zwei Ziffern für davor und dahinter hinten an. Das fünfte Bit wird auf 1 gesetzt, wenn sich das Objekt vor dem Sichtvolumen befindet; das sechste Bit wird auf ein gesetzt, wenn sich das Objekt hinter dem Sichtvolumen befindet.
 
@@ -117,11 +116,12 @@ in welchem halbraum sie liegt.
 
 \subsection{5. Warum wird Backface-Culling am besten im kanonischen Sichtvolumen durchgeführt?}
 
-Im kanonische Sichtvolumen weisen alle Blickstrahlen in dieselbe Richtung. Dadurch gibt es zwischen Normalenvektore eines Polygons und den Blickstrahlen nur genau einen Winkel. Und dann weiter ...
+Im kanonische Sichtvolumen weisen alle Blickstrahlen in dieselbe Richtung. Dadurch gibt es zwischen Normalenvektoren eines Polygons und den Blickstrahlen nur genau einen Winkel. Und dann weiter ...
+TODO
 
 \subsection{6. Transformationsgesetz für einen Normalenvektor}
 
-\subsubsection{a) Betrachten sie eine Ebene wie in Abbildung 2. Charakterisieren Sie den Normalenvektor n mit Hilfe eines beliebigen Vektors v in der Ebene.}
+\subsubsection{a) Betrachten sie eine Ebene wie in Abbildung 2. Charakterisieren Sie den Normalenvektor $n$ mit Hilfe eines beliebigen Vektors $v$ in der Ebene.}
 
 \subsubsection{b) Mit dem Ergebnis der vorhergehenden Teilaufgabe, leiten Sie die Matrix her welche die Transfor-mation des Normalenvektor beschreibt, wenn mit einer beliebigen affinen Transformationsmatrix
 T transformiert wird. Betrachten Sie dazu zunächst eine unbekannte affine Transformation wel-
@@ -134,7 +134,7 @@ Affinie Transformationen sind eine Uebermenge der othogonalen.
 Sie ermoeglichen also auch othogonalitaet zerstoerende veraenderungen.
 Normalenvektoren muessen aber immer orthogonal zu ihrem objekt blieben.
 
-\subsubsection{d) Hält das Ergebnis von Teilaufgabe b.) für den Normalenvektor einer Ebene auch für beliebige, möglicherweise gekrümmte Objekte?}
+\subsubsection{d) Hält das Ergebnis von Teilaufgabe b) für den Normalenvektor einer Ebene auch für beliebige, möglicherweise gekrümmte Objekte?}
 Ja, weil man sich jedes Objekt aus unendlich kleinen ebenen zusammengebaut vorstellen kann.
 
 

@@ -105,7 +105,15 @@ Transformation eines Punktes: $X' = P X$
 
 Transformation einer Ebene: $Z' = P^{-T} Z$
 
-\subsection{4. Was ist die Komplexität von Clipping eines einfachen (nicht notwendigerweise konvexen) Polygons an einem konvexen Polygon? Auf welches „Primitiv"bezieht sich hier die Komplexitätsangabe?}
+\subsection{4. Was ist die Komplexität von Clipping eines einfachen (nicht notwendigerweise konvexen) Polygons an einem konvexen Polygon? Auf welches "Primitiv" bezieht sich hier die Komplexitätsangabe?}
+
+$O(n m)$, wobei $n$ fuer die Anzahl primitiven der dimension $D - 1$ des konvexen polygons steht,
+und $D$ fuer die dimensionalitaet unseres raumes.
+Im 3D raum ist $n$ also die anzahl Ebenen aus denen die oberflaeche des konvezen polygons besteht.
+$m$ ist die respektive anzahl des anderen polygons.
+Clipping benoetigt linearen aufwand bezueglich $n m$,
+weil man jede der $m$ flaechen gegen bei jeder der $n$ flaechen darauf pruefen muss,
+in welchem halbraum sie liegt.
 
 \subsection{5. Warum wird Backface-Culling am besten im kanonischen Sichtvolumen durchgeführt?}
 

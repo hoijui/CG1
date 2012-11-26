@@ -12,5 +12,10 @@ if [ ! -f "${EXECUTABLE}" ]; then
 fi
 
 cd "${TARGET_DIR}"
+
+if [ ! -e data ]; then
+	ln -s ../src/data data
+fi
+
 "${EXECUTABLE}"
 

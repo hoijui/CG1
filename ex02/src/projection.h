@@ -80,6 +80,9 @@ namespace Clip{
  
   // mouse motion callback
   void mouseMoved(int x, int y);  
+
+  void toggleClipPlanes();
+  extern bool enableClipPlanes;
 };
 
 // command window

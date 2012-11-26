@@ -43,6 +43,7 @@ static OBJModel model("data/al.obj");
 
 // directional light in positve z-direction
 static  vec4 lightPos= vec4(0.0, 0.0, 1.0, 0.0);
+static  vec4 lightPosNegZ= vec4(0.0, 0.0, -1.0, 0.0);
 
 static bool leftButton= false;
 
@@ -457,6 +458,8 @@ int Clip::roty = 0;
 int Clip::rotx = 0;
 int Clip::mouseY = 0;
 int Clip::mouseX = 0;
+bool Clip::enableClipPlanes = false;
+
 void Clip::display(void){
 
 //  glMatrixMode(GL_PROJECTION);
@@ -476,22 +479,48 @@ void Clip::display(void){
   double viewLength= length(viewDir);
   viewDir= normalize(viewDir);
 
-  glClearColor(0.0, 0.0, 0.0, 1.0);    
+  glClearColor(0.0, 0.0, 0.0, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-  glPushMatrix();
+
+  glPushMatrix(); // rotation
   glRotatef(rotx, 0, 1, 0);
   std::cout << rotx << endl;
-  //glPopMatrix();
+
   glPushMatrix();
+
+
+  //gluPerspective(perspective[0].getValue(), perspective[1].getValue(), perspective[2].getValue(), perspective[3].getValue());
+   // glTranslatef(0, 0, 1 );
+ 
+//    glOrtho(ortho[0].getValue(), ortho[1].getValue(), ortho[2].getValue(), ortho[3].getValue(), ortho[4].getValue(), ortho[5].getValue());
+  // directional light in negative z-direction
+  // must have modelview transform applied to it in order
+  // to have correct light position in eye coordinates
+  glEnable(GL_LIGHTING);
+  glLightfv(GL_LIGHT0, GL_POSITION, &lightPosNegZ[0]);
+
+
+//  glMatrixMode(GL_PROJECTION);
+//  glLoadMatrixf(&projection[0][0]);
+//  glMatrixMode(GL_MODELVIEW);
+  //glLoadMatrixf(&modelView[0][0]);
+ // glMatrixMode(GL_PROJECTION);
+//  glLoadMatrixf(&projection[0][0]);
+  //glLoadMatrixf(&inverse(modelView)[0][0]);
+ // glMultMatrixf(&inverse(modelView)[0][0]);
+// glMultMatrixf(&inverse(projection)[0][0]);
+ //glMultMatrixf(&(modelView)[0][0]);
+//glMultMatrixf(&(projection)[0][0]);
+
+// glLoadIdentity();
+//  glLoadMatrixf(&inverse(projection)[0][0]);
   glMultMatrixf(&inverse(modelView)[0][0]);
-  gluPerspective(perspective[0].getValue(), perspective[1].getValue(), perspective[2].getValue(), perspective[3].getValue());
-   // glTranslatef(0, 0, 1);
-  glMultMatrixf(&inverse(projection)[0][0]);
+ glMultMatrixf(&inverse(projection)[0][0]);
+// glOrtho(-1, 1, -1, 1, -1, 1);
+// l, r, b, t, n, f
   // draw current model if toggled
+  //
 //  if(drawModel) {
-    glEnable(GL_LIGHTING);
-    glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
     //glRotatef(180, 0, 1, 0);
     model.draw();
     glDisable(GL_LIGHTING);
@@ -507,6 +536,35 @@ void Clip::display(void){
   /* draw the axis and eye vector */
   glPushMatrix();
 
+
+  double left[] = { 1,0,0,1.0001} ;
+  glClipPlane(GL_CLIP_PLANE0, left);
+  double right[] = { -1,0,0,1.0001} ;
+  glClipPlane(GL_CLIP_PLANE1, right);
+  double bottom[] = { 0,1,0,1.0001} ;
+  glClipPlane(GL_CLIP_PLANE2, bottom);
+  double top[] = { 0,-1,0,1.0001} ;
+  glClipPlane(GL_CLIP_PLANE3, top);
+  double near[] = { 0,0,-1,1.0001} ;
+  glClipPlane(GL_CLIP_PLANE4, near);
+  double far[] = { 0,0,1,1.0001} ;
+  glClipPlane(GL_CLIP_PLANE5, far);
+
+  if (enableClipPlanes) {
+	  glEnable(GL_CLIP_PLANE0);
+	  glEnable(GL_CLIP_PLANE1);
+	  glEnable(GL_CLIP_PLANE2);
+	  glEnable(GL_CLIP_PLANE3);
+	  glEnable(GL_CLIP_PLANE4);
+	  glEnable(GL_CLIP_PLANE5);
+  } else {
+	  glDisable(GL_CLIP_PLANE0);
+	  glDisable(GL_CLIP_PLANE1);
+	  glDisable(GL_CLIP_PLANE2);
+	  glDisable(GL_CLIP_PLANE3);
+	  glDisable(GL_CLIP_PLANE4);
+	  glDisable(GL_CLIP_PLANE5);
+  }
 
   glColor3ub(0, 0, 255);
   glBegin(GL_LINE_STRIP);
@@ -567,9 +625,14 @@ void Clip::display(void){
   glDisable(GL_BLEND);
     
   glPopMatrix();
-  glPopMatrix();
+
+  glPopMatrix(); // rotation
     
   glutSwapBuffers();
+}
+
+void Clip::toggleClipPlanes() {
+	enableClipPlanes = !enableClipPlanes;
 }
 
 void Clip::mousePressed(int button, int state, int x, int y){
@@ -600,41 +663,23 @@ void Clip::mouseMoved(int x, int y){
 		display();
 //	}
 }
-char Clip::menuOptions[]= {0, 0, 'a', 's', 'd', 'f', 'j', 'p', 'r', };
-string Clip::menuText[]= {"Model", "", "Al Capone", "Soccerball", "Dolphins", "Flowers", "F-16", "Porsche", "Rose"};
-int Clip::numOptions= 9;
+//char Clip::menuOptions[]= {0, 0, 'a', 's', 'd', 'f', 'j', 'p', 'r', 'c'};
+//string Clip::menuText[]= {"Model", "", "Al Capone", "Soccerball", "Dolphins", "Flowers", "F-16", "Porsche", "Rose", "Toggle Clip Planes"};
+//int Clip::numOptions= 10;
+char Clip::menuOptions[]= {'c'};
+string Clip::menuText[]= {"Toggle Clip Planes"};
+int Clip::numOptions= 1;
 
 void Clip::menu(int value){
 
-  string name;
-    
   switch(value){
-  case 'a':
-    name = "data/al.obj";
-    break;
-  case 's':
-    name = "data/soccerball.obj";
-    break;
-  case 'd':
-    name = "data/dolphins.obj";
-    break;
-  case 'f':
-    name = "data/flowers.obj";
-    break;
-  case 'j':
-    name = "data/f-16.obj";
-    break;
-  case 'p':
-    name = "data/porsche.obj";
-    break;
-  case 'r':
-    name = "data/rose+vase.obj";
+  case 'c':
+    toggleClipPlanes();
     break;
   default:
     break;
+
   }
-    
-  model= OBJModel(name);
   Context::display();
 }
 

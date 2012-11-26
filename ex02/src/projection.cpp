@@ -484,7 +484,6 @@ void Clip::display(void){
 
 	glPushMatrix(); // rotation
 	glRotatef(rotx, 0, 1, 0);
-	std::cout << rotx << endl;
 
 	glPushMatrix();
 
@@ -640,28 +639,15 @@ void Clip::mousePressed(int button, int state, int x, int y){
 	if (button == GLUT_LEFT) {
 		if (state == GLUT_DOWN) {
 			leftButton = true;
-			//			mouseY = y;
 		}
-
 	}
 	mouseX = x;
 }
 
 void Clip::mouseMoved(int x, int y){
 
-	// rotate selected node when left mouse button is pressed
-	//	if (leftButton) mouseX{
-	//rotx = x-mouseX;
-	//roty = y-mouseY;
-	//		mouseX = x;
-	//		mouseY = y;
-	//roty = roty + x;
-	//rotx -= x;
-	rotx = mouseX - x;
-	//mouseX = x;
-	//std::cout << mouseY << endl;
+	rotx = mouseX + x;
 	display();
-	//	}
 }
 char Clip::menuOptions[]= {'c'};
 string Clip::menuText[]= {"Toggle Clip Planes"};

@@ -483,147 +483,107 @@ void Clip::display(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix(); // rotation
-	glRotatef(rotx, 0, 1, 0);
+		glRotatef(rotx, 0, 1, 0);
 
-	glPushMatrix();
+		glPushMatrix();
 
+			glEnable(GL_LIGHTING);
+			glLightfv(GL_LIGHT0, GL_POSITION, &lightPosNegZ[0]);
 
-	//gluPerspective(perspective[0].getValue(), perspective[1].getValue(), perspective[2].getValue(), perspective[3].getValue());
-	// glTranslatef(0, 0, 1 );
+			glMultMatrixf(&inverse(modelView)[0][0]);
+			glMultMatrixf(&inverse(projection)[0][0]);
 
-	//    glOrtho(ortho[0].getValue(), ortho[1].getValue(), ortho[2].getValue(), ortho[3].getValue(), ortho[4].getValue(), ortho[5].getValue());
-	// directional light in negative z-direction
-	// must have modelview transform applied to it in order
-	// to have correct light position in eye coordinates
-	glEnable(GL_LIGHTING);
-	glLightfv(GL_LIGHT0, GL_POSITION, &lightPosNegZ[0]);
+			model.draw();
+			glDisable(GL_LIGHTING);
+		glPopMatrix();
 
+		glPushMatrix();
+			/* draw the axis and eye vector */
+			glPushMatrix();
+				double left[] = { 1,0,0,1.0001} ;
+				glClipPlane(GL_CLIP_PLANE0, left);
+				double right[] = { -1,0,0,1.0001} ;
+				glClipPlane(GL_CLIP_PLANE1, right);
+				double bottom[] = { 0,1,0,1.0001} ;
+				glClipPlane(GL_CLIP_PLANE2, bottom);
+				double top[] = { 0,-1,0,1.0001} ;
+				glClipPlane(GL_CLIP_PLANE3, top);
+				double near[] = { 0,0,-1,1.0001} ;
+				glClipPlane(GL_CLIP_PLANE4, near);
+				double far[] = { 0,0,1,1.0001} ;
+				glClipPlane(GL_CLIP_PLANE5, far);
 
-	//  glMatrixMode(GL_PROJECTION);
-	//  glLoadMatrixf(&projection[0][0]);
-	//  glMatrixMode(GL_MODELVIEW);
-	//glLoadMatrixf(&modelView[0][0]);
-	// glMatrixMode(GL_PROJECTION);
-	//  glLoadMatrixf(&projection[0][0]);
-	//glLoadMatrixf(&inverse(modelView)[0][0]);
-	// glMultMatrixf(&inverse(modelView)[0][0]);
-	// glMultMatrixf(&inverse(projection)[0][0]);
-	//glMultMatrixf(&(modelView)[0][0]);
-	//glMultMatrixf(&(projection)[0][0]);
+				if (enableClipPlanes) {
+					glEnable(GL_CLIP_PLANE0);
+					glEnable(GL_CLIP_PLANE1);
+					glEnable(GL_CLIP_PLANE2);
+					glEnable(GL_CLIP_PLANE3);
+					glEnable(GL_CLIP_PLANE4);
+					glEnable(GL_CLIP_PLANE5);
+				} else {
+					glDisable(GL_CLIP_PLANE0);
+					glDisable(GL_CLIP_PLANE1);
+					glDisable(GL_CLIP_PLANE2);
+					glDisable(GL_CLIP_PLANE3);
+					glDisable(GL_CLIP_PLANE4);
+					glDisable(GL_CLIP_PLANE5);
+				}
 
-	// glLoadIdentity();
-	//  glLoadMatrixf(&inverse(projection)[0][0]);
-	glMultMatrixf(&inverse(modelView)[0][0]);
-	glMultMatrixf(&inverse(projection)[0][0]);
-	// glOrtho(-1, 1, -1, 1, -1, 1);
-	// l, r, b, t, n, f
-	// draw current model if toggled
-	//
-	//  if(drawModel) {
-	//glRotatef(180, 0, 1, 0);
-	model.draw();
-	glDisable(GL_LIGHTING);
-	//  }
-	glPopMatrix();
+				glColor3ub(0, 0, 255);
+				glBegin(GL_LINE_STRIP);
+				glVertex3f(0.0, 0.0, 0.0);
+				glVertex3f(0.0, 0.0, -1.0 * viewLength);
+				glVertex3f(0.1, 0.0, -0.9 * viewLength);
+				glVertex3f(-0.1, 0.0, -0.9 * viewLength);
+				glVertex3f(0.0, 0.0, -1.0 * viewLength);
+				glVertex3f(0.0, 0.1, -0.9 * viewLength);
+				glVertex3f(0.0, -0.1, -0.9 * viewLength);
+				glVertex3f(0.0, 0.0, -1.0 * viewLength);
+				glEnd();
+				glColor3ub(255, 255, 0);
+				Context::setFont("helvetica", 12);
+				Context::drawString(0.0, 0.0, -1.1 * viewLength, "e");
+				glColor3ub(255, 0, 0);
+				glScalef(0.4, 0.4, 0.4);
+				drawAxes();
+			glPopMatrix();
 
-	glPushMatrix();
-	// apply inverse modelview transformation to axes and frustum
-	// this moves the camera position and frustum into world space
-	// coordinates
-	//glMultMatrixf(&inverse(modelView)[0][0]);
+			/* draw the canonical viewing frustum */
+			// back clip plane
+			glColor3f(0.2, 0.2, 0.2);
+			glBegin(GL_QUADS);
+			glVertex3i(1, 1, 1);
+			glVertex3i(-1, 1, 1);
+			glVertex3i(-1, -1, 1);
+			glVertex3i(1, -1, 1);
+			glEnd();
 
-	/* draw the axis and eye vector */
-	glPushMatrix();
+			// four corners of frustum
+			glColor3ub(128, 196, 128);
+			glBegin(GL_LINES);
+			glVertex3i(1, 1, -1);
+			glVertex3i(1, 1, 1);
+			glVertex3i(-1, 1, -1);
+			glVertex3i(-1, 1, 1);
+			glVertex3i(-1, -1, -1);
+			glVertex3i(-1, -1, 1);
+			glVertex3i(1, -1, -1);
+			glVertex3i(1, -1, 1);
+			glEnd();
 
+			// front clip plane
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glColor4f(0.2, 0.2, 0.4, 0.5);
+			glBegin(GL_QUADS);
+			glVertex3i(1, 1, -1);
+			glVertex3i(-1, 1, -1);
+			glVertex3i(-1, -1, -1);
+			glVertex3i(1, -1, -1);
+			glEnd();
+			glDisable(GL_BLEND);
 
-	double left[] = { 1,0,0,1.0001} ;
-	glClipPlane(GL_CLIP_PLANE0, left);
-	double right[] = { -1,0,0,1.0001} ;
-	glClipPlane(GL_CLIP_PLANE1, right);
-	double bottom[] = { 0,1,0,1.0001} ;
-	glClipPlane(GL_CLIP_PLANE2, bottom);
-	double top[] = { 0,-1,0,1.0001} ;
-	glClipPlane(GL_CLIP_PLANE3, top);
-	double near[] = { 0,0,-1,1.0001} ;
-	glClipPlane(GL_CLIP_PLANE4, near);
-	double far[] = { 0,0,1,1.0001} ;
-	glClipPlane(GL_CLIP_PLANE5, far);
-
-	if (enableClipPlanes) {
-		glEnable(GL_CLIP_PLANE0);
-		glEnable(GL_CLIP_PLANE1);
-		glEnable(GL_CLIP_PLANE2);
-		glEnable(GL_CLIP_PLANE3);
-		glEnable(GL_CLIP_PLANE4);
-		glEnable(GL_CLIP_PLANE5);
-	} else {
-		glDisable(GL_CLIP_PLANE0);
-		glDisable(GL_CLIP_PLANE1);
-		glDisable(GL_CLIP_PLANE2);
-		glDisable(GL_CLIP_PLANE3);
-		glDisable(GL_CLIP_PLANE4);
-		glDisable(GL_CLIP_PLANE5);
-	}
-
-	glColor3ub(0, 0, 255);
-	glBegin(GL_LINE_STRIP);
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(0.0, 0.0, -1.0 * viewLength);
-	glVertex3f(0.1, 0.0, -0.9 * viewLength);
-	glVertex3f(-0.1, 0.0, -0.9 * viewLength);
-	glVertex3f(0.0, 0.0, -1.0 * viewLength);
-	glVertex3f(0.0, 0.1, -0.9 * viewLength);
-	glVertex3f(0.0, -0.1, -0.9 * viewLength);
-	glVertex3f(0.0, 0.0, -1.0 * viewLength);
-	glEnd();
-	glColor3ub(255, 255, 0);
-	Context::setFont("helvetica", 12);
-	Context::drawString(0.0, 0.0, -1.1 * viewLength, "e");
-	glColor3ub(255, 0, 0);
-	glScalef(0.4, 0.4, 0.4);
-	drawAxes();
-	glPopMatrix();
-
-	// apply inverse projection transformation to unit-frustum
-	//glMultMatrixf(&inverse(projection)[0][0]);
-
-	/* draw the canonical viewing frustum */
-	// back clip plane
-	//glRotatef(180, 0, 1, 0);
-	glColor3f(0.2, 0.2, 0.2);
-	glBegin(GL_QUADS);
-	glVertex3i(1, 1, 1);
-	glVertex3i(-1, 1, 1);
-	glVertex3i(-1, -1, 1);
-	glVertex3i(1, -1, 1);
-	glEnd();
-
-	// four corners of frustum
-	glColor3ub(128, 196, 128);
-	glBegin(GL_LINES);
-	glVertex3i(1, 1, -1);
-	glVertex3i(1, 1, 1);
-	glVertex3i(-1, 1, -1);
-	glVertex3i(-1, 1, 1);
-	glVertex3i(-1, -1, -1);
-	glVertex3i(-1, -1, 1);
-	glVertex3i(1, -1, -1);
-	glVertex3i(1, -1, 1);
-	glEnd();
-
-	// front clip plane
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(0.2, 0.2, 0.4, 0.5);
-	glBegin(GL_QUADS);
-	glVertex3i(1, 1, -1);
-	glVertex3i(-1, 1, -1);
-	glVertex3i(-1, -1, -1);
-	glVertex3i(1, -1, -1);
-	glEnd();
-	glDisable(GL_BLEND);
-
-	glPopMatrix();
+		glPopMatrix();
 
 	glPopMatrix(); // rotation
 

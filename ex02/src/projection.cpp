@@ -175,6 +175,7 @@ void keyPressed(unsigned char key, int x, int y){
     lookat[6].setValue(0.0);
     lookat[7].setValue(1.0);
     lookat[8].setValue(0.0);
+    Clip::rotx = 0;
     break;
     // my little cheat insurance
   case 'q':
@@ -393,38 +394,217 @@ void Screen::display(void){
   glutSwapBuffers();
 }
 
-void Clip::reshape(int width, int height){
-
-  glViewport(0, 0, width, height);
-  glShadeModel(GL_SMOOTH);
-}
-
-void Clip::display(void){
-
-  glMatrixMode(GL_PROJECTION);
-  glLoadMatrixf(&projection[0][0]);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadMatrixf(&modelView[0][0]);
-
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-
-  glClearColor(0.2, 0.2, 0.2, 1.0);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  // directional light in positve z-direction
-  // must have modelview transform applied to it in order
-  // to have correct light position in eye coordinates
-  glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
-  model.draw();
-  glutSwapBuffers();
-}
-
 char Screen::menuOptions[]= {0, 0, 'a', 's', 'd', 'f', 'j', 'p', 'r', };
 string Screen::menuText[]= {"Model", "", "Al Capone", "Soccerball", "Dolphins", "Flowers", "F-16", "Porsche", "Rose"};
 int Screen::numOptions= 9;
 
 void Screen::menu(int value){
+
+  string name;
+    
+  switch(value){
+  case 'a':
+    name = "data/al.obj";
+    break;
+  case 's':
+    name = "data/soccerball.obj";
+    break;
+  case 'd':
+    name = "data/dolphins.obj";
+    break;
+  case 'f':
+    name = "data/flowers.obj";
+    break;
+  case 'j':
+    name = "data/f-16.obj";
+    break;
+  case 'p':
+    name = "data/porsche.obj";
+    break;
+  case 'r':
+    name = "data/rose+vase.obj";
+    break;
+  default:
+    break;
+  }
+    
+  model= OBJModel(name);
+  Context::display();
+}
+
+// -------------------------------------------------------
+// CLIP-SPACE VIEW
+// -------------------------------------------------------
+
+void Clip::reshape(int width, int height){
+
+ // glRotatef(5, 0, 1, 0);
+ // glViewport(0, 0, width, height);
+ // glShadeModel(GL_SMOOTH);
+  glViewport(0, 0, width, height);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(60.0, (GLfloat)width/height, 1.0, 256.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glTranslatef(0.0, 0.0, -5.0);
+  glRotatef(-45.0, 0.0, 1.0, 0.0);
+  glRotatef(-90.0, 0.0, 1.0, 0.0);
+  glShadeModel(GL_SMOOTH);
+}
+
+int Clip::roty = 0;
+int Clip::rotx = 0;
+int Clip::mouseY = 0;
+int Clip::mouseX = 0;
+void Clip::display(void){
+
+//  glMatrixMode(GL_PROJECTION);
+//  glLoadMatrixf(&projection[0][0]);
+//  glMatrixMode(GL_MODELVIEW);
+//  glLoadMatrixf(&modelView[0][0]);
+
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LIGHT0);
+
+  vec3 viewDir;
+    
+  // 'l' is the normalized viewing direction
+  viewDir[0]= lookat[3].getValue() - lookat[0].getValue(); 
+  viewDir[1]= lookat[4].getValue() - lookat[1].getValue(); 
+  viewDir[2]= lookat[5].getValue() - lookat[2].getValue();
+  double viewLength= length(viewDir);
+  viewDir= normalize(viewDir);
+
+  glClearColor(0.0, 0.0, 0.0, 1.0);    
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+  glPushMatrix();
+  glRotatef(rotx, 0, 1, 0);
+  std::cout << rotx << endl;
+  //glPopMatrix();
+  glPushMatrix();
+  glMultMatrixf(&inverse(modelView)[0][0]);
+  gluPerspective(perspective[0].getValue(), perspective[1].getValue(), perspective[2].getValue(), perspective[3].getValue());
+   // glTranslatef(0, 0, 1);
+  glMultMatrixf(&inverse(projection)[0][0]);
+  // draw current model if toggled
+//  if(drawModel) {
+    glEnable(GL_LIGHTING);
+    glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
+    //glRotatef(180, 0, 1, 0);
+    model.draw();
+    glDisable(GL_LIGHTING);
+//  }
+  glPopMatrix();
+    
+  glPushMatrix();
+  // apply inverse modelview transformation to axes and frustum
+  // this moves the camera position and frustum into world space
+  // coordinates
+  //glMultMatrixf(&inverse(modelView)[0][0]);
+    
+  /* draw the axis and eye vector */
+  glPushMatrix();
+
+
+  glColor3ub(0, 0, 255);
+  glBegin(GL_LINE_STRIP);
+  glVertex3f(0.0, 0.0, 0.0);
+  glVertex3f(0.0, 0.0, -1.0 * viewLength);
+  glVertex3f(0.1, 0.0, -0.9 * viewLength);
+  glVertex3f(-0.1, 0.0, -0.9 * viewLength);
+  glVertex3f(0.0, 0.0, -1.0 * viewLength);
+  glVertex3f(0.0, 0.1, -0.9 * viewLength);
+  glVertex3f(0.0, -0.1, -0.9 * viewLength);
+  glVertex3f(0.0, 0.0, -1.0 * viewLength);
+  glEnd();
+  glColor3ub(255, 255, 0);
+  Context::setFont("helvetica", 12);
+  Context::drawString(0.0, 0.0, -1.1 * viewLength, "e");
+  glColor3ub(255, 0, 0);
+  glScalef(0.4, 0.4, 0.4);
+  drawAxes();
+  glPopMatrix();
+    
+  // apply inverse projection transformation to unit-frustum
+  //glMultMatrixf(&inverse(projection)[0][0]);
+    
+  /* draw the canonical viewing frustum */
+  // back clip plane
+  //glRotatef(180, 0, 1, 0);
+  glColor3f(0.2, 0.2, 0.2);
+  glBegin(GL_QUADS);
+  glVertex3i(1, 1, 1);
+  glVertex3i(-1, 1, 1);
+  glVertex3i(-1, -1, 1);
+  glVertex3i(1, -1, 1);
+  glEnd();
+    
+  // four corners of frustum
+  glColor3ub(128, 196, 128);
+  glBegin(GL_LINES);
+  glVertex3i(1, 1, -1);
+  glVertex3i(1, 1, 1);
+  glVertex3i(-1, 1, -1);
+  glVertex3i(-1, 1, 1);
+  glVertex3i(-1, -1, -1);
+  glVertex3i(-1, -1, 1);
+  glVertex3i(1, -1, -1);
+  glVertex3i(1, -1, 1);
+  glEnd();
+    
+  // front clip plane
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glColor4f(0.2, 0.2, 0.4, 0.5);
+  glBegin(GL_QUADS);
+  glVertex3i(1, 1, -1);
+  glVertex3i(-1, 1, -1);
+  glVertex3i(-1, -1, -1);
+  glVertex3i(1, -1, -1);
+  glEnd();
+  glDisable(GL_BLEND);
+    
+  glPopMatrix();
+  glPopMatrix();
+    
+  glutSwapBuffers();
+}
+
+void Clip::mousePressed(int button, int state, int x, int y){
+ 
+	if (button == GLUT_LEFT) {
+		if (state == GLUT_DOWN) {
+		leftButton = true;
+//			mouseY = y;
+		}
+
+	}
+	mouseX = x;
+}
+
+void Clip::mouseMoved(int x, int y){
+
+	// rotate selected node when left mouse button is pressed
+//	if (leftButton) {
+		//rotx = x-mouseX;
+		//roty = y-mouseY;
+//		mouseX = x;
+//		mouseY = y;
+		//roty = roty + x;
+		//rotx -= x;
+		rotx = mouseX - x;
+		mouseX = x;
+		//std::cout << mouseY << endl;
+		display();
+//	}
+}
+char Clip::menuOptions[]= {0, 0, 'a', 's', 'd', 'f', 'j', 'p', 'r', };
+string Clip::menuText[]= {"Model", "", "Al Capone", "Soccerball", "Dolphins", "Flowers", "F-16", "Porsche", "Rose"};
+int Clip::numOptions= 9;
+
+void Clip::menu(int value){
 
   string name;
     

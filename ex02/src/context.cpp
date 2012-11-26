@@ -84,9 +84,11 @@ static void createWindows(void){
   clip= Window(&main, "Clip-space view", 2*subWidth+3*GAP, GAP, subWidth, subHeight);
   clip.registerDisplay(Clip::display);
   clip.registerReshape(Clip::reshape);
- // clip.registerMenu(Screen::menu);
-  //clip.addMenu(Screen::menuOptions, Screen::menuText, Screen::numOptions);
-  //clip.registerKeyPressed(keyPressed);
+  clip.registerMenu(Clip::menu);
+  clip.addMenu(Clip::menuOptions, Clip::menuText, Clip::numOptions);
+  clip.registerMousePressed(Clip::mousePressed);
+  clip.registerMouseMoved(Clip::mouseMoved);
+  clip.registerKeyPressed(keyPressed);
 
   command= Window(&main, "Command manipulation window", GAP, subHeight+2*GAP, width-2*GAP, subHeight);
   command.registerDisplay(Command::display);

@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------
-   name:           cg1_ex2.cpp
-   purpose:        projection tutorial
-                   entry point, cg1_ws12/13 assignment 2
-   version:        SKELETON CODE
-   author:         katrin lang
-                   computer graphics
-                   tu berlin
-   ------------------------------------------------------------- */
+name:           cg1_ex2.cpp
+purpose:        projection tutorial
+entry point, cg1_ws12/13 assignment 2
+version:        SKELETON CODE
+author:         katrin lang
+computer graphics
+tu berlin
+------------------------------------------------------------- */
 
 #include <iostream>
 #ifdef __APPLE__ 
@@ -21,12 +21,12 @@
 #include "objmodel.h"
 
 int main(int argc, char** argv){
-    
-  // initialize OpenGL context
-  Context::init(argc, argv);
 
-  // start GLUT event loop
-  glutMainLoop();
-  
-  return 0;
+	// initialize OpenGL context
+	Context::init(argc, argv);
+
+	// start GLUT event loop
+	glutMainLoop();
+
+	return 0;
 }

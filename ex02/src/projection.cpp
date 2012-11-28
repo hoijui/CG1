@@ -483,14 +483,14 @@ void Clip::display(void){
 
 		glPushMatrix();
 
+			glEnable(GL_LIGHTING);
+			glLightfv(GL_LIGHT0, GL_POSITION, &lightPosNegZ[0]);
 
 			mat4 myprojection = projection;
 			myprojection[0][0] = -myprojection[0][0];
 			glMultMatrixf(&(myprojection)[0][0]);
 			glMultMatrixf(&(modelView)[0][0]);
 
-			glEnable(GL_LIGHTING);
-			glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
 			model.draw();
 			glDisable(GL_LIGHTING);
 		glPopMatrix();

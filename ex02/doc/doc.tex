@@ -101,7 +101,18 @@ Transformation einer Ebene: $Z' = P^{-\top} Z$
 
 \subsection{4. Was ist die Komplexität von Clipping eines einfachen (nicht notwendigerweise konvexen) Polygons an einem konvexen Polygon? Auf welches "Primitiv" bezieht sich hier die Komplexitätsangabe?}
 
-$O(n m)$, wobei $n$ für die Anzahl der Primitiven der Dimension $D - 1$ des konvexen Polygons steht, und $D$ für die Dimensionalität unseres Raumes. Im 3D-Raum ist $n$ also die Anzahl der Ebenen,  aus denen die Oberfläche des konvexen Polygons besteht. $m$ ist die respektive (TODO: was heisst das ??) Anzahl des anderen Polygons. Clipping benötigt linearen Aufwand bezüglich $n m$, weil man jede der $m$ Flächen gegen bei jeder der $n$ Flächen darauf prüfen muss (TODO: watt??), in welchem Halbraum sie liegt.
+(siehe Sutherland-Hodgman-Algorithmus)
+
+\begin{align*}
+O(n m)& \text{: Komplexität von Clipping} \\
+n& \text{: \# Primitiven der Kanten des konvexen Polygons} \\
+m& \text{: \# Primitiven der Kanten des (moeglicherweise) nicht konvexen Polygons}
+\end{align*}
+
+Wir loopen ueber alle $n$ Kanten des Konvexen Polygons,
+und checken jeweils fuer jede Kante des anderen Polygons (deren $m$),
+ob sie sich mit der zu einer Geraden verlaengerten Kante aus $n$ Schneidet,
+und schneiden evtl. ab, und erstellen evtl. neue Kanten.
 
 \subsection{5. Warum wird Backface-Culling am besten im kanonischen Sichtvolumen durchgeführt?}
 

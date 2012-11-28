@@ -115,10 +115,34 @@ Das Erkennen von Rückseiten reduziert sich somit auf einen einfachen Vorzeichen
 
 \subsubsection{a) Betrachten sie eine Ebene wie in Abbildung 2. Charakterisieren Sie den Normalenvektor $n$ mit Hilfe eines beliebigen Vektors $v$ in der Ebene.}
 
-\subsubsection{b) Mit dem Ergebnis der vorhergehenden Teilaufgabe, leiten Sie die Matrix her welche die Transfor-mation des Normalenvektor beschreibt, wenn mit einer beliebigen affinen Transformationsmatrix
-T transformiert wird. Betrachten Sie dazu zunächst eine unbekannte affine Transformation wel-
+\begin{align}
+\label{eqn:orthogonality} n^{\top} v = 0
+\end{align}
+
+\subsubsection{b) Mit dem Ergebnis der vorhergehenden Teilaufgabe, leiten Sie die Matrix her welche die Transformation des Normalenvektor beschreibt, wenn mit einer beliebigen affinen Transformationsmatrix
+$T$ transformiert wird. Betrachten Sie dazu zunächst eine unbekannte affine Transformation wel-
 che das Verhalten der Normale beschreibt, und bestimmen Sie dann in welcher Beziehung die
 Transformation zur Transformation steht.}
+
+Transformation rules into the new space (denoted by $'$):
+\begin{align}
+v' = T v \\
+n' = T_n n
+\end{align}
+
+In the new space ($'$),
+eqn. \ref{eqn:orthogonality} has ot be fullfilled aswell.
+We will derive from that fact:
+\begin{align}
+n'^{\top} v' = 0 \\
+n'^{\top} (T v) = 0 \\
+(T_n n)^{\top} (T v) = 0 \\
+n^{\top} T_n^{\top} T v = 0 \\
+n^{\top} T_n^{\top} T v = n^{\top} v \\
+n^{\top} T_n^{\top} T v = n^{\top} I v \\
+T_n^{\top} T = I \\
+T_n = T^{\top}
+\end{align}
 
 \subsubsection{c) Warum ist das Transformationsgesetz für einen Normalenvektor anders als für einen "normalen" Vektor?}
 Nur othogonale Transformationen erhalten die Orthogonalität. Affine Transformationen sind eine Übermenge der othogonalen. Sie ermöglichen also auch die Othogonalität zerstörende Veränderungen. Normalenvektoren müssen aber immer orthogonal zu ihrem Objekt bleiben.

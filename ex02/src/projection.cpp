@@ -578,18 +578,22 @@ void Clip::toggleClipPlanes() {
 }
 
 void Clip::mousePressed(int button, int state, int x, int y){
-
 	if (button == GLUT_LEFT) {
-		if (state == GLUT_DOWN) {
-			leftButton = true;
+		if (state == GLUT_UP) {
+			leftButton= false;
+		}
+		else if (state == GLUT_DOWN) {
+			leftButton= true;
+			mouseX = x;
 		}
 	}
-	mouseX = x;
 }
 
 void Clip::mouseMoved(int x, int y){
-
-	rotx = mouseX + x;
+	if (leftButton) {
+		rotx += x - mouseX;
+		mouseX = x;
+	}
 	display();
 }
 char Clip::menuOptions[]= {'c'};

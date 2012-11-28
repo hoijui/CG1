@@ -105,8 +105,11 @@ $O(n m)$, wobei $n$ für die Anzahl der Primitiven der Dimension $D - 1$ des kon
 
 \subsection{5. Warum wird Backface-Culling am besten im kanonischen Sichtvolumen durchgeführt?}
 
-Im kanonische Sichtvolumen weisen alle Blickstrahlen in dieselbe Richtung (nämlich parallel zur Z-Achse). Dadurch gibt es zwischen Normalenvektoren eines Polygons und den Blickstrahlen nur genau einen Winkel. Und dann weiter ...
-TODO
+Im kanonische Sichtvolumen weisen alle Blickstrahlen in dieselbe Richtung (nämlich parallel zur Z-Achse).
+Das heißt, dass der Sehstrahl, der auf das Objektseite fällt, der Vektor (0, 0, 1)$^T$ ist.
+Somit entfällt die Berechnung des Skalarproduktes, da sein Wert einfach $n_z$ - der z-Komponente der Normalen - entspricht.
+Deren Vorzeichen gibt Auskunft darüber, ob die Objektseite sichtbar (negativ) ist oder nicht (positiv).
+Das Erkennen von Rückseiten reduziert sich somit auf einen einfachen Vorzeichentest der z-Komponente der Normalen aller Primitiven.
 
 \subsection{6. Transformationsgesetz für einen Normalenvektor}
 

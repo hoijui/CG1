@@ -484,7 +484,9 @@ void Clip::display(void){
 		glPushMatrix();
 
 
-			glMultMatrixf(&(projection)[0][0]);
+			mat4 myprojection = projection;
+			myprojection[0][0] = -myprojection[0][0];
+			glMultMatrixf(&(myprojection)[0][0]);
 			glMultMatrixf(&(modelView)[0][0]);
 
 			glEnable(GL_LIGHTING);

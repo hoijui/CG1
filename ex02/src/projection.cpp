@@ -525,22 +525,7 @@ void Clip::display(void){
 					glDisable(GL_CLIP_PLANE5);
 				}
 
-				glColor3ub(0, 0, 255);
-				glBegin(GL_LINE_STRIP);
-				glVertex3f(0.0, 0.0, 0.0);
-				glVertex3f(0.0, 0.0, -1.0 * viewLength);
-				glVertex3f(0.1, 0.0, -0.9 * viewLength);
-				glVertex3f(-0.1, 0.0, -0.9 * viewLength);
-				glVertex3f(0.0, 0.0, -1.0 * viewLength);
-				glVertex3f(0.0, 0.1, -0.9 * viewLength);
-				glVertex3f(0.0, -0.1, -0.9 * viewLength);
-				glVertex3f(0.0, 0.0, -1.0 * viewLength);
-				glEnd();
-				glColor3ub(255, 255, 0);
-				Context::setFont("helvetica", 12);
-				Context::drawString(0.0, 0.0, -1.1 * viewLength, "e");
-				glColor3ub(255, 0, 0);
-				glScalef(0.4, 0.4, 0.4);
+				glScalef(0.8, 0.8, 0.8);
 				drawAxes();
 			glPopMatrix();
 

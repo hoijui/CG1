@@ -444,12 +444,18 @@ void Clip::reshape(int width, int height){
 	gluPerspective(60.0, (GLfloat)width/height, 1.0, 256.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	int b = 0;
+
+	if (b) {
 	glTranslatef(0.0, 0.0, -5.0);
 	glRotatef(-135.0, 0.0, 1.0, 0.0);
-//	glRotatef(-135.0, 0.0, 1.0, 0.1);
-	glRotatef(+10.0, -1.0, 0.0, -1.0);
-//	glRotatef(-90.0, 0.0, 0.0, 1.0);
-//	glRotatef(-90.0, 0.0, 1.0, 0.1);
+	} else {
+		glTranslatef(0.0, 0.0, -3.0);
+		gluLookAt(1, 1, 1, 0, 0, 0, 0, 1, 0);
+		glRotatef(-90.0, 0.0, 1.0, 0.0);
+	}
+
 	glShadeModel(GL_SMOOTH);
 }
 

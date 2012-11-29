@@ -445,8 +445,11 @@ void Clip::reshape(int width, int height){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0, 0.0, -5.0);
-	glRotatef(-45.0, 0.0, 1.0, 0.0);
-	glRotatef(-90.0, 0.0, 1.0, 0.0);
+	glRotatef(-135.0, 0.0, 1.0, 0.0);
+//	glRotatef(-135.0, 0.0, 1.0, 0.1);
+	glRotatef(+10.0, -1.0, 0.0, -1.0);
+//	glRotatef(-90.0, 0.0, 0.0, 1.0);
+//	glRotatef(-90.0, 0.0, 1.0, 0.1);
 	glShadeModel(GL_SMOOTH);
 }
 
@@ -479,8 +482,9 @@ void Clip::display(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix(); // rotation
-		glRotatef(rotx, 0, 1, 0);
 
+		//glRotatef(rotx, 1, -1, -0.1);
+		glRotatef(rotx, 0, 1, 0.0);
 		glPushMatrix();
 
 			glEnable(GL_LIGHTING);

@@ -2,6 +2,4 @@ build/
 target/
 *.pdf
 *.zip
-
-/ex02/src/glm-0.9.3.4/
-
+CMakeLists.txt.user

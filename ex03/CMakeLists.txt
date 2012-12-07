@@ -17,6 +17,7 @@ SET(src_files
 	"${NATIVE_SRC_ROOT}/ErrorDevel.cpp"
 	"${NATIVE_SRC_ROOT}/Checker.cpp"
 	"${NATIVE_SRC_ROOT}/cg1_ex3.cpp"
+        "${NATIVE_SRC_ROOT}/Mesh.cpp"
 	)
 
 INCLUDE_DIRECTORIES(${NATIVE_SRC_ROOT})

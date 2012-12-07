@@ -3,7 +3,8 @@
 
 GLSLShader::GLSLShader():
 vs_object(0),
-fs_object(0)
+fs_object(0),
+prog_object(0)
 {
 } 
 

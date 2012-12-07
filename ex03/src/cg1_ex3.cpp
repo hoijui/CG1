@@ -34,6 +34,7 @@
 #include "ErrorDevel.h"
 #include "Checker.h"
 #include "GLSLShader.h"
+#include "Mesh.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // defines / flags
@@ -89,6 +90,7 @@ vec4 lightColor(0.7f,0.7f,0.7f,1.0f);
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // variables, global
 GLSLShader blinnPhongShader;
+static Mesh mesh;
 
 
 enum RenderMode{
@@ -205,13 +207,12 @@ void display(){
 
 	// Render the object
 	// TODO
+	mesh.Display();
 	glBegin(GL_TRIANGLES);
 	glVertex3f(1,0,0);
 	glVertex3f(0,1,0);
 	glVertex3f(0,0,1);
 	glEnd();
-
-
 
 	// disable program object to avoid side effects
 	glUseProgramObjectARB( 0);
@@ -269,7 +270,7 @@ main( int argc, char** argv) {
 
 	// load ressources
 	blinnPhongShader.load("shaders/BlinnPhong");
-	// TODO LOAD MESH
+	mesh = Mesh::loadOff("meshes/bunny.off");
 
 	// register glut callbacks
 	glutDisplayFunc( display);

@@ -208,16 +208,10 @@ void display(){
 	glMultMatrixf(&objectMatrix[0][0]);
 
 	// Render the object
-	// TODO
 	mesh.Display();
-	glBegin(GL_TRIANGLES);
-	glVertex3f(1,0,0);
-	glVertex3f(0,1,0);
-	glVertex3f(0,0,1);
-	glEnd();
 
 	// disable program object to avoid side effects
-	glUseProgramObjectARB( 0);
+	glUseProgramObjectARB(0);
 	glPopMatrix();
 
 	glFlush();

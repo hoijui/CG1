@@ -51,7 +51,9 @@
 
 ///////////////////////
 // DECLARATIONS
-#define M_PI 3.14159265358979323846264338327
+#ifdef _WIN32
+	#define M_PI 3.14159265358979323846264338327
+#endif
 static const int TAB_KEY = 9;
 static const int LEFT_MOUSE= 0;
 static const int RIGHT_MOUSE  = 2;

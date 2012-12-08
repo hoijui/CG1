@@ -21,6 +21,13 @@ private:
 	void CalculateFaceNormals();
 	void CalculateVertexNormals();
 
+	void renderFlat() const;
+	void renderSmooth() const;
+
+	const vector<Vec3f>& GetVertices() const { return vertices; }
+	int GetEdges() const { return edges; }
+	const vector< vector<int> >& GetFaces() const { return faces; }
+
 public:
 	Mesh();
 	Mesh(const Mesh& other);
@@ -28,13 +35,8 @@ public:
 	//! Reads meshes in the OFF file format
 	static Mesh loadOff(const string& filePath);
 
-	const vector<Vec3f>& GetVertices() const { return vertices; }
-	int GetEdges() const { return edges; }
-	const vector< vector<int> >& GetFaces() const { return faces; }
 
 	void Display() const;
-	void renderFlat() const;
-	void renderSmooth() const;
 
 private:
 	vector<Vec3f> vertices;

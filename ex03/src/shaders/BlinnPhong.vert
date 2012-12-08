@@ -20,6 +20,6 @@ varying vec4 vertColor;
 void main(){
 	vertColor = gl_Vertex;
 	// 	TODO : TRANSFORM THE VERTICES AND NORMALS AND PASS THEM TO THE RASTERIZATION STAGE
-	gl_Position = gl_Vertex;
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 }
 

@@ -189,10 +189,12 @@ void display(){
 	// Set the render states for the current rendering technique
 	switch(currentRenderer){
 		case FLAT:
-			// TODO ENABLE PER FACE LIGHTING
+			glShadeModel(GL_FLAT);
+			mesh.SetSmoothRendering(false);
 		break;
 		case GOURAUD:
-			// TODO ENABLE PER VERTEX LIGHTING
+			glShadeModel(GL_SMOOTH);
+			mesh.SetSmoothRendering(true);
 		break;
 		case BLINN_PHONG:
 			// ENABLE PER FRAGMENT LIGHTING

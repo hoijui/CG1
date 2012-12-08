@@ -147,6 +147,10 @@ void Mesh::CalculateVertexNormals() {
 	}
 }
 
+void Mesh::SetSmoothRendering(bool enabled) {
+	this->smooth = enabled;
+}
+
 void Mesh::Display() const {
 
 	if (smooth) {

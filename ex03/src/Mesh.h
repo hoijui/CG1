@@ -35,6 +35,7 @@ public:
 	//! Reads meshes in the OFF file format
 	static Mesh loadOff(const string& filePath);
 
+	void SetSmoothRendering(bool enabled);
 
 	void Display() const;
 

@@ -18,6 +18,7 @@ SET(src_files
 	"${NATIVE_SRC_ROOT}/Checker.cpp"
 	"${NATIVE_SRC_ROOT}/cg1_ex3.cpp"
         "${NATIVE_SRC_ROOT}/Mesh.cpp"
+        "${NATIVE_SRC_ROOT}/Vec3f.cpp"
 	)
 
 INCLUDE_DIRECTORIES(${NATIVE_SRC_ROOT})

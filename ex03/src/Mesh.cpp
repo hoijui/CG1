@@ -86,6 +86,34 @@ Mesh Mesh::loadOff(const string& filePath) {
 	return Mesh(vertices, E, polygons);
 }
 
+void Mesh::Center() {
+
+	Vec3f sum(0.0f, 0.0f, 0.0f);
+	for (int v=0; v < vertices.size(); ++v) {
+		sum += vertices.at(v);
+	}
+	const Vec3f center = sum / vertices.size();
+	for (int v=0; v < vertices.size(); ++v) {
+		vertices.at(v) -= center;
+	}
+
+	CalculateNormals();
+}
+
+void Mesh::StdDist() {
+
+	double sumDists = 0.0;
+	for (int v=0; v < vertices.size(); ++v) {
+		sumDists += vertices.at(v).norm();
+	}
+	const float averageDist = sumDists / vertices.size();
+	for (int v=0; v < vertices.size(); ++v) {
+		vertices.at(v) /= averageDist;
+	}
+
+	CalculateNormals();
+}
+
 void Mesh::CalculateNormals() {
 
 	CalculateFaceNormals();
@@ -168,10 +196,7 @@ void Mesh::Display() const {
 
 void Mesh::renderFlat() const {
 
-	const float SCALE_FACTOR = 1.0f / 100.0f; // HACK without this, the bunny is too big
-
 	glPushMatrix();
-	glScalef(SCALE_FACTOR, SCALE_FACTOR, SCALE_FACTOR);
 	for (int t = 0; t < faces.size(); ++t) {
 		const vector<int>& vertexIndices = faces.at(t);
 		const Vec3f& normal = faceNormals.at(t);
@@ -188,10 +213,7 @@ void Mesh::renderFlat() const {
 
 void Mesh::renderSmooth() const {
 
-	const float SCALE_FACTOR = 1.0f / 100.0f; // HACK without this, the bunny is too big
-
 	glPushMatrix();
-	glScalef(SCALE_FACTOR, SCALE_FACTOR, SCALE_FACTOR);
 	for (int t = 0; t < faces.size(); ++t) {
 		const vector<int>& vertexIndices = faces.at(t);
 		glBegin(GL_TRIANGLES); // HACK only works if verticeIndices.size() == 3

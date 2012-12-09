@@ -269,6 +269,7 @@ main( int argc, char** argv) {
 	// load ressources
 	blinnPhongShader.load("shaders/BlinnPhong");
 	mesh = Mesh::loadOff("meshes/bunny.off");
+	mesh.StdDist();
 
 	// register glut callbacks
 	glutDisplayFunc( display);

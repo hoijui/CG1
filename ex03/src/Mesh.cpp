@@ -132,11 +132,11 @@ void Mesh::CalculateFaceNormals() {
 	const Vec3f fixedNormalTest = Vec3f(1.0f, 1.0f, 1.0f).normalize();
 	for (int t = 0; t < faces.size(); ++t) {
 		const vector<int>& vertexIndices = faces.at(t);
-		const Vec3f& vertex1 = vertices.at(vertexIndices.at(0));
-		const Vec3f& vertex2 = vertices.at(vertexIndices.at(1));
-		const Vec3f& vertex3 = vertices.at(vertexIndices.at(2));
-		const Vec3f& edge3 = vertex2 - vertex2;
-		const Vec3f& edge1 = vertex1 - vertex3;
+		const Vec3f& v0 = vertices.at(vertexIndices.at(0));
+		const Vec3f& v1 = vertices.at(vertexIndices.at(1));
+		const Vec3f& v2 = vertices.at(vertexIndices.at(2));
+		const Vec3f& edge1 = v1 - v0;
+		const Vec3f& edge3 = v0 - v2;
 		const Vec3f& flatNormal = edge3.cross(edge1).normalize();
 		faceNormals.push_back(flatNormal);
 		//faceNormals.push_back(fixedNormalTest); // HACK

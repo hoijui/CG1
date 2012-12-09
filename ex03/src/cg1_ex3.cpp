@@ -93,6 +93,8 @@ vec4 lightColor(0.7f,0.7f,0.7f,1.0f);
 // variables, global
 GLSLShader blinnPhongShader;
 static Mesh mesh;
+static vector<string> meshNames;
+static int meshIndex;
 
 
 enum RenderMode{
@@ -116,6 +118,19 @@ void mouseMoved(int x, int y);
 // window reshape callback
 void reshape(int width, int height);
 
+
+void loadNextMesh() {
+
+	meshIndex = ++meshIndex % meshNames.size();
+
+	const string meshName = meshNames.at(meshIndex);
+	const string meshPath = "meshes/" + meshName + ".off";
+
+	cout << " Loading model \"" << meshName << "\" ..." << endl;
+	mesh = Mesh::loadOff(meshPath);
+
+	mesh.StdDist();
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //! Init OpenGL
@@ -172,7 +187,6 @@ void setOpenGLStates(){
 	glEnable(GL_LIGHT0);
 
 	glutReportErrors();
-
 }
 
 
@@ -230,26 +244,28 @@ void display(){
 void
 keyboard(unsigned char key, int /*x*/, int /*y*/) {
 
-  switch (key) {
-	case TAB_KEY:
-		currentRenderer = (RenderMode)(((int)currentRenderer+1)%MAX_MODES);
-	  break;
+	switch (key) {
+		case TAB_KEY:
+			currentRenderer = (RenderMode)(((int)currentRenderer + 1) % MAX_MODES);
+			break;
 
-	case 's':
-		s = 2;
-	  break;
+		case 's':
+			s = 2;
+			break;
 
-    case 27:
+		case 'n':
+			loadNextMesh();
+			break;
 
-      exit(EXIT_SUCCESS);
-      break;
+		case 27:
+			exit(EXIT_SUCCESS);
+			break;
 
-    default:
+		default:
+			break;
+	}
 
-      break;
-   }
-
-   glutPostRedisplay();
+	glutPostRedisplay();
 }
 
 
@@ -266,10 +282,25 @@ main( int argc, char** argv) {
 	// set OpenGL states
 	setOpenGLStates();
 
+	meshNames.clear();
+	meshNames.push_back("bunny");
+	meshNames.push_back("bunnysimple");
+	meshNames.push_back("camel_head");
+	meshNames.push_back("cow");
+	meshNames.push_back("dragon");
+	meshNames.push_back("drei");
+	meshNames.push_back("eight");
+	meshNames.push_back("europemap");
+	meshNames.push_back("heptoroid");
+	meshNames.push_back("mannequin");
+	meshNames.push_back("sphere");
+	meshNames.push_back("teapot");
+	meshNames.push_back("singleTriangle");
+	meshIndex = -1;
+
 	// load ressources
 	blinnPhongShader.load("shaders/BlinnPhong");
-	mesh = Mesh::loadOff("meshes/bunny.off");
-	mesh.StdDist();
+	loadNextMesh();
 
 	// register glut callbacks
 	glutDisplayFunc( display);
@@ -296,6 +327,7 @@ void initOpenGLContext(int argc, char **argv){
 	cout << " keyboard:                                  \n";
 	cout << " q/Q: quit program                          \n";
 	cout << " tab: switch to next renderer               \n";
+	cout << " n: load next mesh                          \n";
 	cout << "                                            \n";
 	cout << " mouse:                                     \n";
 	cout << " left click+drag: rotate the object         \n";

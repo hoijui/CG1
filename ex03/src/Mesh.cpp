@@ -142,7 +142,7 @@ void Mesh::CalculateVertexNormals() {
 
 	if (surfaceDependentNormalWeighting) {
 		for (int v = 0; v < vertices.size(); ++v) {
-			vertices.at(v).normalize();
+			vertexNormals.at(v) = vertexNormals.at(v).normalize();
 		}
 	}
 }

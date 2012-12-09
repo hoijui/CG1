@@ -21,8 +21,15 @@ private:
 	void CalculateFaceNormals();
 	void CalculateVertexNormals();
 
+	void RenderFaces() const;
 	void renderFlat() const;
 	void renderSmooth() const;
+
+	void RenderNormals() const;
+	void RenderFaceNormals() const;
+	void RenderVertexNormals() const;
+
+	static void RenderNormal(const Vec3f& position, const Vec3f& direction);
 
 	const vector<Vec3f>& GetVertices() const { return vertices; }
 	int GetEdges() const { return edges; }

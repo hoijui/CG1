@@ -187,6 +187,12 @@ void Mesh::SetSmoothRendering(bool enabled) {
 
 void Mesh::Display() const {
 
+	RenderFaces();
+	RenderNormals();
+}
+
+void Mesh::RenderFaces() const {
+
 	if (smooth) {
 		renderSmooth();
 	} else {
@@ -227,4 +233,54 @@ void Mesh::renderSmooth() const {
 		glEnd();
 	}
 	glPopMatrix();
+}
+
+void Mesh::RenderNormals() const {
+
+	glColor3f(1.0f, 0.0f, 0.0f);
+	if (smooth) {
+		RenderVertexNormals();
+	} else {
+		RenderFaceNormals();
+	}
+	glColor3f(1.0f, 1.0f, 1.0f);
+}
+
+void Mesh::RenderFaceNormals() const {
+
+	glPushMatrix();
+	for (int t = 0; t < faces.size(); ++t) {
+		const vector<int>& vertexIndices = faces.at(t);
+		const Vec3f& normal = faceNormals.at(t);
+		Vec3f faceCenter(0.0f, 0.0f, 0.0f);
+		for (int v = 0; v < vertexIndices.size(); ++v) {
+			faceCenter += vertices.at(vertexIndices.at(v));
+		}
+		faceCenter /= vertexIndices.size();
+		RenderNormal(faceCenter, normal / 5.0f);
+	}
+	glPopMatrix();
+}
+
+void Mesh::RenderVertexNormals() const {
+
+	glPushMatrix();
+	for (int t = 0; t < faces.size(); ++t) {
+		const vector<int>& vertexIndices = faces.at(t);
+		for (int v = 0; v < vertexIndices.size(); ++v) {
+			const int vInd = vertexIndices.at(v);
+			const Vec3f& vertex = vertices.at(vInd);
+			const Vec3f& normal = vertexNormals.at(vInd);
+			RenderNormal(vertex, normal / 5.0f);
+		}
+	}
+	glPopMatrix();
+}
+
+void Mesh::RenderNormal(const Vec3f& position, const Vec3f& direction) {
+
+	glBegin(GL_LINES);
+	glVertex3f(position.GetX(), position.GetY(), position.GetZ());
+	glVertex3f(position.GetX() + direction.GetX(), position.GetY() + direction.GetY(), position.GetZ() + direction.GetZ());
+	glEnd();
 }

@@ -101,7 +101,10 @@ void Mesh::CalculateFaceNormals() {
 		const vector<int>& vertexIndices = faces.at(t);
 		const Vec3f& vertex1 = vertices.at(vertexIndices.at(0));
 		const Vec3f& vertex2 = vertices.at(vertexIndices.at(1));
-		const Vec3f& flatNormal = vertex1.cross(vertex2).normalize();
+		const Vec3f& vertex3 = vertices.at(vertexIndices.at(2));
+		const Vec3f& edge3 = vertex2 - vertex2;
+		const Vec3f& edge1 = vertex1 - vertex3;
+		const Vec3f& flatNormal = edge3.cross(edge1).normalize();
 		faceNormals.push_back(flatNormal);
 		//faceNormals.push_back(fixedNormalTest); // HACK
 	}
@@ -125,18 +128,21 @@ void Mesh::CalculateVertexNormals() {
 		const Vec3f& v0 = vertices.at(vInd0);
 		const Vec3f& v1 = vertices.at(vInd1);
 		const Vec3f& v2 = vertices.at(vInd2);
+		const Vec3f& e0 = v1 - v0;
+		const Vec3f& e1 = v2 - v1;
+		const Vec3f& e2 = v0 - v2;
 
 		// NOTE Alternatively, instead of weighting each of the 3 normals
 		//   equally, we could
 		if (surfaceDependentNormalWeighting) {
-			vertexNormals.at(vInd0) += v2.cross(v0);
-			vertexNormals.at(vInd1) += v0.cross(v1);
-			vertexNormals.at(vInd2) += v1.cross(v2);
+			vertexNormals.at(vInd0) += e2.cross(e0);
+			vertexNormals.at(vInd1) += e0.cross(e1);
+			vertexNormals.at(vInd2) += e1.cross(e2);
 		} else {
 			// each face has an equal weight
-			vertexNormals.at(vInd0) += v2.cross(v0).normalize() / 3.0f;
-			vertexNormals.at(vInd1) += v0.cross(v1).normalize() / 3.0f;
-			vertexNormals.at(vInd2) += v1.cross(v2).normalize() / 3.0f;
+			vertexNormals.at(vInd0) += e2.cross(e0).normalize() / 3.0f;
+			vertexNormals.at(vInd1) += e0.cross(e1).normalize() / 3.0f;
+			vertexNormals.at(vInd2) += e1.cross(e2).normalize() / 3.0f;
 		}
 	}
 

@@ -47,6 +47,11 @@ Mesh Mesh::loadOff(const string& filePath) {
 
 	FILE* fHandle = fopen(filePath.c_str(), "r");
 
+	if (fHandle == NULL) {
+		std::cout << " Failed to open file for reading: \"" << filePath << "\"" << std::endl;
+		exit(99);
+	}
+
 	// read the header
 	fscanf(fHandle, "OFF\n");
 	int V, F, E;

@@ -68,7 +68,7 @@ Mesh Mesh::loadOff(const string& filePath) {
 	// read the polygons
 	vector< vector<int> > polygons;
 	char poygonCStr[1024];
-	for (int v=0; v < V; ++v) {
+	for (int f=0; f < F; ++f) {
 		vector<int> polygon;
 		fgets(poygonCStr, 1024, fHandle); // reads one line
 		string poygonStr = poygonCStr;

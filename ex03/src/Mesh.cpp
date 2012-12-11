@@ -17,6 +17,7 @@
 Mesh::Mesh()
 	: smooth(true)
 	, surfaceDependentNormalWeighting(true)
+	, renderNormals(false)
 {
 }
 
@@ -29,6 +30,7 @@ Mesh::Mesh(
 	, faces(faces)
 	, smooth(true)
 	, surfaceDependentNormalWeighting(true)
+	, renderNormals(false)
 {
 	CalculateNormals();
 }
@@ -40,6 +42,7 @@ Mesh::Mesh(const Mesh& other)
 	, faceNormals(other.faceNormals)
 	, smooth(true)
 	, surfaceDependentNormalWeighting(true)
+	, renderNormals(false)
 {
 }
 
@@ -220,10 +223,20 @@ void Mesh::SetSmoothRendering(bool enabled) {
 	this->smooth = enabled;
 }
 
+bool Mesh::GetRenderNormals() const {
+	return renderNormals;
+}
+
+void Mesh::SetRenderNormals(bool enabled) {
+	this->renderNormals = enabled;
+}
+
 void Mesh::Display() const {
 
 	RenderFaces();
-	RenderNormals();
+	if (renderNormals) {
+		RenderNormals();
+	}
 }
 
 void Mesh::RenderFaces() const {

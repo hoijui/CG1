@@ -253,8 +253,12 @@ keyboard(unsigned char key, int /*x*/, int /*y*/) {
 			s = 2;
 			break;
 
-		case 'n':
+		case 'm':
 			loadNextMesh();
+			break;
+
+		case 'n':
+			mesh.SetRenderNormals(!mesh.GetRenderNormals());
 			break;
 
 		case 27:
@@ -327,7 +331,8 @@ void initOpenGLContext(int argc, char **argv){
 	cout << " keyboard:                                  \n";
 	cout << " q/Q: quit program                          \n";
 	cout << " tab: switch to next renderer               \n";
-	cout << " n: load next mesh                          \n";
+	cout << " m: load next mesh                          \n";
+	cout << " n: render normals (on/off)                 \n";
 	cout << "                                            \n";
 	cout << " mouse:                                     \n";
 	cout << " left click+drag: rotate the object         \n";

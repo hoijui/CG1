@@ -51,6 +51,9 @@ public:
 
 	void SetSmoothRendering(bool enabled);
 
+	bool GetRenderNormals() const;
+	void SetRenderNormals(bool enabled);
+
 	void Display() const;
 
 private:
@@ -63,6 +66,7 @@ private:
 	vector<Vec3f> vertexNormals;
 	bool smooth;
 	bool surfaceDependentNormalWeighting;
+	bool renderNormals;
 };
 
 #endif // _MESH_H_

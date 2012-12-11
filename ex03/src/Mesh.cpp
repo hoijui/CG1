@@ -91,6 +91,36 @@ Mesh Mesh::loadOff(const string& filePath) {
 	return Mesh(vertices, E, polygons);
 }
 
+void Mesh::SaveOff(const string& filePath) const {
+
+	FILE* fHandle = fopen(filePath.c_str(), "w");
+
+	if (fHandle == NULL) {
+		std::cout << " Failed to open file for writing: \"" << filePath << "\"" << std::endl;
+		exit(99);
+	}
+
+	// write the header
+	fprintf(fHandle, "OFF\n");
+	fprintf(fHandle, "%d %d %d\n", (int)vertices.size(), (int)faces.size(), 0);
+
+	// write the vertices
+	for (int v=0; v < vertices.size(); ++v) {
+		const Vec3f& vert = vertices.at(v);
+		fprintf(fHandle, "%f %f %f\n", vert.GetX(), vert.GetY(), vert.GetZ());
+	}
+
+	// write the polygons
+	for (int f=0; f < faces.size(); ++f) {
+		const vector<int>& face = faces.at(f);
+		fprintf(fHandle, "%d", (int)face.size());
+		for (int i=0; i < face.size(); ++i) {
+			fprintf(fHandle, " %d", face.at(i));
+		}
+		fprintf(fHandle, "\n");
+	}
+}
+
 void Mesh::Center() {
 
 	Vec3f sum(0.0f, 0.0f, 0.0f);

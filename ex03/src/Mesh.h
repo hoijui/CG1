@@ -42,6 +42,8 @@ public:
 	//! Reads meshes in the OFF file format
 	static Mesh loadOff(const string& filePath);
 
+	void SaveOff(const string& filePath) const;
+
 	//! Moves the object, so the point mean is at (0, 0, 0)
 	void Center();
 	//! Scales the object, so the average distance from (0, 0, 0) is one

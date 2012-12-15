@@ -85,14 +85,19 @@ Andererseits wird das Objekt nicht wirklich uneben, sodass die Silhoutten und Sc
 
 \subsection*{4. BSP-Bäume und Dreiecksnetze}
 TODO: Warum?
-Nutzt man die Dreiecke des Netzes zum Aufspannen der Partitionsebenen, so verringert man die Wahrscheinlichkeit, das andere Dreiecke häufig geteilt werden müssen (da sie sowohl vor als auch hinter der Ebene liegen). Dies wiederum führt zu einem kleinen BSP, welcher sich schnelle konstruieren und traversieren lässt.
-Die Partitionsebenen können ebenfalls parallel zu zwei Koordinateneachsen liegen (im 3D-Raum).
+Nutzt man die Dreiecke des Netzes zum Aufspannen der Partitionsebenen, so verringert man die Wahrscheinlichkeit, dass andere Dreiecke häufig geteilt werden müssen (da sie sowohl vor als auch hinter der Ebene liegen). Dies wiederum führt zu einem kleinen BSP, welcher sich schneller konstruieren und traversieren lässt.
+Dies ist der Fall, weil mindestens direkt angrenzende Dreiecke mit Sicherheit nicht geteilt werden,
+und angenommen die Netz Struktur besteht nicht aus einem "3D noise",
+wird sie über weite strecken konvex oder konkav sein,
+was bedeutet dass auch weiter entfernte Dreiecke nicht geteilt werden.
+Alternativ könnten die Partitionsebenen parallel zu zwei Koordinatenachsen gewählt werden (im 3D-Raum).
 
 \subsection*{5. Halbvektoren}
-a) Der Halbvektor ist der Vektor, der sich genau un der Mitte zwischen dem Vektor L (Lichtrichtung) und dem Vektor E (Blickrichtung) des Phong-Models, befindet.
-Nuztzt man den Halbvektor zur Lichtberechnung, entfällt die für das Phong-Modell geltende Beschränkung, dass der Winkel zwischen der IdealReflexionsrichtung und der Blickrichtung kleiner als 90° sein muss.
+a) Der Halbvektor ist der Vektor, der sich genau in der Mitte zwischen dem Vektor L (Lichtrichtung) und dem Vektor E (Blickrichtung) des Phong-Models, befindet.
+Nutzt man den Halbvektor zur Lichtberechnung, entfällt die für das Phong-Modell geltende Beschränkung, dass der Winkel zwischen der IdealReflexionsrichtung und der Blickrichtung kleiner als 90° sein muss.
 
-b) TODO
+b) %Leiten Sie das Phong Shadingmodell unter Verwendung des half vectors her.
+TODO
 
 c) Die Wirkung der Exponenten im Phong- bzw. im Blinn-Phong-Modell sind nicht gleich.
 

@@ -83,6 +83,13 @@ Andererseits wird das Objekt nicht wirklich uneben, sodass die Silhoutten und Sc
 
 \subsection*{3. GLSL-Variablen}
 
+\texttt{uniform} - Diese Variablen sind globale Konstanten (=für alle Shader rein lesbar; solange deklariert).
+
+\texttt{varying} - Diese Variablen können im \textit{vertex shader} geschrieben und im \textit{fragment shader} nur ausgelesen werden.
+Somit ist es möglich, Informationen in der \textit{pipeline} zu kommunizieren, auf die der \textit{fragment shader} normalerweise kein Zugriff hätte (z.B. Normalen).
+
+\texttt{attribute} - Diese Variablen ermöglichen es zusätzliche (zu Position, Farbe, etc.) Werte pro Vertex abzuspeichern. Diese können dann im \textit{vertex shader} ausgelesen werden.
+
 \subsection*{4. BSP-Bäume und Dreiecksnetze}
 Nutzt man die Dreiecke des Netzes zum Aufspannen der Partitionsebenen, so verringert man die Wahrscheinlichkeit, dass andere Dreiecke häufig geteilt werden müssen (da sie sowohl vor als auch hinter der Ebene liegen). Dies wiederum führt zu einem kleinen BSP, welcher sich schneller konstruieren und traversieren lässt.
 Dies ist der Fall, weil mindestens direkt angrenzende Dreiecke mit Sicherheit nicht geteilt werden,

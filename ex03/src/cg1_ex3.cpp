@@ -304,6 +304,7 @@ main( int argc, char** argv) {
 
 	// load ressources
 	blinnPhongShader.load("shaders/BlinnPhong");
+	blinnPhongShader.load("shaders/myBlinnPhong");
 	loadNextMesh();
 
 	// register glut callbacks

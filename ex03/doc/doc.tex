@@ -77,7 +77,7 @@ Bump Mapping wird eingesetzt, um Oberflächen realistischer zu gestalten.
 Dazu werden Erhebungen und Senken in die Oberfläche gesetzt.
 Dies geschieht allerdings nur virtuell.
 D.h. dass das Polygon seine geometrischen Eigenschaften behält.
-Um den gewünschten Effekt zu erzielen, werden die Obeflächennormalen vor der Lichtberechnung so modifiziert, als ob die Oberfläche nicht eben wäre.
+Um den gewünschten Effekt zu erzielen, werden die Obeflächennormalen vor der Lichtberechnung mit Hilfe eines Höhenfeldes so modifiziert, als ob die Oberfläche nicht eben wäre.
 Der Vorteil des Verfahrens liegt darin, dass sich die virtuellen Unebenheiten wesentlich schneller berechnen lassen, als wenn man wirklich die zu Grunde liegend Geometrie des Poloygons verändern wollte. Dadurch wird das Verfahren für Echtzeitrendering (wie z.B. in Computerspielen) sehr interessant, weil mit verhältnismäßig wenig Aufwand eine große "Detailtiefe" erzeugt werden kann. Die vermeintliche Oberflächenstruktur ändert sich auch, wenn das Licht in der Szene bewegt wird, was zu zusätzlicher Realitätsgetreue führt (anderer Schattenwurf auf der Oberfläche).
 Andererseits wird das Objekt nicht wirklich uneben, sodass die Silhoutten und Schatten des gesamten Objekts nach wie vor eben sind. Dies erkennt man vor allem dann, wenn starke Unebenheiten eingefügt wurden.
 

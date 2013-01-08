@@ -2,4 +2,6 @@ build/
 target/
 *.pdf
 *.zip
+*.swp
 CMakeLists.txt.user
+/ex04/src/data/

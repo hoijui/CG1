@@ -7,18 +7,18 @@
 
 // includes, system
 #ifdef _WIN32
-  #include <windows.h>
-  #include <cassert>
+#include <windows.h>
+#include <cassert>
 #endif
 
 #ifdef __APPLE__
-  #include <GL/glew.h>
+#include <GL/glew.h>
 #include <GLUT/freeglut.h>
 #elif _WIN32
-  #include "win32/glew.h"
+#include "win32/glew.h"
 #include "win32/freeglut.h"
 #else
-  #include <GL/glew.h>
+#include <GL/glew.h>
 #include <GL/freeglut.h>
 #endif
 
@@ -32,44 +32,44 @@ using namespace std;
  */
 class GLSLShader
 {
-protected:
-	// OpenGL handle to the vertex shader
-	GLuint vs_object;
-	// OpenGL handle to the fragment shader
-	GLuint fs_object;
-	// OpenGL handle to the whole shader
-	GLuint prog_object;
+	protected:
+		// OpenGL handle to the vertex shader
+		GLuint vs_object;
+		// OpenGL handle to the fragment shader
+		GLuint fs_object;
+		// OpenGL handle to the whole shader
+		GLuint prog_object;
 
-public:
-	GLSLShader();
-	~GLSLShader();
+	public:
+		GLSLShader();
+		~GLSLShader();
 
-	// Load the shader from it's name (the path to the shader without extension .frag or .vert)
-	void load(const string& name);
+		// Load the shader from it's name (the path to the shader without extension .frag or .vert)
+		void load(const string& name);
 
-	// compile the shader from source directly
-	void compileFromSource(const char* vertexShaderSource, const char* fragmentShaderSource);
+		// compile the shader from source directly
+		void compileFromSource(const char* vertexShaderSource, const char* fragmentShaderSource);
 
-	// Bind the shader to the openGL pipeline
-	void bindShader()const;
+		// Bind the shader to the openGL pipeline
+		void bindShader()const;
 
-	// Unbind the shader
-	void unbindShader()const;
+		// Unbind the shader
+		void unbindShader()const;
 
-	// Set a float uniform variable
-	void setFloatParam(const char* pname, const float& value);
+		// Set a float uniform variable
+		void setFloatParam(const char* pname, const float& value);
 
-	// Set a 2 component vector uniform parameter
-	void setVector2Param(const char* pname, const glm::vec2& value);
+		// Set a 2 component vector uniform parameter
+		void setVector2Param(const char* pname, const glm::vec2& value);
 
-	// Set a 3 component vector uniform parameter
-	void setVector3Param(const char* pname, const glm::vec3& value);
+		// Set a 3 component vector uniform parameter
+		void setVector3Param(const char* pname, const glm::vec3& value);
 
-	// Set a 4 component vector uniform parameter
-	void setVector4Param(const char* pname, const glm::vec4& value);
+		// Set a 4 component vector uniform parameter
+		void setVector4Param(const char* pname, const glm::vec4& value);
 
-	// Set a 4x4 matrix uniform parameter
-	void setMatrix4Param(const char* pname, const glm::mat4& value);
+		// Set a 4x4 matrix uniform parameter
+		void setMatrix4Param(const char* pname, const glm::mat4& value);
 
 };
 

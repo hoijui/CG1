@@ -1,4 +1,4 @@
- 
+
 PROJECT(cg1_ex04)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
@@ -18,8 +18,8 @@ SET(src_files
 	"${NATIVE_SRC_ROOT}/Image.cpp"
 	"${NATIVE_SRC_ROOT}/Texture.cpp"
 	"${NATIVE_SRC_ROOT}/cg1_ex4.cpp"
-        "${NATIVE_SRC_ROOT}/Mesh.cpp"
-        "${NATIVE_SRC_ROOT}/Vec3f.cpp"
+	"${NATIVE_SRC_ROOT}/Mesh.cpp"
+	"${NATIVE_SRC_ROOT}/Vec3f.cpp"
 	)
 
 INCLUDE_DIRECTORIES(${NATIVE_SRC_ROOT})

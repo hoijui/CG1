@@ -2,8 +2,8 @@
 
 
 GLSLShader::GLSLShader():
-vs_object(0),
-fs_object(0)
+	vs_object(0),
+	fs_object(0)
 {
 }
 
@@ -49,7 +49,7 @@ void GLSLShader::bindShader()const
 
 void GLSLShader::unbindShader()const
 {
-  glUseProgram(0);
+	glUseProgram(0);
 }
 
 void GLSLShader::setFloatParam(const char* pname, const float& value)

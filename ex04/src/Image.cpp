@@ -143,6 +143,10 @@ void Image::unbind(){
 	// END XXX
 }
 
+int getDataIndex(int x, int y,int width, int height) {
+	return x + width * y;
+}
+
 // read a pixel from image
 // XXX: NEEDS TO BE IMPLEMENTED
 vec4 Image::get(int x, int y){
@@ -150,7 +154,8 @@ vec4 Image::get(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
-	return vec4(0);
+	int index = getDataIndex(x, y, width, height);
+	return data[index];
 
 	// END XXX
 }

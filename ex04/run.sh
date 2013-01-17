@@ -13,11 +13,8 @@ fi
 
 cd "${TARGET_DIR}"
 
-if [ ! -e shaders ]; then
-	ln -s ../src/shaders shaders
-fi
-if [ ! -e meshes ]; then
-	ln -s ../src/meshes meshes
+if [ ! -e data ]; then
+	ln -s ../src/data data
 fi
 
 ARGUMENTS=${2} ${3} ${4}

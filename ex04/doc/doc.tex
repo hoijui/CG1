@@ -62,6 +62,12 @@ Nun werden nicht alle Texel ausgelesen, weil das Dreieck nicht genügend Pixel h
 Dadurch fehlen Teile der Textur auf dem gerenderten Dreieck.
 
 \subsection*{2. MipMap}
+Da eine Textur abhänig von der Entfernung zwischen Betrachter und texturiertem Objekt unterschiedlich detailreich ist, muss diese normalerweise gefiltert werden, um die gewünschte Detailtiefe zu ermitteln.
+Eine MipMap enthält eine Textur in verschieden Auflösungen.
+Somit ist es möglich, sehr schnell (ohne Berechnung) eine der vordefinierten Detailtiefen auszulesen.
+Das wiederum ist sinnvoll für Echtzeitanwendungen, da die Berechnung eine obere Zeitschranke hat.
+Eine MipMap bietet sich v.a. auch für Anwendungen an, in der texturierte Objekt häufig die Entfernung zu Beobachter wechseln (z.B. Ego-Shooter).
+Dann muss diese nicht immer wieder neu gefiltert werden.
 
 \subsection*{3. Zweischritt-Verfahren}
 

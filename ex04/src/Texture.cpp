@@ -124,20 +124,10 @@ static void fullScreenQuad(){
 
 	// INSERT YOUR CODE HERE
 	glBegin(GL_QUADS);
-//	glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, -1.0, 0.0);
-//	glTexCoord2f(0.0, 1.0); glVertex3f(-1.0, 1.0, 0.0);
-//	glTexCoord2f(1.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
-//	glTexCoord2f(1.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
-
 	glTexCoord2f(0.0, 1.0); glVertex3f(-1.0, -1.0, 0.0);
 	glTexCoord2f(1.0, 1.0); glVertex3f(1.0, -1.0, 0.0);
 	glTexCoord2f(1.0, 0.0); glVertex3f(1.0, 1.0, 0.0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, 1.0, 0.0);
-
-//	glTexCoord2f(0.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
-//	glTexCoord2f(0.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
-//	glTexCoord2f(1.0, 1.0); glVertex3f(2.41421, 1.0, -1.41421);
-//	glTexCoord2f(1.0, 0.0); glVertex3f(2.41421, -1.0, -1.41421);
 	glEnd();
 
 	// END XXX
@@ -194,12 +184,9 @@ void Texture::display(void){
 		texture.generateTexture();
 		defaultTextureIndex = -1;
 	}
-//   glBindTexture(GL_TEXTURE_2D, texture.textureID);
 	glEnable(GL_TEXTURE_2D);
-//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	texture.setModulation(GL_DECAL);
 	texture.bind();
-//   glFlush();
 	fullScreenQuad();
 	glDisable(GL_TEXTURE_2D);
 	// END XXX

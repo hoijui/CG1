@@ -57,26 +57,6 @@ Image::Image(const std::string& filename) : wrap(GL_CLAMP_TO_BORDER), min(GL_LIN
 Image::~Image(){
 }
 
-
-//#define checkImageWidth 64
-//#define checkImageHeight 64
-//static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
-//static GLuint texName;
-//
-//void makeCheckImage(void)
-//{
-//   int i, j, c;
-//    
-//   for (i = 0; i < checkImageHeight; i++) {
-//      for (j = 0; j < checkImageWidth; j++) {
-//         c = ((((i&0x8)==0)^((j&0x8))==0))*255;
-//         checkImage[i][j][0] = (GLubyte) c;
-//         checkImage[i][j][1] = (GLubyte) c;
-//         checkImage[i][j][2] = (GLubyte) c;
-//         checkImage[i][j][3] = (GLubyte) 255;
-//      }
-//   }
-//}
 // generate OpenGL texture
 // XXX: NEEDS TO BE IMPLEMENTED
 void Image::generateTexture(){
@@ -92,25 +72,6 @@ void Image::generateTexture(){
 	}
 	bind(); // ??? -> yes, to enable options for the first time
 
-//	makeCheckImage();
-//  glGenTextures(1, &textureID);
-//   glBindTexture(GL_TEXTURE_2D, textureID);
-
-
-//   std::cout << data.size() << std::endl;
-//   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, 
-//                checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
-//                checkImage);
-//      gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,
-//	                 GL_RGB, GL_UNSIGNED_BYTE, ttexture );
-//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-//glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-//glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-//glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
-//   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, 
-//                height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
-//                &data);
-//	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, &data);
 	// texture filtering and repeat
 	// XXX
 
@@ -236,11 +197,7 @@ void Image::paint(int x, int y){
 		}
 		brushIsSet = 1;
 	}
-	//void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
 	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_UNSIGNED_BYTE, &brush);
-    //     glTexSubImage2D(GL_TEXTURE_2D, 0, 12, 44, subImageWidth,
-    //                     subImageHeight, GL_RGBA,
-    //                     GL_UNSIGNED_BYTE, subImage);
 
 	// END XXX
 }
@@ -251,12 +208,6 @@ void Image::erase(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
-	//void glCopyTexImage2D(GLenum  target,  GLint  level,  GLenum  internalformat,  GLint  x,  GLint  y,  GLsizei  width,  GLsizei  height,  GLint  border);
-	//glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  x,  y,  BRUSH_SIZE,  BRUSH_SIZE, 0);
-	vec4 pixel = get(x, y);
-	//glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_UNSIGNED_BYTE, ttexture);
-	std::cout << pixel.x << std::endl;
-	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGBA, GL_FLOAT_VEC4, &pixel);
 
 	// END XXX
 }

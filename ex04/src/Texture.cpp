@@ -46,7 +46,7 @@ static bool doLighting= true;
 static bool showCoordinates= true;
 static bool showOrigin= true;
 static bool environmentMapping= false;
-static bool drawRect= false;
+static bool drawRect= true;
 
 static GLuint modulation= GL_MODULATE;
 
@@ -63,7 +63,7 @@ static GLfloat nearPlane;
 static GLfloat farPlane;
 
 static Image texture;
-
+static int defaultTextureIndex = 1;
 
 /*************************************************************************************/
 
@@ -74,6 +74,9 @@ static void updateCursor(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	cursor.x = x;
+	cursor.y = sin(-2 * PI * y) + PI;
+	cursor.z = 1;
 
 
 	// END XXX
@@ -120,7 +123,22 @@ static void fullScreenQuad(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glBegin(GL_QUADS);
+//	glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, -1.0, 0.0);
+//	glTexCoord2f(0.0, 1.0); glVertex3f(-1.0, 1.0, 0.0);
+//	glTexCoord2f(1.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
+//	glTexCoord2f(1.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
 
+	glTexCoord2f(0.0, 1.0); glVertex3f(-1.0, -1.0, 0.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(1.0, -1.0, 0.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(1.0, 1.0, 0.0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-1.0, 1.0, 0.0);
+
+//	glTexCoord2f(0.0, 0.0); glVertex3f(1.0, -1.0, 0.0);
+//	glTexCoord2f(0.0, 1.0); glVertex3f(1.0, 1.0, 0.0);
+//	glTexCoord2f(1.0, 1.0); glVertex3f(2.41421, 1.0, -1.41421);
+//	glTexCoord2f(1.0, 0.0); glVertex3f(2.41421, -1.0, -1.41421);
+	glEnd();
 
 	// END XXX
 }
@@ -154,6 +172,8 @@ void Texture::reshape(int width, int height){
 	screen= vec2(width, height);
 }
 
+
+
 // display texture
 // XXX: NEEDS TO BE IMPLEMENTED
 void Texture::display(void){
@@ -169,7 +189,19 @@ void Texture::display(void){
 	// XXX
 
 	// INSERT YOUR CODE HERE
-
+	if (defaultTextureIndex != -1) {
+		texture.load(textures[defaultTextureIndex]);
+		texture.generateTexture();
+		defaultTextureIndex = -1;
+	}
+//   glBindTexture(GL_TEXTURE_2D, texture.textureID);
+	glEnable(GL_TEXTURE_2D);
+//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	texture.setModulation(GL_DECAL);
+	texture.bind();
+//   glFlush();
+	fullScreenQuad();
+	glDisable(GL_TEXTURE_2D);
 	// END XXX
 
 	glutSwapBuffers();
@@ -188,6 +220,11 @@ void Texture::mouseDragged(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	if (drag == DRAW) {
+		texture.paint(x, y);
+	} else if (drag == ERASE) {
+		texture.erase(x, y);
+	}
 
 	// END XXX
 
@@ -238,13 +275,38 @@ void Texture::menu(int value){
 		case 18:
 			drag= ERASE;
 			break;
+//	"FILTERING", "    mag: NEAREST",  "    mag: LINEAR", "    min: NEAREST" , "    min: LINEAR", "    min: NEAREST_MIPMAP_NEAREST  ", "    min: LINEAR_MIPMAP_NEAREST", "//   min: NEAREST_MIPMAP_LINEAR", "    min: LINEAR_MIPMAP_LINEAR"};
 
-			// add cases for texture filtering
-			// XXX
+		// add cases for texture filtering
+		// XXX
 
-			// INSERT YOUR CODE HERE
+		// INSERT YOUR CODE HERE
+		case 19:
+			texture.setMagFilter(GL_NEAREST);
+			break;
+		case 20:
+			texture.setMagFilter(GL_LINEAR);
+			break;
+		case 21:
+			texture.setMinFilter(GL_NEAREST);
+			break;
+		case 22:
+			texture.setMinFilter(GL_LINEAR);
+			break;
+		case 23:
+			texture.setMinFilter(GL_NEAREST_MIPMAP_NEAREST);
+			break;
+		case 24:
+			texture.setMinFilter(GL_LINEAR_MIPMAP_NEAREST);
+			break;
+		case 25:
+			texture.setMinFilter(GL_NEAREST_MIPMAP_LINEAR);
+			break;
+		case 26:
+			texture.setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+			break;
 
-			// END XXX
+		// END XXX
 		default:
 			break;
 	}
@@ -347,6 +409,11 @@ void World::display(void){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glBegin(GL_LINES);
+	glColor3ub(255, 0, 0);
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(cursor.x, cursor.y, cursor.z);
+	glEnd();
 
 	// END XXX
 
@@ -373,6 +440,9 @@ void World::display(void){
 		// XXX
 
 		// INSERT YOUR CODE HERE
+		glEnable(GL_TEXTURE_2D);
+		fullScreenQuad();
+		glDisable(GL_TEXTURE_2D);
 
 
 		// END XXX

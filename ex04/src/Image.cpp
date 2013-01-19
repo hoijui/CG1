@@ -30,6 +30,12 @@ tu berlin
 using namespace std;
 using namespace glm;
 
+#define BRUSH_SIZE 5
+static GLubyte brush[BRUSH_SIZE][BRUSH_SIZE][4];
+static GLubyte brushColor[4] = {255, 0, 0, 0};
+static int brushIsSet = 0;
+
+
 Image::Image() : width(0), height(0), wrap(GL_CLAMP_TO_BORDER), min(GL_LINEAR), mag(GL_LINEAR), modulate(GL_MODULATE), textureID(0){
 }
 
@@ -51,6 +57,26 @@ Image::Image(const std::string& filename) : wrap(GL_CLAMP_TO_BORDER), min(GL_LIN
 Image::~Image(){
 }
 
+
+//#define checkImageWidth 64
+//#define checkImageHeight 64
+//static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
+//static GLuint texName;
+//
+//void makeCheckImage(void)
+//{
+//   int i, j, c;
+//    
+//   for (i = 0; i < checkImageHeight; i++) {
+//      for (j = 0; j < checkImageWidth; j++) {
+//         c = ((((i&0x8)==0)^((j&0x8))==0))*255;
+//         checkImage[i][j][0] = (GLubyte) c;
+//         checkImage[i][j][1] = (GLubyte) c;
+//         checkImage[i][j][2] = (GLubyte) c;
+//         checkImage[i][j][3] = (GLubyte) 255;
+//      }
+//   }
+//}
 // generate OpenGL texture
 // XXX: NEEDS TO BE IMPLEMENTED
 void Image::generateTexture(){
@@ -60,14 +86,39 @@ void Image::generateTexture(){
 		// XXX
 
 		// INSERT YOUR CODE HERE
+		glGenTextures(1, &textureID);
 
 		// END XXX
 	}
+	bind(); // ??? -> yes, to enable options for the first time
 
+//	makeCheckImage();
+//  glGenTextures(1, &textureID);
+//   glBindTexture(GL_TEXTURE_2D, textureID);
+
+
+//   std::cout << data.size() << std::endl;
+//   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, checkImageWidth, 
+//                checkImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
+//                checkImage);
+//      gluBuild2DMipmaps( GL_TEXTURE_2D, 3, width, height,
+//	                 GL_RGB, GL_UNSIGNED_BYTE, ttexture );
+//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+//glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+//glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+//glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+//   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, 
+//                height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 
+//                &data);
+//	 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, &data);
 	// texture filtering and repeat
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	// END XXX
 
@@ -75,6 +126,7 @@ void Image::generateTexture(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	//glGenerateMipmap(GL_TEXTURE_2D);
 
 	// END XXX
 
@@ -82,6 +134,9 @@ void Image::generateTexture(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	// doesn't work :/
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT_VEC4, &data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ttexture);
 
 	// END XXX
 }
@@ -93,6 +148,7 @@ void Image::setMinFilter(GLuint min){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, this->min);
 
 	// END XXX
 }
@@ -107,6 +163,7 @@ void Image::setMagFilter(GLuint mag){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, this->mag);
 
 	// END XXX
 }
@@ -122,6 +179,7 @@ void Image::bind(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glBindTexture(GL_TEXTURE_2D, this->textureID);
 
 	// END XXX
 
@@ -129,6 +187,7 @@ void Image::bind(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, this->modulate);
 
 	// END XXX
 }
@@ -166,6 +225,22 @@ void Image::paint(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	if (brushIsSet == 0) {
+		int i, j, k;
+		for (i = 0; i < BRUSH_SIZE; i++) {
+			for (j = 0; j < BRUSH_SIZE; j++) {
+				for (k = 0; k < 4; k++) {
+					brush[i][j][k] = brushColor[k];
+				}
+			}
+		}
+		brushIsSet = 1;
+	}
+	//void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_UNSIGNED_BYTE, &brush);
+    //     glTexSubImage2D(GL_TEXTURE_2D, 0, 12, 44, subImageWidth,
+    //                     subImageHeight, GL_RGBA,
+    //                     GL_UNSIGNED_BYTE, subImage);
 
 	// END XXX
 }
@@ -176,6 +251,12 @@ void Image::erase(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	//void glCopyTexImage2D(GLenum  target,  GLint  level,  GLenum  internalformat,  GLint  x,  GLint  y,  GLsizei  width,  GLsizei  height,  GLint  border);
+	//glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,  x,  y,  BRUSH_SIZE,  BRUSH_SIZE, 0);
+	vec4 pixel = get(x, y);
+	//glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_UNSIGNED_BYTE, ttexture);
+	std::cout << pixel.x << std::endl;
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGBA, GL_FLOAT_VEC4, &pixel);
 
 	// END XXX
 }
@@ -189,6 +270,8 @@ void Image::load(const std::string& filename){
 		cerr << "file " << filename << " is not a PPM file" << endl;
 		return;
 	}
+
+	ttexture = (GLubyte*) loadPPMToChar(filename.c_str(), &width, &height);
 }
 
 void Image::loadPPM(const std::string& filename){
@@ -239,4 +322,50 @@ void Image::loadPPM(const std::string& filename){
 	raw.clear();
 
 	std::cout << "Image " << filename << " loaded. width=" << width << " height=" << height << endl;
+}
+
+unsigned char* Image::loadPPMToChar(const char* filename, int* width, int* height ) {
+
+   FILE* fp;
+   int i, w, h, d;
+   unsigned char* image;
+   char head[70];		// max line <= 70 in PPM (per spec).
+
+   fp = fopen( filename, "rb" );
+   if ( !fp ) {
+      perror(filename);
+      return NULL;
+   }
+
+   // Grab first two chars of the file and make sure that it has the
+   // correct magic cookie for a raw PPM file.
+   fgets(head, 70, fp);
+//   if (strncmp(head, "P6", 2)) {
+//      fprintf(stderr, "%s: Not a raw PPM file\n", filename);
+//      return NULL;
+//   }
+
+   // Grab the three elements in the header (width, height, maxval).
+   i = 0;
+   while( i < 3 ) {
+      fgets( head, 70, fp );
+      if ( head[0] == '#' )		// skip comments.
+         continue;
+      if ( i == 0 )
+         i += sscanf( head, "%d %d %d", &w, &h, &d );
+      else if ( i == 1 )
+         i += sscanf( head, "%d %d", &h, &d );
+      else if ( i == 2 )
+         i += sscanf( head, "%d", &d );
+   }
+
+   // Grab all the image data in one fell swoop.
+   image = (unsigned char*) malloc( sizeof( unsigned char ) * w * h * 3 );
+   fread( image, sizeof( unsigned char ), w * h * 3, fp );
+   fclose( fp );
+
+   *width = w;
+   *height = h;
+   return image;
+
 }

@@ -59,6 +59,7 @@ class Image{
 		// erase drawing from texture
 		void erase(int x, int y);
 
+		GLuint textureID;
 	protected:
 
 		// image data
@@ -67,7 +68,6 @@ class Image{
 		int width;
 		int height;
 
-		GLuint textureID;
 
 		//texturing parameters
 		GLuint wrap;
@@ -80,4 +80,10 @@ class Image{
 
 		// parse ppm format
 		void loadPPM(const std::string& filename);
+
+		// parse ppm again
+		unsigned char* loadPPMToChar(const char* filename, int* width, int* height );
+
+
+		GLubyte* ttexture;
 };

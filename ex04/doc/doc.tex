@@ -53,6 +53,13 @@
 \maketitle
 
 \subsection*{1. Abbildungsfehler}
+Um das Dreieck mit einer Textur zu überziehen, muss jedem Pixel des Dreiecks ein Texel der Textur zugeordnet werden.
+Wenn die Größe des Dreicks nicht mit der Größe der Textur übereinstimmt, kommt es zwangsläufig zu Abtastfehlern.
+Bei einem Dreieck, das größer als die Textur ist, werden nebeneinander liegende Pixel häufig auf dasselbe Texel abgebildet (Pixel und Texel sind immer ganzzahlig).
+So kann es passieren, dass ein Texel mehrere Male auf dem Dreieck gezeichnet wird (Oversampling).
+Im umgekehrten Fall (Undersampling) ist die Textur wesentlich größer ("detailreicher") als das Dreieck.
+Nun werden nicht alle Texel ausgelesen, weil das Dreieck nicht genügend Pixel hat.
+Dadurch fehlen Teile der Textur auf dem gerenderten Dreieck.
 
 \subsection*{2. MipMap}
 

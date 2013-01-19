@@ -30,7 +30,7 @@ tu berlin
 using namespace std;
 using namespace glm;
 
-#define BRUSH_SIZE 5
+#define BRUSH_SIZE 1
 static GLubyte brush[BRUSH_SIZE][BRUSH_SIZE][4];
 static GLubyte brushColor[4] = {255, 0, 0, 0};
 static int brushIsSet = 0;
@@ -208,6 +208,10 @@ void Image::erase(int x, int y){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+
+
+	vec4* pixel = &data[getDataIndex(x, y, width, height)];
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_FLOAT_VEC4, pixel);
 
 	// END XXX
 }

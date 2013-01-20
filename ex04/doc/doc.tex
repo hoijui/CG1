@@ -77,6 +77,21 @@ Je größer des Objekt ist, desto mehr kommt es zu Verzerrungen an dessen Oberfl
 TODO: ich glaub die wollen hier eigentlich was anderes lesen
 
 \subsection*{5. Projektives Texture Mapping}
+Da die Bilder auf Objekte projiziert werden sollen, verhällt sich der imaginäre Projektor im Prinzip wie die "normale" Kamera aus der bei der Bildgenerierung.
+Deshalb werden auf die Vertexe (des oder der Polygons/-e) ähnliche Transformationen angewendet.
+Allerdings aus Sicht des Projektors.
+Das bedeutet konkret, dass zunächst einmal die Vertexe (in World-Space-Koordinaten) in den Projektorraum überführt werden müssen ("viewing transform", vergleichbar mit mit dem Applizieren der MODELVIEWMATRIX bei der Kamera).
+Dann werden diese Koordinaten noch in den Clipping-Space des Projektors übersetzt (entspricht der Übersetzung in den Clipping-Space der Kamera mit der PROJECTIONMATRIX)
+Zu guter Letzt müssen diese Koordinaten noch auf die Textur gemappt werden.
+D.h., dass die "Bildbreite" (des vom Projektor geworfenen "Bildes") und "-höhe" in den Intervall [0,1] übersetzt werden müssen, um daraus die uv-Koordinaten in der Textur ablesen zu können.
+
+Diese Technik kann zur Schattenberechnung genutzt werden. In diesem Fall gibt es keine konkrete Textur, sondern der Schatten eines Objekts wird als Textur gewählt.
+Dazu rendert man die Szene zunächst aus der Sicht der Lichtquelle (ähnlich dem Projektor oben).
+Aus den z-Koordinaten aller (aus Lichtperspektive sichtbaren) Fragmente kann man eine Tiefenkarte erstellen, welche dann als Textur dient.
+Im zweiten Schritt wird die Szene ganz normal aus der Kamerasicht gerendert.
+Allerdings wird für jedes (aus Kameraperspektive sichtbares) Fragment ebenfalls seine Koordinaten im Lichtraum ermittelt.
+Im Gegensatz zum normalen Projektiven Texturmapping wird nun aber nicht das entspechende Texel ausgelesen.
+Vielmehr kann man mit dem Vergleich zwischen dem z-Wert des Fragments und dem Lookup in der "Textur" (der Tiefenkarte) prüfen, wer näher an der Lichtquelle ist: das aktuelle Fragment oder das Fragment, mit dem ürsprünglich die Tiefenkarte erstellt wurde. Sollte zweiteres der Fall sein, so befindet sich das aktuelle Fragment im Schatten und muss andersfarbig gezeichnet werden.
 
 \end{document}
 

@@ -102,7 +102,10 @@ void Image::generateTexture() {
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	// OpenGL 3.0+
 	//glGenerateMipmap(GL_TEXTURE_2D);
+	// OpenGL 1.4+
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
 	// END XXX
 

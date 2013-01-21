@@ -25,43 +25,42 @@ tu berlin
 
 #include "glm/glm.hpp"
 
-class Image{
+class Image {
 
 	public:
-
 		// constructors
 		Image();
 		Image(int width, int height);
 		Image(const std::string& filename);
 
-		// destructor
+		/// destructor
 		~Image();
 
-		// load image from file
+		/// load image from file
 		void load(const std::string& filename);
 
-		// set modulation
+		/// set modulation
 		void setModulation(GLuint modulation);
-		// set texture filter
+		/// set texture filter
 		void setMinFilter(GLuint min);
 		void setMagFilter(GLuint mag);
 
-		// bind/unbind texture
+		/// bind/unbind texture
 		void bind();
 		void unbind();
 
-		// generate OpenGL texture
+		/// generate OpenGL texture
 		void generateTexture();
 
-		// draw in texture
+		/// draw in texture
 		void paint(int x, int y);
 
-		// erase drawing from texture
+		/// erase drawing from texture
 		void erase(int x, int y);
 
 		GLuint textureID;
-	protected:
 
+	protected:
 		// image data
 		std::vector<glm::vec4> data;
 		// dimensions
@@ -69,21 +68,20 @@ class Image{
 		int height;
 
 
-		//texturing parameters
+		// texturing parameters
 		GLuint wrap;
 		GLuint mag;
 		GLuint min;
 		GLuint modulate;
 
-		// read a pixel from image
+		/// read a pixel from image
 		glm::vec4 get(int x, int y);
 
-		// parse ppm format
+		/// parse ppm format
 		void loadPPM(const std::string& filename);
 
-		// parse ppm again
+		/// parse ppm again
 		unsigned char* loadPPMToChar(const char* filename, int* width, int* height );
-
 
 		GLubyte* ttexture;
 };

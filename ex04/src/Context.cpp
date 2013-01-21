@@ -27,23 +27,23 @@ using namespace std;
 using namespace glm;
 
 // screen size
-static vec2 screen= vec2(1024, 512);
+static vec2 screen = vec2(1024, 512);
 
 
 // initial window position
-static const vec2 position= vec2(100, 100);
+static const vec2 position = vec2(100, 100);
 
 // gap between subwindows
-static const int GAP= 3;
+static const int GAP = 3;
 
 // window title
-static const string title= "cg1 assignment 4 - texturing";
+static const string title = "cg1 assignment 4 - texturing";
 
 // light and material
-GLfloat Context::materialAmbient[]= {0.5, 0.5, 0.5, 1.0};
-GLfloat Context::materialSpecular[]= {0.3, 0.3, 0.3, 1.0};
-GLfloat Context::materialShininess[]= { 3.0 };
-GLfloat Context::lightModelAmbient[]= { 0.3, 0.3, 0.3 };
+GLfloat Context::materialAmbient[] = {0.5, 0.5, 0.5, 1.0};
+GLfloat Context::materialSpecular[] = {0.3, 0.3, 0.3, 1.0};
+GLfloat Context::materialShininess[] = { 3.0 };
+GLfloat Context::lightModelAmbient[] = { 0.3, 0.3, 0.3 };
 
 
 // windows
@@ -51,7 +51,7 @@ static GLuint mainWindow, textureWindow, worldWindow;
 
 
 // display callback for GLUT
-void Context::display(void){
+void Context::display() {
 
 	// select main window
 	glutSetWindow(mainWindow);
@@ -74,7 +74,7 @@ void Context::display(void){
 }
 
 // reshape-callback for GLUT
-static void reshape(int width, int height){
+static void reshape(int width, int height) {
 
 	// select main window
 	glutSetWindow(mainWindow);
@@ -86,10 +86,11 @@ static void reshape(int width, int height){
 	glLoadIdentity();
 	glutPostRedisplay();
 
-	screen= vec2(width, height);
+	screen = vec2(width, height);
 
-	width-=3*GAP; height-=2*GAP;
-	width/=2;
+	width -= 3*GAP;
+	height -= 2*GAP;
+	width /= 2;
 
 	// select texture window
 	glutSetWindow(textureWindow);
@@ -101,7 +102,7 @@ static void reshape(int width, int height){
 
 	// select world window
 	glutSetWindow(worldWindow);
-	glutPositionWindow(width+2*GAP, GAP);
+	glutPositionWindow(width + 2*GAP, GAP);
 	glutReshapeWindow(width, height);
 	World::reshape(width, height);
 	// request redisplay
@@ -109,7 +110,7 @@ static void reshape(int width, int height){
 }
 
 // create (sub-) windows
-static void createWindows(void){
+static void createWindows() {
 
 	glutInitWindowPosition(position.x, position.y);
 	glutInitWindowSize(screen.x, screen.y);
@@ -118,8 +119,8 @@ static void createWindows(void){
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(Common::keyPressed);
 
-	float subWidth= (screen.x - 3*GAP)/2;
-	float subHeight= screen.y - 2*GAP;
+	float subWidth = (screen.x - 3*GAP) / 2;
+	float subHeight = screen.y - 2*GAP;
 
 	glutSetOption(GLUT_RENDERING_CONTEXT, GLUT_USE_CURRENT_CONTEXT);
 
@@ -131,24 +132,27 @@ static void createWindows(void){
 	glutPassiveMotionFunc(Texture::mouseMoved);
 	glutCreateMenu(Texture::menu);
 	glutKeyboardFunc(Common::keyPressed);
-	for(int i= 0; i<Texture::numOptions; i++) glutAddMenuEntry(Texture::menuText[i].c_str(), Texture::menuOptions[i]);
+	for (int i = 0; i < Texture::numOptions; i++) {
+		glutAddMenuEntry(Texture::menuText[i].c_str(), Texture::menuOptions[i]);
+	}
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
-	worldWindow= glutCreateSubWindow(mainWindow, subWidth + 2*GAP, GAP, subWidth, subHeight);
+	worldWindow = glutCreateSubWindow(mainWindow, subWidth + 2*GAP, GAP, subWidth, subHeight);
 	glutDisplayFunc(World::display);
 	glutReshapeFunc(World::reshape);
 	glutMouseFunc(World::mousePressed);
 	glutMotionFunc(World::mouseDragged);
 	glutCreateMenu(World::menu);
 	glutKeyboardFunc(Common::keyPressed);
-	for(int i= 0; i<World::numOptions; i++) glutAddMenuEntry(World::menuText[i].c_str(), World::menuOptions[i]);
+	for (int i = 0; i < World::numOptions; i++) {
+		glutAddMenuEntry(World::menuText[i].c_str(), World::menuOptions[i]);
+	}
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
-
 }
 
 // initialize OpenGL context
 // XXX: NEEDS TO BE IMPLEMENTED
-void Context::init(int argc, char **argv){
+void Context::init(int argc, char **argv) {
 
 	// create window with glut
 	glutInit(&argc, argv);
@@ -161,7 +165,8 @@ void Context::init(int argc, char **argv){
 	// XXX
 
 	// INSERT YOUR CODE HERE
-	//    glGenTextures(1, &Context::textureID);
+	//glGenTextures(1, &Context::textureID);
+	// TODO
 
 	// END XXX
 

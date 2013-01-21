@@ -12,38 +12,38 @@ tu berlin
 
 #include <string>
 
-namespace Common{
+namespace Common {
 
-	// common keyboard callback
+	/// common keyboard callback
 	void keyPressed(unsigned char key, int x, int y);
-};
+}
 
-namespace Texture{
+namespace Texture {
 
 	extern int menuOptions[];
 	extern std::string menuText[];
 	extern int numOptions;
-	extern glm::vec2 previousMouse; // previous mouse position
+	extern glm::vec2 previousMouse; ///< previous mouse position
 
 
-	void display(void);
+	void display();
 	void reshape(int width, int height);
 	void mousePressed(int button, int state, int x, int y);
 	void mouseDragged(int x, int y);
 	void mouseMoved(int x, int y);
 	void menu(int value);
-};
+}
 
-namespace World{
+namespace World {
 
 	extern int menuOptions[];
 	extern std::string menuText[];
 	extern int numOptions;
-	extern glm::vec2 previousMouse; // previous mouse position
+	extern glm::vec2 previousMouse; ///< previous mouse position
 
-	void display(void);
+	void display();
 	void reshape(int width, int height);
 	void mousePressed(int button, int state, int x, int y);
 	void mouseDragged(int x, int y);
 	void menu(int value);
-};
+}

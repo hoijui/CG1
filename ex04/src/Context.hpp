@@ -21,20 +21,20 @@ tu berlin
 #include <string>
 #include "glm/glm.hpp"
 
-namespace Context{
+namespace Context {
 
-	// material ambient color
+	/// material ambient color
 	extern GLfloat materialAmbient[4];
-	// material specular color
+	/// material specular color
 	extern GLfloat materialSpecular[4];
-	// material shininess
+	/// material shininess
 	extern GLfloat materialShininess[1];
-	// ambient color
+	/// ambient color
 	extern GLfloat lightModelAmbient[3];
 
-	// intialization
+	/// intialization
 	void init(int argc, char **argv);
 
-	// redisplay all windows
-	void display(void);
-};
+	/// redisplay all windows
+	void display();
+}

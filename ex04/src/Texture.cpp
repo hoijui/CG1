@@ -33,7 +33,7 @@ using namespace std;
 static const float PI= 3.14159265358979323846264338327950288;
 
 // current state of mouse action
-static enum{
+static enum {
 	ROTATE, SHIFT_XY, SHIFT_Z, SCALE, NO_DRAG, DRAW, ERASE
 } drag= NO_DRAG;
 
@@ -69,7 +69,7 @@ static int defaultTextureIndex = 1;
 
 // calculate cursor position
 // XXX: NEEDS TO BE IMPLEMENTED
-static void updateCursor(int x, int y){
+static void updateCursor(int x, int y) {
 
 	// XXX
 
@@ -87,17 +87,16 @@ static void updateCursor(int x, int y){
 	// END XXX
 }
 
-static void reset(){
+static void reset() {
 
-	rotation= vec2(0); // current rotation of object
-	shift= vec3(0); // offset
-	fov= 60.0;
+	rotation = vec2(0); // current rotation of object
+	shift = vec3(0); // offset
+	fov = 60.0;
 }
 
-void Common::keyPressed(unsigned char key, int x, int y){
+void Common::keyPressed(unsigned char key, int x, int y) {
 
-	switch (key){
-
+	switch (key) {
 		case 'q':
 		case 'Q':
 			exit(EXIT_SUCCESS);
@@ -108,11 +107,11 @@ void Common::keyPressed(unsigned char key, int x, int y){
 			break;
 
 		case 's':
-			scale*=0.9;
+			scale *= 0.9;
 			break;
 
 		case 'S':
-			scale*=1.1;
+			scale *= 1.1;
 			break;
 
 		default:
@@ -124,7 +123,7 @@ void Common::keyPressed(unsigned char key, int x, int y){
 
 // draw a full screen quad
 // XXX: NEEDS TO BE IMPLEMENTED
-static void fullScreenQuad(){
+static void fullScreenQuad() {
 	// XXX
 
 	// INSERT YOUR CODE HERE
@@ -154,7 +153,7 @@ string textures[]= {"", "data/earthcyl2.ppm", "data/earth2.ppm", "data/earthligh
 
 vec2 Texture::previousMouse; // previous mouse position
 
-void Texture::reshape(int width, int height){
+void Texture::reshape(int width, int height) {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -164,14 +163,14 @@ void Texture::reshape(int width, int height){
 
 	gluOrtho2D(0, width, 0, height);
 
-	screen= vec2(width, height);
+	screen = vec2(width, height);
 }
 
 
 
 // display texture
 // XXX: NEEDS TO BE IMPLEMENTED
-void Texture::display(void){
+void Texture::display() {
 
 	// setup model matrix
 	glMatrixMode(GL_MODELVIEW);
@@ -199,14 +198,16 @@ void Texture::display(void){
 	glutSwapBuffers();
 }
 
-void Texture::mousePressed(int button, int state, int x, int y){
+void Texture::mousePressed(int button, int state, int x, int y) {
 
-	if(button == GLUT_DOWN) previousMouse= vec2(x, y);
+	if (button == GLUT_DOWN) {
+		previousMouse = vec2(x, y);
+	}
 }
 
 // mouse dragged callback
 // XXX: NEEDS TO BE IMPLEMENTED
-void Texture::mouseDragged(int x, int y){
+void Texture::mouseDragged(int x, int y) {
 
 	// paint on texture
 	// XXX
@@ -227,9 +228,9 @@ void Texture::mouseDragged(int x, int y){
 	Context::display();
 }
 
-void Texture::mouseMoved(int x, int y){
+void Texture::mouseMoved(int x, int y) {
 
-	if (x > 0 && x < screen.x && y > 0 && y < screen.y){
+	if (x > 0 && x < screen.x && y > 0 && y < screen.y) {
 		updateCursor(x, y);
 		Context::display();
 	}
@@ -237,9 +238,9 @@ void Texture::mouseMoved(int x, int y){
 
 // menu callback
 // XXX: NEEDS TO BE IMPLEMENTED
-void Texture::menu(int value){
+void Texture::menu(int value) {
 
-	switch(value){
+	switch(value) {
 		case 1:
 		case 2:
 		case 3:
@@ -258,14 +259,16 @@ void Texture::menu(int value){
 		case 16:
 			texture.load(textures[value]);
 			texture.generateTexture();
-			if(value<6) environmentMapping= false;
-			else if(value<13) environmentMapping= true;
+			if (value < 6)
+				environmentMapping = false;
+			else if (value < 13)
+				environmentMapping = true;
 			break;
 		case 17:
-			drag= DRAW;
+			drag = DRAW;
 			break;
 		case 18:
-			drag= ERASE;
+			drag = ERASE;
 			break;
 //	"FILTERING", "    mag: NEAREST",  "    mag: LINEAR", "    min: NEAREST" , "    min: LINEAR", "    min: NEAREST_MIPMAP_NEAREST  ", "    min: LINEAR_MIPMAP_NEAREST", "//   min: NEAREST_MIPMAP_LINEAR", "    min: LINEAR_MIPMAP_LINEAR"};
 
@@ -322,7 +325,7 @@ int World::numOptions= 23;
 
 vec2 World::previousMouse;
 
-void World::reshape(int width, int height){
+void World::reshape(int width, int height) {
 
 	// setup projection matrix  glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -330,27 +333,27 @@ void World::reshape(int width, int height){
 	// Set the viewport to be the entire window
 	glViewport(0, 0, width, height);
 
-	cameraZ= 1 / tan(fov/180.0);
+	cameraZ = 1 / tan(fov / 180.0);
 	// near and far plane
-	nearPlane= cameraZ/10.0;
-	farPlane= cameraZ*10.0;
+	nearPlane = cameraZ / 10.0;
+	farPlane = cameraZ * 10.0;
 
-	gluPerspective(fov, width/height, nearPlane, farPlane);
+	gluPerspective(fov, width / height, nearPlane, farPlane);
 
-	screen= vec2(width, height);
+	screen = vec2(width, height);
 }
 
 // display callback
 // XXX: NEEDS TO BE IMPLEMENTED
-void World::display(void){
+void World::display() {
 
 	glClearColor(0.2, 0.2, 0.2, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//position the camera at (0,0,cameraZ) looking down the
-	//negative z-axis at (0,0,0)
+	// position the camera at (0,0,cameraZ) looking down the
+	// negative z-axis at (0,0,0)
 	gluLookAt(0.0, 0.0, cameraZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	GLfloat lightPosition[]= { 5.0, 5.0, 5.0, 0.0 };
@@ -367,8 +370,8 @@ void World::display(void){
 	glRotatef(rotation.x, 1.0f, 0.0f, 0.0f);
 	glRotatef(rotation.y, 0.0f, 1.0f, 0.0f);
 
-	//show coordinate system
-	if(showCoordinates){
+	// show coordinate system
+	if (showCoordinates) {
 		glDisable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
 		glBegin(GL_LINES);
@@ -387,7 +390,7 @@ void World::display(void){
 	}
 
 	// show center of spherical mapping
-	if(showOrigin){
+	if (showOrigin) {
 		glDisable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);
 		glColor3f(1.0, 1.0, 0.0);
@@ -411,8 +414,10 @@ void World::display(void){
 
 	glScalef(scale, scale, scale);
 
-	if(doLighting) glEnable(GL_LIGHTING);
-	else glDisable(GL_LIGHTING);
+	if (doLighting)
+		glEnable(GL_LIGHTING);
+	else
+		glDisable(GL_LIGHTING);
 
 	// draw the geometry
 
@@ -420,14 +425,14 @@ void World::display(void){
 	// XXX
 
 	// INSERT YOUR CODE HERE
+	// TODO
 
 	// END XXX
 
-	glColor3f(1,1,1);
+	glColor3f(1, 1, 1);
 
 
-	if(drawRect){
-
+	if (drawRect) {
 		// draw a textured quad
 		// XXX
 
@@ -435,7 +440,7 @@ void World::display(void){
 		glEnable(GL_TEXTURE_2D);
 		fullScreenQuad();
 		glDisable(GL_TEXTURE_2D);
-
+		// TODO
 
 		// END XXX
 	}
@@ -444,34 +449,33 @@ void World::display(void){
 	// XXX
 
 	// INSERT YOUR CODE HERE
-
+	else {
+		// TODO
+	}
 
 	// END XXX
-
-
 
 	glutSwapBuffers();
 }
 
-void World::mousePressed(int button, int state, int x, int y){
+void World::mousePressed(int button, int state, int x, int y) {
 
 	int modifier;
 
-	switch(button){
+	switch (button) {
 		case GLUT_LEFT_BUTTON:
-			if(state == GLUT_DOWN){
+			if (state == GLUT_DOWN) {
 				previousMouse= vec2(x, y);
 				modifier = glutGetModifiers();
-				if(modifier & GLUT_ACTIVE_CTRL)
+				if (modifier & GLUT_ACTIVE_CTRL)
 					drag = SHIFT_XY;
-				else if(modifier & GLUT_ACTIVE_SHIFT)
+				else if (modifier & GLUT_ACTIVE_SHIFT)
 					drag = SHIFT_Z;
-				else if(modifier & GLUT_ACTIVE_ALT)
+				else if (modifier & GLUT_ACTIVE_ALT)
 					drag = SCALE;
 				else
 					drag = ROTATE;
-			}
-			else if(state == GLUT_UP){
+			} else if (state == GLUT_UP) {
 				drag = NO_DRAG;
 			}
 			break;
@@ -479,38 +483,39 @@ void World::mousePressed(int button, int state, int x, int y){
 	}
 }
 
-void World::mouseDragged(int x, int y){
-	switch(drag){
+void World::mouseDragged(int x, int y) {
+
+	switch (drag) {
 		case ROTATE:
-			rotation.y+= x - previousMouse.x;
-			rotation.x+= y - previousMouse.y;
+			rotation.y += x - previousMouse.x;
+			rotation.x += y - previousMouse.y;
 			break;
 		case SHIFT_XY:
-			shift.x+= (x - previousMouse.x) / 50.0;
-			shift.y-= (y - previousMouse.y) / 50.0;
+			shift.x += (x - previousMouse.x) / 50.0;
+			shift.y -= (y - previousMouse.y) / 50.0;
 			break;
 		case SHIFT_Z:
-			shift.z+= ((x - previousMouse.x) - (y - previousMouse.y)) / 50.0;
+			shift.z += ((x - previousMouse.x) - (y - previousMouse.y)) / 50.0;
 			break;
 		case SCALE:
-			scale+=((x - previousMouse.x) - (y - previousMouse.y)) / 50.0;
+			scale += ((x - previousMouse.x) - (y - previousMouse.y)) / 50.0;
 			break;
 		default:
 			break;
 	}
-	previousMouse= vec2(x, y);
+	previousMouse = vec2(x, y);
 	Context::display();
 }
 
 
 // menu callback
 // XXX: NEEDS TO BE IMPLEMENTED
-void World::menu(int value){
+void World::menu(int value) {
 
-	switch(value){
+	switch(value) {
 		case 0:
 		case 1:
-			drawRect= true;
+			drawRect = true;
 			break;
 		case 2:
 		case 3:
@@ -528,40 +533,44 @@ void World::menu(int value){
 			// XXX
 
 			// INSERT YOUR CODE HERE
+			// TODO
 
 			// END XXX
-			drawRect= false;
+			drawRect = false;
 			break;
 		case 14:
 			// no model should be displayed with this option selected
 			// XXX
 
 			// INSERT YOUR CODE HERE
+			// TODO
 
 			// END XXX
 			break;
 		case 15:
-			doLighting= !doLighting;
+			doLighting = !doLighting;
 			break;
 		case 16:
-			showTexture= !showTexture;
+			showTexture = !showTexture;
 			break;
 		case 17:
-			showCoordinates= !showCoordinates;
+			showCoordinates = !showCoordinates;
 			break;
 		case 18:
 			showOrigin= !showOrigin;
 			break;
 		case 19:
-			if(modulation==GL_MODULATE) modulation= GL_DECAL;
-			else  modulation= GL_MODULATE;
+			if (modulation == GL_MODULATE)
+				modulation = GL_DECAL;
+			else
+				modulation = GL_MODULATE;
 			texture.setModulation(modulation);
 			break;
 		case 20:
-			textureCorrection= !textureCorrection;
+			textureCorrection = !textureCorrection;
 			break;
 		case 21:
-			environmentMapping= !environmentMapping;
+			environmentMapping = !environmentMapping;
 			break;
 		default:
 			break;

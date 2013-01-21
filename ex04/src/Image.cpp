@@ -36,10 +36,18 @@ static GLubyte brushColor[4] = {255, 0, 0, 0};
 static int brushIsSet = 0;
 
 
-Image::Image() : width(0), height(0), wrap(GL_CLAMP_TO_BORDER), min(GL_LINEAR), mag(GL_LINEAR), modulate(GL_MODULATE), textureID(0){
+Image::Image()
+	: width(0)
+	, height(0)
+	, wrap(GL_CLAMP_TO_BORDER)
+	, min(GL_LINEAR)
+	, mag(GL_LINEAR)
+	, modulate(GL_MODULATE)
+	, textureID(0)
+{
 }
 
-	Image::Image(int width, int height)
+Image::Image(int width, int height)
 	: width(width)
 	, height(height)
 	, data(width*height)
@@ -47,21 +55,28 @@ Image::Image() : width(0), height(0), wrap(GL_CLAMP_TO_BORDER), min(GL_LINEAR), 
 	, min(GL_LINEAR)
 	, mag(GL_LINEAR)
 	, modulate(GL_MODULATE)
-	  , textureID(0)
-{}
+	, textureID(0)
+{
+}
 
-Image::Image(const std::string& filename) : wrap(GL_CLAMP_TO_BORDER), min(GL_LINEAR), mag(GL_LINEAR), modulate(GL_MODULATE), textureID(0){
+Image::Image(const std::string& filename)
+	: wrap(GL_CLAMP_TO_BORDER)
+	, min(GL_LINEAR)
+	, mag(GL_LINEAR)
+	, modulate(GL_MODULATE)
+	, textureID(0)
+{
 	load(filename);
 }
 
-Image::~Image(){
+Image::~Image() {
 }
 
 // generate OpenGL texture
 // XXX: NEEDS TO BE IMPLEMENTED
-void Image::generateTexture(){
+void Image::generateTexture() {
 
-	if(textureID==0){
+	if (textureID == 0) {
 		// generate texture id
 		// XXX
 
@@ -95,14 +110,14 @@ void Image::generateTexture(){
 	// XXX
 
 	// INSERT YOUR CODE HERE
-	// doesn't work :/
+	// FIXME doesn't work :/
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT_VEC4, &data);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, ttexture);
 
 	// END XXX
 }
 
-void Image::setMinFilter(GLuint min){
+void Image::setMinFilter(GLuint min) {
 	this->min= min;
 
 	// set texture parameter
@@ -116,7 +131,7 @@ void Image::setMinFilter(GLuint min){
 
 // set magnifying filter
 // XXX: NEEDS TO BE IMPLEMENTED
-void Image::setMagFilter(GLuint mag){
+void Image::setMagFilter(GLuint mag) {
 
 	this->mag= mag;
 
@@ -129,13 +144,13 @@ void Image::setMagFilter(GLuint mag){
 	// END XXX
 }
 
-void Image::setModulation(GLuint modulation){
-	this->modulate= modulation;
+void Image::setModulation(GLuint modulation) {
+	this->modulate = modulation;
 }
 
 // bind texture
 // XXX: NEEDS TO BE IMPLEMENTED
-void Image::bind(){
+void Image::bind() {
 	// bind texture
 	// XXX
 
@@ -155,7 +170,7 @@ void Image::bind(){
 
 // unbind texture
 // XXX: NEEDS TO BE IMPLEMENTED
-void Image::unbind(){
+void Image::unbind() {
 	// XXX
 
 	// INSERT YOUR CODE HERE
@@ -169,7 +184,7 @@ int getDataIndex(int x, int y,int width, int height) {
 
 // read a pixel from image
 // XXX: NEEDS TO BE IMPLEMENTED
-vec4 Image::get(int x, int y){
+vec4 Image::get(int x, int y) {
 
 	// XXX
 
@@ -182,7 +197,7 @@ vec4 Image::get(int x, int y){
 
 // draw in texture
 // XXX: NEEDS TO BE IMPLEMENTED
-void Image::paint(int x, int y){
+void Image::paint(int x, int y) {
 	// XXX
 
 	// INSERT YOUR CODE HERE
@@ -204,24 +219,23 @@ void Image::paint(int x, int y){
 
 // erase drawing from texture
 // XXX: NEEDS TO BE IMPLEMENTED
-void Image::erase(int x, int y){
+void Image::erase(int x, int y) {
 	// XXX
 
 	// INSERT YOUR CODE HERE
-
-
 	vec4* pixel = &data[getDataIndex(x, y, width, height)];
 	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_FLOAT_VEC4, pixel);
 
 	// END XXX
 }
 
-void Image::load(const std::string& filename){
+void Image::load(const std::string& filename) {
 
 	data.clear();
 
-	if(filename.substr(filename.size()-4, 4) == ".ppm") loadPPM(filename);
-	else{
+	if (filename.substr(filename.size()-4, 4) == ".ppm") {
+		loadPPM(filename);
+	} else {
 		cerr << "file " << filename << " is not a PPM file" << endl;
 		return;
 	}
@@ -229,11 +243,11 @@ void Image::load(const std::string& filename){
 	ttexture = (GLubyte*) loadPPMToChar(filename.c_str(), &width, &height);
 }
 
-void Image::loadPPM(const std::string& filename){
+void Image::loadPPM(const std::string& filename) {
 
 	ifstream file(filename.c_str(), ios::binary);
 
-	if(!file.is_open()){
+	if (!file.is_open()) {
 		cerr << "opening file " << filename << " failed" << endl;
 		return;
 	}
@@ -242,17 +256,16 @@ void Image::loadPPM(const std::string& filename){
 	// correct magic cookie for a raw PPM file.
 	string magic;
 	getline(file, magic);
-	if(magic.substr(0, 2) != "P6"){
+	if (magic.substr(0, 2) != "P6") {
 		cerr << "File " << filename << " is not a raw PPM file" << endl;
 		return;
 	}
 
 	// grab the three elements in the header (width, height, maxval).
 	string dimensions;
-	do{
+	do {
 		getline(file, dimensions);
-	}
-	while(dimensions[0] == '#');
+	} while(dimensions[0] == '#');
 
 	stringstream(dimensions) >> width >> height;
 
@@ -266,8 +279,8 @@ void Image::loadPPM(const std::string& filename){
 	file.close();
 
 	data.resize(width*height);
-	for(int y = 0; y < height; y++){
-		for(int x = 0; x < width; x++){
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
 			data[y*width+x]= vec4((unsigned char)raw[(height - y-1) * width * 3 + 3*x], (unsigned char)raw[(height - y-1) * width * 3 + 3*x + 1], (unsigned char)raw[(height - y-1) * width * 3 + 3*x + 2], maxValue);
 			data[y*width+x]/= maxValue;
 			//cout << data[i].r << " " + data[i].g << " " + data[i].b << " " + data[i].a << endl;
@@ -281,46 +294,46 @@ void Image::loadPPM(const std::string& filename){
 
 unsigned char* Image::loadPPMToChar(const char* filename, int* width, int* height ) {
 
-   FILE* fp;
-   int i, w, h, d;
-   unsigned char* image;
-   char head[70];		// max line <= 70 in PPM (per spec).
+	FILE* fp;
+	int i, w, h, d;
+	unsigned char* image;
+	char head[70];		// max line <= 70 in PPM (per spec).
 
-   fp = fopen( filename, "rb" );
-   if ( !fp ) {
-      perror(filename);
-      return NULL;
-   }
+	fp = fopen( filename, "rb" );
+	if (!fp) {
+		perror(filename);
+		return NULL;
+	}
 
-   // Grab first two chars of the file and make sure that it has the
-   // correct magic cookie for a raw PPM file.
-   fgets(head, 70, fp);
-//   if (strncmp(head, "P6", 2)) {
-//      fprintf(stderr, "%s: Not a raw PPM file\n", filename);
-//      return NULL;
-//   }
+	// Grab first two chars of the file and make sure that it has the
+	// correct magic cookie for a raw PPM file.
+	fgets(head, 70, fp);
+//	if (strncmp(head, "P6", 2)) {
+//		fprintf(stderr, "%s: Not a raw PPM file\n", filename);
+//	return NULL;
+//	}
 
-   // Grab the three elements in the header (width, height, maxval).
-   i = 0;
-   while( i < 3 ) {
-      fgets( head, 70, fp );
-      if ( head[0] == '#' )		// skip comments.
-         continue;
-      if ( i == 0 )
-         i += sscanf( head, "%d %d %d", &w, &h, &d );
-      else if ( i == 1 )
-         i += sscanf( head, "%d %d", &h, &d );
-      else if ( i == 2 )
-         i += sscanf( head, "%d", &d );
-   }
+	// Grab the three elements in the header (width, height, maxval).
+	i = 0;
+	while (i < 3) {
+		fgets( head, 70, fp );
+		if ( head[0] == '#' )		// skip comments.
+			continue;
+		if ( i == 0 )
+			i += sscanf( head, "%d %d %d", &w, &h, &d );
+		else if ( i == 1 )
+			i += sscanf( head, "%d %d", &h, &d );
+		else if ( i == 2 )
+			i += sscanf( head, "%d", &d );
+	}
 
-   // Grab all the image data in one fell swoop.
-   image = (unsigned char*) malloc( sizeof( unsigned char ) * w * h * 3 );
-   fread( image, sizeof( unsigned char ), w * h * 3, fp );
-   fclose( fp );
+	// Grab all the image data in one fell swoop.
+	image = (unsigned char*) malloc( sizeof( unsigned char ) * w * h * 3 );
+	fread( image, sizeof( unsigned char ), w * h * 3, fp );
+	fclose( fp );
 
-   *width = w;
-   *height = h;
-   return image;
+	*width = w;
+	*height = h;
 
+	return image;
 }

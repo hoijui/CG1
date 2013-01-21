@@ -1,13 +1,11 @@
 #include "GLSLShader.h"
 
 
-GLSLShader::GLSLShader():
-	vs_object(0),
-	fs_object(0)
+GLSLShader::GLSLShader()
+	: vs_object(0)
+	, fs_object(0)
 {
 }
-
-
 
 GLSLShader::~GLSLShader()
 {
@@ -18,12 +16,14 @@ GLSLShader::~GLSLShader()
 
 void GLSLShader::load(const string& name)
 {
-	vs_object = createShader(GL_VERTEX_SHADER, name+string(".vert"));
-	fs_object = createShader(GL_FRAGMENT_SHADER, name+string(".frag"));
+	vs_object = createShader(GL_VERTEX_SHADER, name + string(".vert"));
+	fs_object = createShader(GL_FRAGMENT_SHADER, name + string(".frag"));
 	prog_object = glCreateProgram();
 
-	if(vs_object)glAttachShader(prog_object, vs_object);
-	if(fs_object)glAttachShader(prog_object, fs_object);
+	if (vs_object)
+		glAttachShader(prog_object, vs_object);
+	if (fs_object)
+		glAttachShader(prog_object, fs_object);
 	glLinkProgram(prog_object);
 
 	printProgramLog(prog_object);
@@ -35,19 +35,21 @@ void GLSLShader::compileFromSource(const char* vertexShaderSource, const char* f
 	fs_object = createShaderFromSource(GL_FRAGMENT_SHADER, string(fragmentShaderSource));
 	prog_object = glCreateProgram();
 
-	if(vs_object)glAttachShader(prog_object, vs_object);
-	if(fs_object)glAttachShader(prog_object, fs_object);
+	if (vs_object)
+		glAttachShader(prog_object, vs_object);
+	if (fs_object)
+		glAttachShader(prog_object, fs_object);
 	glLinkProgram(prog_object);
 
 	printProgramLog(prog_object);
 }
 
-void GLSLShader::bindShader()const
+void GLSLShader::bindShader() const
 {
 	glUseProgram(prog_object);
 }
 
-void GLSLShader::unbindShader()const
+void GLSLShader::unbindShader() const
 {
 	glUseProgram(0);
 }
@@ -104,7 +106,7 @@ void printProgramLog(GLuint program)
 	glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLog_length);
 
 	// Some drivers return 1 as infoLog_length when the infoLog is an empty string
-	if(infoLog_length > 1)
+	if (infoLog_length > 1)
 	{
 		char* infoLog = new char[infoLog_length];
 		glGetProgramInfoLog(program, infoLog_length, 0, infoLog);
@@ -119,7 +121,7 @@ void printShaderLog(GLuint shader)
 	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLog_length);
 
 	// Some drivers return 1 as infoLog_length when the infoLog is an empty string
-	if(infoLog_length > 1)
+	if (infoLog_length > 1)
 	{
 		char* infoLog = new char[infoLog_length];
 		glGetShaderInfoLog(shader, infoLog_length, 0, infoLog);
@@ -142,7 +144,7 @@ const std::string readShaderSource(const std::string& file)
 
 	string str, contents;
 
-	while(getline(is,str))
+	while (getline(is,str))
 	{
 		contents += str;
 		contents += "\n";
@@ -158,7 +160,7 @@ GLuint createShaderFromSource(GLuint stype, const std::string& src)
 	glShaderSource(S, 1, &src_cstr, 0);
 	glCompileShader(S);
 
-	if(!check(S))
+	if (!check(S))
 	{
 		printShaderLog(S);
 		glDeleteShader(S);
@@ -172,10 +174,10 @@ GLuint createShader(GLuint stype, const std::string& file)
 	string str = readShaderSource(file);
 	assert(!str.empty());
 
-	if(!str.empty())
+	if (!str.empty())
 	{
 		GLuint shader = createShaderFromSource(stype, str);
-		if(!check(shader))
+		if (!check(shader))
 		{
 			cerr << file << endl;
 			printShaderLog(shader);

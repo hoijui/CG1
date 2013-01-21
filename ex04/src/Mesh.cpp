@@ -14,10 +14,10 @@
 #include <iostream>
 #include <cstdio>
 
-	Mesh::Mesh()
+Mesh::Mesh()
 	: smooth(true)
 	, surfaceDependentNormalWeighting(true)
-	  , renderNormals(false)
+	, renderNormals(false)
 {
 }
 
@@ -30,19 +30,19 @@ Mesh::Mesh(
 	, faces(faces)
 	, smooth(true)
 	, surfaceDependentNormalWeighting(true)
-	  , renderNormals(false)
+	, renderNormals(false)
 {
 	CalculateNormals();
 }
 
-	Mesh::Mesh(const Mesh& other)
+Mesh::Mesh(const Mesh& other)
 	: vertices(other.vertices)
 	, edges(other.edges)
 	, faces(other.faces)
 	, faceNormals(other.faceNormals)
 	, smooth(true)
 	, surfaceDependentNormalWeighting(true)
-	  , renderNormals(false)
+	, renderNormals(false)
 {
 }
 

@@ -1,5 +1,5 @@
-#ifndef GLSLSHADER_H
-#define GLSLSHADER_H
+#ifndef GLSL_SHADER_H
+#define GLSL_SHADER_H
 
 #include <string>
 #include <iostream>
@@ -28,66 +28,64 @@ using namespace std;
 
 
 /**
- *A class encaplulating (very quickly) a GLSL shader.
+ * A class encaplulating (very quickly) a GLSL shader.
  */
 class GLSLShader
 {
 	protected:
-		// OpenGL handle to the vertex shader
+		/// OpenGL handle to the vertex shader
 		GLuint vs_object;
-		// OpenGL handle to the fragment shader
+		/// OpenGL handle to the fragment shader
 		GLuint fs_object;
-		// OpenGL handle to the whole shader
+		/// OpenGL handle to the whole shader
 		GLuint prog_object;
 
 	public:
 		GLSLShader();
 		~GLSLShader();
 
-		// Load the shader from it's name (the path to the shader without extension .frag or .vert)
+		/// Load the shader from it's name (the path to the shader without extension .frag or .vert)
 		void load(const string& name);
 
-		// compile the shader from source directly
+		/// compile the shader from source directly
 		void compileFromSource(const char* vertexShaderSource, const char* fragmentShaderSource);
 
-		// Bind the shader to the openGL pipeline
+		/// Bind the shader to the openGL pipeline
 		void bindShader()const;
 
-		// Unbind the shader
+		/// Unbind the shader
 		void unbindShader()const;
 
-		// Set a float uniform variable
+		/// Set a float uniform variable
 		void setFloatParam(const char* pname, const float& value);
 
-		// Set a 2 component vector uniform parameter
+		/// Set a 2 component vector uniform parameter
 		void setVector2Param(const char* pname, const glm::vec2& value);
 
-		// Set a 3 component vector uniform parameter
+		/// Set a 3 component vector uniform parameter
 		void setVector3Param(const char* pname, const glm::vec3& value);
 
-		// Set a 4 component vector uniform parameter
+		/// Set a 4 component vector uniform parameter
 		void setVector4Param(const char* pname, const glm::vec4& value);
 
-		// Set a 4x4 matrix uniform parameter
+		/// Set a 4x4 matrix uniform parameter
 		void setMatrix4Param(const char* pname, const glm::mat4& value);
 
 };
 
-// Print the info log for a program if the status is not OK.
+/// Print the info log for a program if the status is not OK.
 void printProgramLog(GLuint program);
 
-// Print the info log for a shader if the status is not OK.
+/// Print the info log for a shader if the status is not OK.
 void printShaderLog(GLuint shader);
 
-// Get the source contained in a file as a string.
+/// Get the source contained in a file as a string.
 const std::string readShaderSourceource(const std::string& file);
 
-// Create a shader of type stype from a source
+/// Create a shader of type stype from a source
 GLuint createShaderFromSource(GLuint stype, const std::string& src);
 
-
-// Create a shader of type stype from a source sile
+/// Create a shader of type stype from a source sile
 GLuint createShader(GLuint stype, const std::string& file);
 
-
-#endif
+#endif // GLSL_SHADER_H

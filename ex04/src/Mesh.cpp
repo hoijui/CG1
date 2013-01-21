@@ -33,6 +33,7 @@ Mesh::Mesh(
 	, renderNormals(false)
 {
 	CalculateNormals();
+	CalculateSphericalTextureCoordinates();
 }
 
 Mesh::Mesh(const Mesh& other)
@@ -40,6 +41,8 @@ Mesh::Mesh(const Mesh& other)
 	, edges(other.edges)
 	, faces(other.faces)
 	, faceNormals(other.faceNormals)
+	, vertexNormals(other.vertexNormals)
+	, sphericalTexCoords(other.sphericalTexCoords)
 	, smooth(true)
 	, surfaceDependentNormalWeighting(true)
 	, renderNormals(false)
@@ -136,6 +139,7 @@ void Mesh::Center() {
 	}
 
 	CalculateNormals();
+	CalculateSphericalTextureCoordinates();
 }
 
 void Mesh::StdDist() {
@@ -150,6 +154,7 @@ void Mesh::StdDist() {
 	}
 
 	CalculateNormals();
+	CalculateSphericalTextureCoordinates();
 }
 
 void Mesh::CalculateNormals() {
@@ -219,6 +224,23 @@ void Mesh::CalculateVertexNormals() {
 	}
 }
 
+void Mesh::CalculateSphericalTextureCoordinates() {
+
+	sphericalTexCoords.clear();
+
+	const Vec3f middleRef = Vec3f(0.0f, 0.0f, 1.0f).normalize();
+	//const Vec3f middleShift = Vec3f(0.5f, 0.5f, 0.0f);
+	// fill with default (0, 0) coordinates
+	for (int v = 0; v < vertices.size(); ++v) {
+		//Vec3f texCoord = vertexNormals.at(v).normalize() - middleRef;
+		Vec3f texCoord = middleRef + ((vertexNormals.at(v).normalize() - middleRef) / 2);
+		// FIXME the above formula is not yet right!
+		texCoord /= 2;
+		texCoord += 0.5f;
+		sphericalTexCoords.push_back(texCoord);
+	}
+}
+
 void Mesh::SetSmoothRendering(bool enabled) {
 	this->smooth = enabled;
 }
@@ -257,7 +279,10 @@ void Mesh::renderFlat() const {
 		glNormal3f(normal.GetX(), normal.GetY(), normal.GetZ());
 		glBegin(GL_TRIANGLES); // HACK only works if verticeIndices.size() == 3
 		for (int v = 0; v < vertexIndices.size(); ++v) {
-			const Vec3f& vertex = vertices.at(vertexIndices.at(v));
+			const int vInd = vertexIndices.at(v);
+			const Vec3f& texCoord = sphericalTexCoords.at(vInd);
+			const Vec3f& vertex = vertices.at(vInd);
+			glTexCoord2f(texCoord.GetX(), texCoord.GetY());
 			glVertex3f(vertex.GetX(), vertex.GetY(), vertex.GetZ());
 		}
 		glEnd();
@@ -273,8 +298,10 @@ void Mesh::renderSmooth() const {
 		glBegin(GL_TRIANGLES); // HACK only works if verticeIndices.size() == 3
 		for (int v = 0; v < vertexIndices.size(); ++v) {
 			const int vInd = vertexIndices.at(v);
+			const Vec3f& texCoord = sphericalTexCoords.at(vInd);
 			const Vec3f& vertex = vertices.at(vInd);
 			const Vec3f& normal = vertexNormals.at(vInd);
+			glTexCoord2f(texCoord.GetX(), texCoord.GetY());
 			glNormal3f(normal.GetX(), normal.GetY(), normal.GetZ());
 			glVertex3f(vertex.GetX(), vertex.GetY(), vertex.GetZ());
 		}

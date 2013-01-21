@@ -21,6 +21,8 @@ class Mesh {
 		void CalculateFaceNormals();
 		void CalculateVertexNormals();
 
+		void CalculateSphericalTextureCoordinates();
+
 		void RenderFaces() const;
 		void renderFlat() const;
 		void renderSmooth() const;
@@ -64,6 +66,11 @@ class Mesh {
 		vector<Vec3f> faceNormals;
 		/** One normal per vertex, used for smooth (Gouraud) shading */
 		vector<Vec3f> vertexNormals;
+		/**
+		 * One texture coordinate per vertex, used for environment mapping.
+		 * We only actually use the first 2 entries of each of the Vec3f's.
+		 */
+		vector<Vec3f> sphericalTexCoords;
 		bool smooth;
 		bool surfaceDependentNormalWeighting;
 		bool renderNormals;

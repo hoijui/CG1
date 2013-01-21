@@ -26,6 +26,7 @@ tu berlin
 #include "Context.hpp"
 #include "Texture.hpp"
 #include "Image.hpp"
+#include "Mesh.h"
 
 using namespace glm;
 using namespace std;
@@ -321,6 +322,8 @@ string World::menuText[]= {"MODEL", "   Plane", "   Spiky Sphere", "   Car", "  
 
 static string models[]= {"", "", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
 
+static Mesh model;
+
 int World::numOptions= 23;
 
 vec2 World::previousMouse;
@@ -450,7 +453,7 @@ void World::display() {
 
 	// INSERT YOUR CODE HERE
 	else {
-		// TODO
+		model.Display();
 	}
 
 	// END XXX
@@ -533,7 +536,7 @@ void World::menu(int value) {
 			// XXX
 
 			// INSERT YOUR CODE HERE
-			// TODO
+			model = Mesh::loadOff(models[value]);
 
 			// END XXX
 			drawRect = false;
@@ -543,7 +546,7 @@ void World::menu(int value) {
 			// XXX
 
 			// INSERT YOUR CODE HERE
-			// TODO
+			drawRect = true;
 
 			// END XXX
 			break;

@@ -20,6 +20,16 @@ class Vec3f
 			y -= other.GetY();
 			z -= other.GetZ();
 		}
+		void operator+=(const float scalar) {
+			x += scalar;
+			y += scalar;
+			z += scalar;
+		}
+		void operator-=(const float scalar) {
+			x -= scalar;
+			y -= scalar;
+			z -= scalar;
+		}
 		void operator*=(const float scalar) {
 			x *= scalar;
 			y *= scalar;
@@ -36,6 +46,12 @@ class Vec3f
 		}
 		Vec3f operator-(const Vec3f& other) const {
 			return Vec3f(x - other.GetX(), y - other.GetY(),  z - other.GetZ());
+		}
+		Vec3f operator+(const float scalar) const {
+			return Vec3f(x + scalar, y + scalar,  z + scalar);
+		}
+		Vec3f operator-(const float scalar) const {
+			return Vec3f(x - scalar, y - scalar,  z - scalar);
 		}
 		Vec3f operator*(const float scalar) const {
 			return Vec3f(x * scalar, y * scalar,  z * scalar);

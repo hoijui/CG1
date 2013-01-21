@@ -327,7 +327,8 @@ vec2 World::previousMouse;
 
 void World::reshape(int width, int height) {
 
-	// setup projection matrix  glMatrixMode(GL_PROJECTION);
+	// setup projection matrix
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
 	// Set the viewport to be the entire window

@@ -425,7 +425,9 @@ void World::display() {
 	// XXX
 
 	// INSERT YOUR CODE HERE
-	// TODO
+	if (showTexture) {
+		glEnable(GL_TEXTURE_2D);
+	}
 
 	// END XXX
 
@@ -437,10 +439,7 @@ void World::display() {
 		// XXX
 
 		// INSERT YOUR CODE HERE
-		glEnable(GL_TEXTURE_2D);
 		fullScreenQuad();
-		glDisable(GL_TEXTURE_2D);
-		// TODO
 
 		// END XXX
 	}

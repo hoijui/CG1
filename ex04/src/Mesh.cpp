@@ -233,9 +233,11 @@ void Mesh::CalculateSphericalTextureCoordinates() {
 	// fill with default (0, 0) coordinates
 	for (int v = 0; v < vertices.size(); ++v) {
 		//Vec3f texCoord = vertexNormals.at(v).normalize() - middleRef;
-		Vec3f texCoord = middleRef + ((vertexNormals.at(v).normalize() - middleRef) / 2);
+		//Vec3f texCoord = middleRef + ((vertexNormals.at(v).normalize() - middleRef) / 2);
+		Vec3f texCoord = middleRef + ((vertexNormals.at(v).normalize() - middleRef) / 2.0f);
+		texCoord = texCoord.normalize();
 		// FIXME the above formula is not yet right!
-		texCoord /= 2;
+		texCoord /= 2.0f;
 		texCoord += 0.5f;
 		sphericalTexCoords.push_back(texCoord);
 	}

@@ -226,8 +226,13 @@ void Image::erase(int x, int y) {
 	// XXX
 
 	// INSERT YOUR CODE HERE
-	vec4* pixel = &data[getDataIndex(x, y, width, height)];
-	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_FLOAT_VEC4, pixel);
+	// FIXME: doesn't work :/
+	//vec4 pixel = get(x, y);
+	//glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, BRUSH_SIZE, BRUSH_SIZE, GL_RGBA, GL_FLOAT_VEC4, &pixel);
+
+	// *3 because we work in rgb
+	int index = 3 * (x + width * y);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &(ttexture[index]));
 
 	// END XXX
 }

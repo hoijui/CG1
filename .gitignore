@@ -5,3 +5,4 @@ target/
 *.swp
 CMakeLists.txt.user
 /ex04/src/data/
+/ex04/src/meshes

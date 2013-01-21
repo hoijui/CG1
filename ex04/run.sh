@@ -17,6 +17,13 @@ if [ ! -e data ]; then
 	ln -s ../src/data data
 fi
 
+if [ ! -e meshes ]; then
+	if [ ! -e ../src/meshes ]; then
+		ln -s ../../ex03/src/meshes ../src/meshes
+	fi
+	ln -s ../src/meshes meshes
+fi
+
 ARGUMENTS=${2} ${3} ${4}
 
 if [ "${1}" = "debug" ]; then

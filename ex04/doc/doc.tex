@@ -70,6 +70,11 @@ Eine MipMap bietet sich v.a. auch für Anwendungen an, in der texturierte Objekt
 Dann muss diese nicht immer wieder neu gefiltert werden.
 
 \subsection*{3. Zweischritt-Verfahren}
+Surface tangents of the object have to vary less then $\pi$ radian $= 180^{\circ}$ in every dimension.
+This is equivalent to the formulation:
+There has to exist at least one point in space,
+from to which we can connect a line to each point on the surface of the object,
+and this line does not intersect the object in any other point.
 
 \subsection*{4. Parametrisierung einer Environment Map}
 Die EM wird von einem einzigen (undendlich kleinen) Punkt in der Mitte des Objektes aus generiert.

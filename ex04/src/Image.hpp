@@ -63,6 +63,7 @@ class Image {
 	protected:
 		// image data
 		std::vector<glm::vec4> data;
+		std::vector<glm::vec4> originalData;
 		// dimensions
 		int width;
 		int height;

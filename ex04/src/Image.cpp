@@ -193,7 +193,7 @@ vec4 Image::get(int x, int y) {
 
 	// INSERT YOUR CODE HERE
 	int index = getDataIndex(x, y, width, height);
-	return data[index];
+	return originalData[index];
 
 	// END XXX
 }
@@ -296,6 +296,7 @@ void Image::loadPPM(const std::string& filename) {
 	}
 
 	raw.clear();
+	originalData = data;
 
 	std::cout << "Image " << filename << " loaded. width=" << width << " height=" << height << endl;
 }

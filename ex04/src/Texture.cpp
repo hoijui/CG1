@@ -15,18 +15,21 @@ tu berlin
 #elif _WIN32
 #include "win32/freeglut.h"
 #else
-#include <GL/freeglut.h>
+//#include <GL/freeglut.h>
 #endif
 
 #include <string>
 #include <iostream>
 
-#include "glm/glm.hpp"
+//#include "glm/glm.hpp"
 
+#include "GLSLShader.h"
 #include "Context.hpp"
 #include "Texture.hpp"
 #include "Image.hpp"
 #include "Mesh.h"
+
+#define DEBUG_SHADER 0
 
 using namespace glm;
 using namespace std;
@@ -46,8 +49,15 @@ static bool textureCorrection= true;
 static bool doLighting= true;
 static bool showCoordinates= true;
 static bool showOrigin= true;
-static bool environmentMapping= false;
-static bool drawRect= true;
+#if DEBUG_SHADER
+#define EM true
+#define DR false
+#else
+#define EM false
+#define DR true
+#endif
+static bool environmentMapping= EM;
+static bool drawRect= DR;
 
 static GLuint modulation= GL_MODULATE;
 
@@ -64,7 +74,18 @@ static GLfloat nearPlane;
 static GLfloat farPlane;
 
 static Image texture;
-static int defaultTextureIndex = 1;
+#if DEBUG_SHADER
+#define DTI 10
+#define DMI 13
+#else
+#define DTI 1
+#define DMI -1
+#endif
+static int defaultTextureIndex = DTI;
+static int defaultModelIndex = DMI;
+static int  isSet = 0;
+static int shaderIsLoaded = 0;
+GLSLShader myShader;
 
 /*************************************************************************************/
 
@@ -437,6 +458,15 @@ void World::display() {
 
 	glColor3f(1, 1, 1);
 
+	if (environmentMapping) {
+		if (!shaderIsLoaded) {
+			myShader.load("shaders/emBlinnPhong");
+			shaderIsLoaded = 1;
+		}
+		myShader.bindShader();
+	} else {
+		myShader.unbindShader();
+	}
 
 	if (drawRect) {
 		// draw a textured quad
@@ -453,6 +483,10 @@ void World::display() {
 
 	// INSERT YOUR CODE HERE
 	else {
+		if (defaultModelIndex != -1) {
+			model = Mesh::loadOff(models[defaultModelIndex]);
+			defaultModelIndex = -1;
+		}
 		model.Display();
 	}
 

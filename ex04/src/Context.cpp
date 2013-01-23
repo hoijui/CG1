@@ -13,9 +13,11 @@ tu berlin
 #elif _WIN32
 #include "win32/freeglut.h"
 #else
-#include <GL/freeglut.h>
+//#include <GL/freeglut.h>
 #endif
 
+  #include <GL/glew.h>
+  #include <GL/glut.h>
 #include <iostream>
 
 #include "glm/glm.hpp"
@@ -161,6 +163,10 @@ void Context::init(int argc, char **argv) {
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
+	if (GLEW_OK != glewInit()) {
+		std::cerr << "Error init GLEW." << std::endl;
+		exit( 0);
+	}
 	// generate texture ID
 	// XXX
 

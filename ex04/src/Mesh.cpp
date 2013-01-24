@@ -233,7 +233,15 @@ void Mesh::CalculateSphericalTextureCoordinates() {
 	// fill with default (0, 0) coordinates
 	for (int v = 0; v < vertices.size(); ++v) {
 		const Vec3f normal = vertexNormals.at(v).normalize();
-		Vec3f texCoord = Vec3f(asin(normal.GetX()), asin(-normal.GetY()), 0.0f) / M_PI + 0.5f;
+
+		float x = normal.GetX();
+		float y = normal.GetY();
+		float z = normal.GetZ();
+
+		float u = (M_PI + atan2(y, x)) / (2 * M_PI);
+		float v = atan2(sqrt(x*x + y*y), z) / M_PI;
+		Vec3f texCoord = Vec3f(u, v, 0.0f);
+
 		sphericalTexCoords.push_back(texCoord);
 	}
 }

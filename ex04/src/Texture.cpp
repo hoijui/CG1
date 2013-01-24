@@ -464,8 +464,6 @@ void World::display() {
 			shaderIsLoaded = 1;
 		}
 		myShader.bindShader();
-	} else {
-		myShader.unbindShader();
 	}
 
 	if (drawRect) {
@@ -489,7 +487,10 @@ void World::display() {
 		}
 		model.Display();
 	}
-
+	if (environmentMapping) { // if we used em, unbind shader afterwards
+		myShader.unbindShader();
+	}
+	// glDisable(GL_TEXTURE_2D); ???
 	// END XXX
 
 	glutSwapBuffers();

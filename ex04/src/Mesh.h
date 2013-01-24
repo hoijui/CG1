@@ -70,7 +70,7 @@ class Mesh {
 		 * One texture coordinate per vertex, used for environment mapping.
 		 * We only actually use the first 2 entries of each of the Vec3f's.
 		 */
-		vector<Vec3f> sphericalTexCoords;
+		vector< vector<Vec3f> > sphericalTexCoords;
 		bool smooth;
 		bool surfaceDependentNormalWeighting;
 		bool renderNormals;

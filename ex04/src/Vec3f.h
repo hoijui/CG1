@@ -81,6 +81,10 @@ class Vec3f
 		float GetY() const { return y; }
 		float GetZ() const { return z; }
 
+		void SetX(const float x) { this->x = x; }
+		void SetY(const float y) { this->y = y; }
+		void SetZ(const float z) { this->z = z; }
+
 	private:
 		float x, y, z;
 };

@@ -12,6 +12,7 @@
 #endif
 
 #include <iostream>
+#include <algorithm>
 #include <cstdio>
 
 Mesh::Mesh()
@@ -224,25 +225,97 @@ void Mesh::CalculateVertexNormals() {
 	}
 }
 
+static Vec3f calcTexCoord(const Vec3f& normal) {
+
+	float x = normal.GetX();
+	float y = normal.GetY();
+	float z = normal.GetZ();
+
+	float u = (M_PI + atan2(y, x)) / (2 * M_PI);
+	float v = atan2(sqrt(x*x + y*y), z) / M_PI;
+
+	return Vec3f(u, v, 0.0f);
+}
+
 void Mesh::CalculateSphericalTextureCoordinates() {
 
 	sphericalTexCoords.clear();
 
-	const Vec3f middleRef = Vec3f(0.0f, 0.0f, 1.0f).normalize();
 	//const Vec3f middleShift = Vec3f(0.5f, 0.5f, 0.0f);
 	// fill with default (0, 0) coordinates
-	for (int v = 0; v < vertices.size(); ++v) {
-		const Vec3f normal = vertexNormals.at(v).normalize();
+//	for (int v = 0; v < vertices.size(); ++v) {
+//		const Vec3f normal = vertexNormals.at(v).normalize();
 
-		float x = normal.GetX();
-		float y = normal.GetY();
-		float z = normal.GetZ();
+//		float x = normal.GetX();
+//		float y = normal.GetY();
+//		float z = normal.GetZ();
 
-		float u = (M_PI + atan2(y, x)) / (2 * M_PI);
-		float v = atan2(sqrt(x*x + y*y), z) / M_PI;
-		Vec3f texCoord = Vec3f(u, v, 0.0f);
+//		float u = (M_PI + atan2(y, x)) / (2 * M_PI);
+//		float v = atan2(sqrt(x*x + y*y), z) / M_PI;
 
-		sphericalTexCoords.push_back(texCoord);
+//		Vec3f texCoord = Vec3f(u, v, 0.0f);
+
+//		sphericalTexCoords.push_back(texCoord);
+//	}
+
+	for (int t = 0; t < faces.size(); ++t) {
+		const vector<int>& vertexIndices = faces.at(t);
+		const int vInd0 = vertexIndices.at(0);
+		const int vInd1 = vertexIndices.at(1);
+		const int vInd2 = vertexIndices.at(2);
+		Vec3f& norm0 = vertexNormals.at(vInd0);
+		Vec3f& norm1 = vertexNormals.at(vInd1);
+		Vec3f& norm2 = vertexNormals.at(vInd2);
+		Vec3f tc0 = calcTexCoord(norm0);
+		Vec3f tc1 = calcTexCoord(norm1);
+		Vec3f tc2 = calcTexCoord(norm2);
+		const float u0 = tc0.GetX();
+		const float u1 = tc1.GetX();
+		const float u2 = tc2.GetX();
+
+//		if (u0 > 0.9f) {
+//			if (u1 > 0.9f) {
+//				if (u2 < 0.1f) {
+//					tc2.SetX(1.0f);
+//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+//				}
+//			} else { // u1 <= 0.9f
+//				if (u2 < 0.1f) {
+//					tc0.SetX(0.0f);
+//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+//				} else { // u2 >= 0.9f
+//					tc1.SetX(1.0f);
+//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+//				}
+//			}
+//		} else { // u0 < 0.9f
+//			if (u1 < 0.1f) {
+//				if (u2 > 0.9f) {
+//					tc2.SetX(0.0f);
+//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+//				}
+//			} else { // u1 > 0.9f
+//				if (u2 < 0.1f) {
+//					tc1.SetX(0.0f);
+//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+//				} else {
+//					tc0.SetX(1.0f);
+//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+//				}
+//			}
+//		}
+//		const m01 = max(u0, u1);
+//		if (abs(ma01 - max(ma01, u2)) > 0.5) {
+
+//		} else if (abs(ma01 - max(ma01, u2)) > 0.5) {
+
+//		}
+
+		vector<Vec3f> faceTexCs;
+		faceTexCs.push_back(tc0);
+		faceTexCs.push_back(tc1);
+		faceTexCs.push_back(tc2);
+		sphericalTexCoords.push_back(faceTexCs);
 	}
 }
 
@@ -281,13 +354,13 @@ void Mesh::renderFlat() const {
 	for (int t = 0; t < faces.size(); ++t) {
 		const vector<int>& vertexIndices = faces.at(t);
 		const Vec3f& normal = faceNormals.at(t);
+		const vector<Vec3f>& texCoords = sphericalTexCoords.at(t);
 		glNormal3f(normal.GetX(), normal.GetY(), normal.GetZ());
 		glBegin(GL_TRIANGLES); // HACK only works if verticeIndices.size() == 3
 		for (int v = 0; v < vertexIndices.size(); ++v) {
 			const int vInd = vertexIndices.at(v);
-			const Vec3f& texCoord = sphericalTexCoords.at(vInd);
 			const Vec3f& vertex = vertices.at(vInd);
-			glTexCoord2f(texCoord.GetX(), texCoord.GetY());
+			glTexCoord2f(texCoords.at(v).GetX(), texCoords.at(v).GetY());
 			glVertex3f(vertex.GetX(), vertex.GetY(), vertex.GetZ());
 		}
 		glEnd();
@@ -300,13 +373,13 @@ void Mesh::renderSmooth() const {
 	glPushMatrix();
 	for (int t = 0; t < faces.size(); ++t) {
 		const vector<int>& vertexIndices = faces.at(t);
+		const vector<Vec3f>& texCoords = sphericalTexCoords.at(t);
 		glBegin(GL_TRIANGLES); // HACK only works if verticeIndices.size() == 3
 		for (int v = 0; v < vertexIndices.size(); ++v) {
 			const int vInd = vertexIndices.at(v);
-			const Vec3f& texCoord = sphericalTexCoords.at(vInd);
 			const Vec3f& vertex = vertices.at(vInd);
 			const Vec3f& normal = vertexNormals.at(vInd);
-			glTexCoord2f(texCoord.GetX(), texCoord.GetY());
+			glTexCoord2f(texCoords.at(v).GetX(), texCoords.at(v).GetY());
 			glNormal3f(normal.GetX(), normal.GetY(), normal.GetZ());
 			glVertex3f(vertex.GetX(), vertex.GetY(), vertex.GetZ());
 		}

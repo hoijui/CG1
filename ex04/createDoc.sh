@@ -11,7 +11,7 @@ pdflatex \
 		-interaction=nonstopmode \
 		-output-format=pdf \
 		-output-directory="${TARGET_DIR}" \
-		doc.tex
+		doc.tex > /dev/null
 
 cd "${TARGET_DIR}"
 mv doc.pdf CG1_WS1213_Gruppe6_Ex04.pdf

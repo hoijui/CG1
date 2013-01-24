@@ -70,16 +70,28 @@ Eine MipMap bietet sich v.a. auch für Anwendungen an, in der texturierte Objekt
 Dann muss diese nicht immer wieder neu gefiltert werden.
 
 \subsection*{3. Zweischritt-Verfahren}
-Surface tangents of the object have to vary less then $\pi$ radian $= 180^{\circ}$ in every dimension.
+Surface tangents of the object have to vary less then $180^{\circ}$ in every dimension.
 This is equivalent to the formulation:
 There has to exist at least one point in space,
 from to which we can connect a line to each point on the surface of the object,
 and this line does not intersect the object in any other point.
 
 \subsection*{4. Parametrisierung einer Environment Map}
-Die EM wird von einem einzigen (undendlich kleinen) Punkt in der Mitte des Objektes aus generiert.
-Je größer des Objekt ist, desto mehr kommt es zu Verzerrungen an dessen Oberfläche, weil die EM aus von einem anderen Punkt aus generiert wurde und sozusagen "falsche" Bilder liefert für die entfernt liegen Außenseiten des Polygons.
-TODO: ich glaub die wollen hier eigentlich was anderes lesen
+Das kann man sich so vorstellen:
+Wenn wir eine aus gleichseitigen, elastischen Dreiecken bestehende Kugel an einem Punkt aufschneiden,
+und plat pressen,
+so dass sie genau den Kreis einer EM Textur abdeckt,
+dann werden die Dreiecke gegen aussen hin lang gezogen und in der höhe verringert.
+Dadurch haben sie in einer Richtung eine höhere,
+und in die dazu orthogonal liegende eine tiefere Pixel-Auflösung als die weiter innen liegenden Dreiecke,
+bzw. als optimaler Weise ($\hat{=}$ in beiden Richtungen gleich).
+
+% Wir generieren eine EM aus einer 3D Umgebung,
+% bilden sie auf 2D ab,
+% und platschen sie danach wieder auf ein 3D objekt.
+% 3D $\rightarrow$ 2D $\rightarrow$ 3D;
+% dabei geht natürlich Information verloren,
+% was im Resultat sichtbar wird.
 
 \subsection*{5. Projektives Texture Mapping}
 Da die Bilder auf Objekte projiziert werden sollen, verhällt sich der imaginäre Projektor im Prinzip wie die "normale" Kamera aus der bei der Bildgenerierung.

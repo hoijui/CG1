@@ -241,23 +241,6 @@ void Mesh::CalculateSphericalTextureCoordinates() {
 
 	sphericalTexCoords.clear();
 
-	//const Vec3f middleShift = Vec3f(0.5f, 0.5f, 0.0f);
-	// fill with default (0, 0) coordinates
-//	for (int v = 0; v < vertices.size(); ++v) {
-//		const Vec3f normal = vertexNormals.at(v).normalize();
-
-//		float x = normal.GetX();
-//		float y = normal.GetY();
-//		float z = normal.GetZ();
-
-//		float u = (M_PI + atan2(y, x)) / (2 * M_PI);
-//		float v = atan2(sqrt(x*x + y*y), z) / M_PI;
-
-//		Vec3f texCoord = Vec3f(u, v, 0.0f);
-
-//		sphericalTexCoords.push_back(texCoord);
-//	}
-
 	for (int t = 0; t < faces.size(); ++t) {
 		const vector<int>& vertexIndices = faces.at(t);
 		const int vInd0 = vertexIndices.at(0);
@@ -273,43 +256,37 @@ void Mesh::CalculateSphericalTextureCoordinates() {
 		const float u1 = tc1.GetX();
 		const float u2 = tc2.GetX();
 
-//		if (u0 > 0.9f) {
-//			if (u1 > 0.9f) {
-//				if (u2 < 0.1f) {
-//					tc2.SetX(1.0f);
-//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
-//				}
-//			} else { // u1 <= 0.9f
-//				if (u2 < 0.1f) {
-//					tc0.SetX(0.0f);
-//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
-//				} else { // u2 >= 0.9f
-//					tc1.SetX(1.0f);
-//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
-//				}
-//			}
-//		} else { // u0 < 0.9f
-//			if (u1 < 0.1f) {
-//				if (u2 > 0.9f) {
-//					tc2.SetX(0.0f);
-//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
-//				}
-//			} else { // u1 > 0.9f
-//				if (u2 < 0.1f) {
-//					tc1.SetX(0.0f);
-//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
-//				} else {
-//					tc0.SetX(1.0f);
-//					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
-//				}
-//			}
-//		}
-//		const m01 = max(u0, u1);
-//		if (abs(ma01 - max(ma01, u2)) > 0.5) {
-
-//		} else if (abs(ma01 - max(ma01, u2)) > 0.5) {
-
-//		}
+		if (u0 > 0.7f) {
+			if (u1 > 0.7f) {
+				if (u2 < 0.3f) {
+					tc2.SetX(1.0f);
+					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+				}
+			} else if (u1 < 0.3f) {
+				if (u2 < 0.3f) {
+					tc0.SetX(0.0f);
+					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+				} else if (u2 > 0.7f) {
+					tc1.SetX(1.0f);
+					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+				}
+			}
+		} else if (u0 < 0.3f) {
+			if (u1 < 0.3f) {
+				if (u2 > 0.7f) {
+					tc2.SetX(0.0f);
+					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+				}
+			} else if (u1 > 0.7f) {
+				if (u2 < 0.3f) {
+					tc1.SetX(0.0f);
+					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+				} else if (u0 > 0.7f) {
+					tc0.SetX(1.0f);
+					std::cout << tc0.GetX() << " " << tc1.GetX() << " " << tc2.GetX() << std::endl;
+				}
+			}
+		}
 
 		vector<Vec3f> faceTexCs;
 		faceTexCs.push_back(tc0);

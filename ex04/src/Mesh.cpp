@@ -246,9 +246,9 @@ void Mesh::CalculateSphericalTextureCoordinates() {
 		const int vInd0 = vertexIndices.at(0);
 		const int vInd1 = vertexIndices.at(1);
 		const int vInd2 = vertexIndices.at(2);
-		Vec3f& norm0 = vertexNormals.at(vInd0);
-		Vec3f& norm1 = vertexNormals.at(vInd1);
-		Vec3f& norm2 = vertexNormals.at(vInd2);
+		const Vec3f norm0 = vertices.at(vInd0).normalize();
+		const Vec3f norm1 = vertices.at(vInd1).normalize();
+		const Vec3f norm2 = vertices.at(vInd2).normalize();
 		Vec3f tc0 = calcTexCoord(norm0);
 		Vec3f tc1 = calcTexCoord(norm1);
 		Vec3f tc2 = calcTexCoord(norm2);

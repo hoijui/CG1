@@ -406,7 +406,6 @@ void screen_reshape(int width, int height)
 	glClearColor(_clear_col[0], _clear_col[1], _clear_col[2], _clear_col[3]);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
-
 }
 
 void screen_display()
@@ -582,6 +581,7 @@ int main(int argc, char** argv)
 	glutMotionFunc(world_motion);
 	glutKeyboardFunc(main_keyboard);
 	glutCreateMenu(world_menu);
+	glutAddMenuEntry("dummy menu entry (world)", 1);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	// Create view window
@@ -593,6 +593,9 @@ int main(int argc, char** argv)
 	glutPassiveMotionFunc(screen_passive_motion);
 	glutKeyboardFunc(main_keyboard);
 	glutCreateMenu(screen_menu);
+	glutAddMenuEntry("dummy menu entry (screen)", 1);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+
 	redisplay_all();
 
 	glutMainLoop();

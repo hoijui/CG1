@@ -175,6 +175,14 @@ void ray_trace()
 // Draw the rays shot on the scene
 void draw_rays()
 {
+	glBegin(GL_LINES);
+	glColor3f(1,1,0);
+	for (int i = 0; i < rays.size(); i++)
+	{
+		glVertex3fv(&(rays.at(i).o)[0]);
+		glVertex3fv(&(rays.at(i).d)[0]);
+	}
+	glEnd();
 }
 
 // drawing utilities //////////////////////////////////

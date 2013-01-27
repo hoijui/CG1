@@ -318,7 +318,7 @@ void main_display()
 
 	std::ostringstream text;
 	text << "mouse \t: rotate scene, mouse+shift: change field of view\n";
-	text << "space \t: raytrace scene (also triggered when user changes view or settings)\n";
+	text << "r \t: raytrace scene (also triggered when user changes view or settings)\n";
 	text << "tab   \t: change visualization (current: $1" << _vis_names[get_vis_mode()] << "$0)\n";
 
 	std::ostringstream text2;

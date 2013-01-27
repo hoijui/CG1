@@ -118,6 +118,8 @@ void ray_trace()
 
 	std::cout << "raycast: w=" << w << " h=" << h << std::endl;
 
+	clear_rays();
+
 	create_primary_rays(rays, w, h);
 
 	rayTracedImage.clear();

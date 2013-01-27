@@ -532,6 +532,7 @@ void main_keyboard(unsigned char key, int x, int y)
 	}
 	switch (key)
 	{
+		case 'q':
 		case 27:
 			exit(0);
 			break;

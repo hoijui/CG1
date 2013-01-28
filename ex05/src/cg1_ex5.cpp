@@ -124,7 +124,42 @@ void clear_rays()
 // Create rays for each sample of the image
 void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 {
+
+
+	GLint viewport[4];
+	GLdouble modelview[16];
+	GLdouble projection[16];
+	GLfloat winX, winY, winZ;
+	GLdouble posX, posY, posZ;
+
+	glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
+	glGetDoublev( GL_PROJECTION_MATRIX, projection );
+	glGetIntegerv( GL_VIEWPORT, viewport );
+
+
+
 	// TODO!
+	//
+	vec3 origin = vec3(0, 0, 0);
+	origin = vec3(modelview2_inv[0][0]);
+	vec3 direction;
+	Ray ray;
+	for (int x = 0; x <= resx; x++)
+	{
+		for (int y = 0; y <= resx; y++)
+		{
+			winX = x;
+			winY = (float)viewport[3] - (float)y;
+//			winY = y;
+			glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
+
+			gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+			direction = vec3(posX, posY, posZ);
+//			direction = vec3(x, y, 7);
+			ray = Ray(origin, direction);
+			rays.push_back(ray);
+		}
+	}
 }
 
 // Ray trace the scene
@@ -370,6 +405,7 @@ void draw_scene_openGL()
 
 	// TODO :
 	// Draw the preview scene here
+	glColor3f(1,0,0);
 	glBegin(GL_TRIANGLES);
 	glVertex3f(0,0,0);
 	glVertex3f(10,0,0);

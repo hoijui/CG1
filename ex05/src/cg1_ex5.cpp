@@ -215,7 +215,7 @@ void draw_rays()
 	for (int i = 0; i < rays.size(); i++)
 	{
 		glVertex3fv(&(rays.at(i).o)[0]);
-		glVertex3fv(&(rays.at(i).d)[0]);
+		glVertex3fv(&(rays.at(i).o + rays.at(i).d)[0]);
 	}
 	glEnd();
 }

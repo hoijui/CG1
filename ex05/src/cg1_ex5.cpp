@@ -142,13 +142,13 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 	//
 	vec3 origin = vec3(0, 0, 0);
 	origin = vec3(modelview2_inv[0][0]);
-	vec3 direction;
+	//vec3 direction;
 	Ray ray;
 	for (int x = 0; x <= resx; x++)
 	{
 		for (int y = 0; y <= resx; y++)
 		{
-			winX = x;
+			/*winX = x;
 			winY = (float)viewport[3] - (float)y;
 //			winY = y;
 			glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
@@ -156,7 +156,18 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 			gluUnProject( winX, winY, winZ, modelview_local, projection_local, viewport_local, &posX, &posY, &posZ);
 			direction = vec3(posX, posY, posZ);
 //			direction = vec3(x, y, 7);
-			ray = Ray(origin, direction);
+			ray = Ray(origin, direction);*/
+
+			// for these values, see cameraImagePlane
+			float planeX = ((float)x / resx) * 2 - 1;
+			float planeY = ((float)y / resy) * 2 - 1;
+			float planeZ = -2;
+			vec3 planePos(planeX, planeY, planeZ);
+			vec3 direction = planePos;
+			direction /= direction.length(); // normalize
+
+			ray = Ray(planePos, direction);
+
 			rays.push_back(ray);
 		}
 	}
@@ -441,10 +452,10 @@ void world_display()
 
 	glDisable(GL_LIGHTING);
 	draw_camera();
+	draw_rays();
 
 	glMultMatrixf(&modelview[0][0]);
-
-	draw_rays();
+	//draw_rays(); // XXX moved up... is that ok?
 
 	draw_scene_openGL();
 

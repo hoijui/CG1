@@ -126,14 +126,14 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 {
 
 
-	GLint viewport[4];
-	GLdouble modelview[16];
-	GLdouble projection[16];
+	GLint viewport_local[4];
+	GLdouble modelview_local[16];
+	GLdouble projection_local[16];
 	GLfloat winX, winY, winZ;
 	GLdouble posX, posY, posZ;
 
-	glGetDoublev( GL_MODELVIEW_MATRIX, modelview );
-	glGetDoublev( GL_PROJECTION_MATRIX, projection );
+	glGetDoublev( GL_MODELVIEW_MATRIX, modelview_local );
+	glGetDoublev( GL_PROJECTION_MATRIX, projection_local );
 	glGetIntegerv( GL_VIEWPORT, viewport );
 
 
@@ -153,7 +153,7 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 //			winY = y;
 			glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
 
-			gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
+			gluUnProject( winX, winY, winZ, modelview_local, projection_local, viewport_local, &posX, &posY, &posZ);
 			direction = vec3(posX, posY, posZ);
 //			direction = vec3(x, y, 7);
 			ray = Ray(origin, direction);

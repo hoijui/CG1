@@ -121,6 +121,25 @@ void clear_rays()
 	rayTracedImage.clear();
 }
 
+
+static vec3 extractTransformationPart(const mat4& transMat) {
+
+	return vec3(
+				transMat[0][3] / transMat[3][3],
+				transMat[1][3] / transMat[3][3],
+				transMat[2][3] / transMat[3][3]);
+}
+
+static void printMat(const mat4& myMat) {
+
+	for (int ri = 0; ri < myMat.row_size(); ++ri) {
+		for (int ci = 0; ci < myMat.col_size(); ++ci) {
+			std::cout << "\t" << myMat[ri][ci];
+		}
+		std::cout << std::endl;
+	}
+}
+
 // Create rays for each sample of the image
 void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 {

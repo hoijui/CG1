@@ -167,6 +167,7 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 {
 	mat4 modelview_inv = glm::inverse(modelview);
 	mat4 modelview_trans = glm::transpose(modelview);
+	mat4 modelview2_trans = glm::transpose(modelview2);
 
 	for (int y = 0; y < resy; y++) {
 		for (int x = 0; x < resx; x++) {
@@ -186,6 +187,9 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 			// normal transform:
 			// d_new = M^{-T} * d
 			directionH = modelview_trans * directionH;
+
+			planePosH  = modelview2_inv * planePosH;
+			directionH = modelview2_trans * directionH;
 
 			vec3 direction = unHomogenise(directionH);
 			vec3 planePos = unHomogenise(planePosH);
@@ -250,6 +254,9 @@ void ray_trace()
 // Draw the rays shot on the scene
 void draw_rays()
 {
+	glPushMatrix();
+	glMultMatrixf(&modelview2[0][0]);
+
 	glBegin(GL_LINES);
 	glColor3f(0,1,0);
 	for (int i = 0; i < rays.size(); i++)
@@ -263,6 +270,8 @@ void draw_rays()
 		glVertex3fv(&to[0]);
 	}
 	glEnd();
+
+	glPopMatrix();
 }
 
 // drawing utilities //////////////////////////////////

@@ -414,7 +414,7 @@ void draw_scene_openGL()
 {
 	glPushMatrix();
 	glMultMatrixf(&modelview[0][0]);
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 
 	scene.Display();
 

@@ -241,11 +241,16 @@ void ray_trace()
 void draw_rays()
 {
 	glBegin(GL_LINES);
-	glColor3f(1,1,0);
+	glColor3f(0,1,0);
 	for (int i = 0; i < rays.size(); i++)
 	{
-		glVertex3fv(&(rays.at(i).o)[0]);
-		glVertex3fv(&(rays.at(i).o + rays.at(i).d)[0]);
+		const vec3& from = rays.at(i).o;
+		vec3 dir = rays.at(i).d;
+		dir *= 100;
+		const vec3 to = rays.at(i).o + dir;
+
+		glVertex3fv(&from[0]);
+		glVertex3fv(&to[0]);
 	}
 	glEnd();
 }

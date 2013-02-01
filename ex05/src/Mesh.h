@@ -33,11 +33,12 @@ class Mesh {
 
 		static void RenderNormal(const Vec3f& position, const Vec3f& direction);
 
+public:
 		const vector<Vec3f>& GetVertices() const { return vertices; }
 		int GetEdges() const { return edges; }
 		const vector< vector<int> >& GetFaces() const { return faces; }
+		const vector<Vec3f>& GetVertexNormals() const { return vertexNormals; }
 
-	public:
 		Mesh();
 		Mesh(const Mesh& other);
 

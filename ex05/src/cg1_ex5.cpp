@@ -15,31 +15,9 @@ using namespace glm;
 #include <GL/glut.h>
 #endif
 
-/*
- * A simple structure to contain a ray
- */
-struct Ray
-{
-	vec3 o;
-	vec3 d;
-
-	float tmin;
-
-	Ray() : tmin(0) {}
-	Ray(const vec3& origin, const vec3& dir)
-		:  o(origin), d(dir), tmin(0)
-	{
-	}
-	Ray(const vec3& origin, const vec3& dir, float eps)
-		:  o(origin + eps*dir), d(dir), tmin(0)
-	{
-	}
-
-	vec3 att(float t) const
-	{
-		return o + t*d;
-	}
-};
+#include "Mesh.h"
+#include "Ray.h"
+#include "Scene.h"
 
 
 // global variables //////////////////////////////////////////
@@ -90,30 +68,12 @@ int _vis_mode = vis_default;
 
 std::string _vis_names[vis_N] = { "raytraced image", "opengl shaded" };
 
+static Scene scene;
+
 
 /*********************************************************************/
 // raytracing
 /*********************************************************************/
-
-bool intersect_triangle(const Ray &r, const vec3 &v1, const vec3 &v2, const vec3 &v3, float &t)
-{
-	// see ray tracing slides p. 23
-	// this is the moeller trombore algorithm explained here:
-	// http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-9-ray-triangle-intersection/m-ller-trumbore-algorithm/
-	vec3 v2mv1 = v2 - v1;
-	vec3 v3mv1 = v3 - v1;
-	float det = dot(cross(r.d,v3mv1),v2mv1);
-	float inv_det = 1 / det;
-	t = inv_det * dot(cross(r.o-v1, v2mv1),v3mv1);
-	float u = inv_det * dot(cross(r.d, v3mv1),r.o-v1);
-	float v = inv_det * dot(cross(r.o-v1, v2mv1),r.d);
-
-	if (0 < t && 0 < u && 0 < v && (u + v) < 1)
-	{
-		return true;
-	}
-	return false;
-}
 
 void clear_rays()
 {
@@ -222,14 +182,13 @@ void ray_trace()
 	rayTracedImage.resize(w*h, vec3(0, 1, 0));
 
 	// TODO : write the samples with the correct color (i.e raytrace)
-	float triDist = 0.0f;
-	vec3 tV0(0,  0, -triDist);
-	vec3 tV1(10, 0, -triDist);
-	vec3 tV2(0, 10, -triDist);
 	for (size_t i = 0; i < rays.size(); i++) {
 		const Ray& ray = rays.at(i);
-		float t = 0.0f; // intersection multiplier
-		bool intersected = intersect_triangle(ray, tV0, tV1, tV2, t);
+		float t = -1.0f; // intersection multiplier
+		bool intersected = scene.GetIntersectionPos(ray, t);
+		// XXX use the following 2 lines instead of the above, later on
+//		vec3 intersectionNormal;
+//		bool intersected = scene.GetIntersectionPos(ray, t, &intersectionNormal);
 		if (intersected) {
 			rayTracedImage[i] = vec3(1, 0, 0);
 		} else {
@@ -457,14 +416,7 @@ void draw_scene_openGL()
 	glMultMatrixf(&modelview[0][0]);
 	glEnable(GL_LIGHTING);
 
-	// TODO :
-	// Draw the preview scene here
-	glColor3f(1,0,0);
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0,0,0);
-	glVertex3f(10,0,0);
-	glVertex3f(0,10,0);
-	glEnd();
+	scene.Display();
 
 	glPopMatrix();
 }
@@ -716,6 +668,10 @@ int main(int argc, char** argv)
 	glutCreateMenu(screen_menu);
 	glutAddMenuEntry("dummy menu entry (screen)", 1);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
+
+	// Create scene
+	scene.AddMesh("data/sphere.off", vec3(0.0f, 0.0f, 0.0f));
+	scene.AddMesh("data/sphere.off", vec3(3.0f, 3.0f, 0.0f));
 
 	redisplay_all();
 

@@ -14,7 +14,10 @@ SET(NATIVE_SRC_ROOT ".")
 
 SET(src_files
 	"${NATIVE_SRC_ROOT}/cg1_ex5.cpp"
+	"${NATIVE_SRC_ROOT}/Box.cpp"
 	"${NATIVE_SRC_ROOT}/Mesh.cpp"
+	"${NATIVE_SRC_ROOT}/Ray.cpp"
+	"${NATIVE_SRC_ROOT}/Scene.cpp"
 	"${NATIVE_SRC_ROOT}/Vec3f.cpp"
 	)
 

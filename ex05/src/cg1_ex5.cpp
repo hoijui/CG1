@@ -165,51 +165,35 @@ static void printMat(const mat4& myMat) {
 // Create rays for each sample of the image
 void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 {
+	mat4 modelview_inv = glm::inverse(modelview);
+	mat4 modelview_trans = glm::transpose(modelview);
 
-
-	GLint viewport_local[4];
-	GLdouble modelview_local[16];
-	GLdouble projection_local[16];
-	GLfloat winX, winY, winZ;
-	GLdouble posX, posY, posZ;
-
-	glGetDoublev( GL_MODELVIEW_MATRIX, modelview_local );
-	glGetDoublev( GL_PROJECTION_MATRIX, projection_local );
-	glGetIntegerv( GL_VIEWPORT, viewport );
-
-
-
-	// TODO!
-	//
-	vec3 origin = vec3(0, 0, 0);
-	origin = vec3(modelview2_inv[0][0]);
-	//vec3 direction;
-	Ray ray;
-	for (int x = 0; x <= resx; x++)
-	{
-		for (int y = 0; y <= resx; y++)
-		{
-			/*winX = x;
-			winY = (float)viewport[3] - (float)y;
-//			winY = y;
-			glReadPixels( x, int(winY), 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &winZ );
-
-			gluUnProject( winX, winY, winZ, modelview_local, projection_local, viewport_local, &posX, &posY, &posZ);
-			direction = vec3(posX, posY, posZ);
-//			direction = vec3(x, y, 7);
-			ray = Ray(origin, direction);*/
-
+	for (int y = 0; y < resy; y++) {
+		for (int x = 0; x < resx; x++) {
 			// for these values, see cameraImagePlane
 			float planeX = ((float)x / resx) * 2 - 1;
 			float planeY = ((float)y / resy) * 2 - 1;
 			float planeZ = -2;
-			vec3 planePos(planeX, planeY, planeZ);
-			vec3 direction = planePos;
-			direction /= direction.length(); // normalize
+			float planeW = 1;
 
-			ray = Ray(planePos, direction);
+			vec4 planePosH(planeX, planeY, planeZ, planeW);
+			vec4 directionH = planePosH;
 
-			rays.push_back(ray);
+			// transform to where the camera plane is
+			// coordinate transform:
+			// c_new = M * c
+			planePosH  = modelview_inv * planePosH;
+			// normal transform:
+			// d_new = M^{-T} * d
+			directionH = modelview_trans * directionH;
+
+			vec3 direction = unHomogenise(directionH);
+			vec3 planePos = unHomogenise(planePosH);
+
+			// normalize
+			direction /= direction.length();
+
+			rays.push_back(Ray(planePos, direction));
 		}
 	}
 }
@@ -234,14 +218,18 @@ void ray_trace()
 	rayTracedImage.resize(w*h, vec3(0, 1, 0));
 
 	// TODO : write the samples with the correct color (i.e raytrace)
-	for(size_t i = 0; i < w; i++)
-	{
-		for(size_t j = 0; j < h; j++)
-		{
-			if((i+j) % 2 == 0)
-			{
-				rayTracedImage[j*w+i] = vec3(1,0,0);
-			}
+	float triDist = 0.0f;
+	vec3 tV0(0,  0, -triDist);
+	vec3 tV1(10, 0, -triDist);
+	vec3 tV2(0, 10, -triDist);
+	for (size_t i = 0; i < rays.size(); i++) {
+		const Ray& ray = rays.at(i);
+		float t = 0.0f; // intersection multiplier
+		bool intersected = intersect_triangle(ray, tV0, tV1, tV2, t);
+		if (intersected) {
+			rayTracedImage[i] = vec3(1, 0, 0);
+		} else {
+			rayTracedImage[i] = vec3(0, 0, 0);
 		}
 	}
 
@@ -498,10 +486,9 @@ void world_display()
 
 	glDisable(GL_LIGHTING);
 	draw_camera();
-	draw_rays();
 
 	glMultMatrixf(&modelview[0][0]);
-	//draw_rays(); // XXX moved up... is that ok?
+	draw_rays();
 
 	draw_scene_openGL();
 

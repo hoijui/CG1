@@ -54,7 +54,7 @@ std::vector<Ray> rays;
 std::vector<vec3> rayTracedImage;
 GLuint rayTracedImageId = 0;
 
-float _sample_factor = 0.1f;
+float _sample_factor = 0.9f;
 int _sample_width = 0;
 int _sample_height = 0;
 

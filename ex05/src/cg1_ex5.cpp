@@ -122,6 +122,28 @@ void clear_rays()
 }
 
 
+static void unproject(const GLdouble* modelview_local, const GLdouble* projection_local, const GLint* viewport_local, vec3& myVec) {
+
+	GLdouble posX;
+	GLdouble posY;
+	GLdouble posZ;
+
+	gluUnProject(myVec.x, myVec.y, myVec.z, modelview_local, projection_local, viewport_local, &posX, &posY, &posZ);
+
+	myVec.x = posX;
+	myVec.y = posY;
+	myVec.z = posZ;
+}
+
+static vec3 unHomogenise(const vec4& coordinateH) {
+
+	return vec3(
+			coordinateH.x / coordinateH.w,
+			coordinateH.y / coordinateH.w,
+			coordinateH.z / coordinateH.w
+			);
+}
+
 static vec3 extractTransformationPart(const mat4& transMat) {
 
 	return vec3(

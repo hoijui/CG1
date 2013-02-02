@@ -124,12 +124,45 @@ bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_normal) con
 void Scene::Display() const {
 
 	for (int meshIndex = 0; meshIndex < meshes.size(); ++meshIndex) {
+		RenderBox(boundingBoxes.at(meshIndex));
+
 		glPushMatrix();
 		const vec3& pos = positions.at(meshIndex);
+		glColor3f(1.0f, 0.0f, 0.0f);
 		glTranslatef(pos.x, pos.y, pos.z);
 		meshes.at(meshIndex).Display();
 		glPopMatrix();
 	}
+}
+
+void Scene::RenderBox(const Box& box) const {
+
+	const float xMin = box.bounds[0].x;
+	const float yMin = box.bounds[0].y;
+	const float zMin = box.bounds[0].z;
+	const float xMax = box.bounds[1].x;
+	const float yMax = box.bounds[1].y;
+	const float zMax = box.bounds[1].z;
+
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(xMin, yMin, zMin); glVertex3f(xMin, yMin, zMax);
+	glVertex3f(xMin, yMin, zMin); glVertex3f(xMin, yMax, zMin);
+	glVertex3f(xMin, yMin, zMin); glVertex3f(xMax, yMin, zMin);
+
+	glVertex3f(xMin, yMin, zMax); glVertex3f(xMin, yMax, zMax);
+	glVertex3f(xMin, yMin, zMax); glVertex3f(xMax, yMin, zMax);
+
+	glVertex3f(xMin, yMax, zMin); glVertex3f(xMin, yMax, zMax);
+	glVertex3f(xMin, yMax, zMin); glVertex3f(xMax, yMax, zMin);
+
+	glVertex3f(xMax, yMin, zMin); glVertex3f(xMax, yMin, zMax);
+	glVertex3f(xMax, yMin, zMin); glVertex3f(xMax, yMax, zMin);
+
+	glVertex3f(xMax, yMax, zMax); glVertex3f(xMax, yMax, zMin);
+	glVertex3f(xMax, yMax, zMax); glVertex3f(xMax, yMin, zMax);
+	glVertex3f(xMax, yMax, zMax); glVertex3f(xMin, yMax, zMax);
+	glEnd();
 }
 
 Box Scene::CalculateBoundingBox(const Mesh& mesh, const vec3& pos) {

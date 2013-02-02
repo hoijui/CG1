@@ -27,6 +27,7 @@ class Scene {
 		void Display() const;
 
 	private:
+		void RenderBox(const Box& box) const;
 		static Box CalculateBoundingBox(const Mesh& mesh, const vec3& pos);
 		static bool IntersectTriangle(const Ray& r, const vec3& v1, const vec3& v2, const vec3& v3, float& t);
 

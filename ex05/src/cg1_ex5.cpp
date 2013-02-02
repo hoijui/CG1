@@ -70,10 +70,101 @@ std::string _vis_names[vis_N] = { "raytraced image", "opengl shaded" };
 
 static Scene scene;
 
+const int nbrLightSoucres = 2;
+GLfloat light_positions[nbrLightSoucres][4] =
+{
+{ 1.0, 1.0, 1.0, 0.0 },
+{ 5.0, 1.0, 1.0, 0.0 },
+};
 
+GLfloat light_ambients[nbrLightSoucres][4] =
+{
+{ 0.0, 0.0, 0.0}, // default
+{ 1.0, 1.0, 1.0},
+};
+
+GLfloat light_diffuses[nbrLightSoucres][4] =
+{
+{ 1.0, 1.0, 1.0}, // default
+{ 0.0, 0.0, 0.0},
+};
+
+//const int nbrSpheres = 2;
+//GLfloat sphere_positions[nbrSpheres][4] =
+//{
+//{ 0.0, 0.0, 0.0, 0.0 },
+//{ 5.0, 5.0, 5.0, 0.0 },
+//};
+//
+//GLfloat sphere_ambients[nbrSpheres][4] =
+//{
+//{ 0.0, 0.0, 0.0, 1.0 }, // default
+//{ 1.0, 1.0, 1.0, 1.0 },
+//};
+//
+//GLfloat sphere_diffuses[nbrSpheres][4] =
+//{
+//{ 1.0, 1.0, 1.0, 1.0 }, // default
+//{ 0.0, 0.0, 0.0, 1.0 },
+//};
 /*********************************************************************/
 // raytracing
 /*********************************************************************/
+
+void init_lights() {
+	// supposing, that GL_LIGHT0 == 0
+	for (int i = 0; i < nbrLightSoucres; i++) {
+		int light = GL_LIGHT0 + i;
+		glLightfv(light, GL_POSITION, light_positions[i]);
+		glLightfv(light, GL_AMBIENT, light_ambients[i]);
+		glLightfv(light, GL_DIFFUSE, light_diffuses[i]);
+		glEnable(light);
+	}
+}
+
+void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 &normal, const vec3 &mat_amb, const vec3 &mat_diff) {
+	// do net set color to (0,0,0) because of recursive calls
+	//color = vec3(0.0f, 0.0f, 0.0f);
+	for (int i = 0; i < nbrLightSoucres; i++) {
+		vec3 light_pos = vec3(*light_positions[i]);
+		vec3 light_amb = vec3(*light_ambients[i]);
+		vec3 light_diff = vec3(*light_diffuses[i]);
+		// get light direction
+		vec3 light_dir = normalize(light_pos - vertex);
+		// get half vector
+		vec3 half = normalize(r.d + light_dir);
+		// always add ambient light
+		color = mat_amb * light_amb;
+		// check light direction ...
+		float norm_dot_light = dot(normal, light_dir);
+		// ... and add diffuse light only if reflection is possible
+		if (norm_dot_light > 0.0) {
+			// add diffuse light
+			color += mat_diff * light_diff * norm_dot_light;
+		}
+	}
+}
+
+
+bool intersect_triangle(const Ray &r, const vec3 &v1, const vec3 &v2, const vec3 &v3, float &t)
+{
+	// see ray tracing slides p. 23
+	// this is the moeller trombore algorithm explained here:
+	// http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-9-ray-triangle-intersection/m-ller-trumbore-algorithm/
+	vec3 v2mv1 = v2 - v1;
+	vec3 v3mv1 = v3 - v1;
+	float det = dot(cross(r.d,v3mv1),v2mv1);
+	float inv_det = 1 / det;
+	t = inv_det * dot(cross(r.o-v1, v2mv1),v3mv1);
+	float u = inv_det * dot(cross(r.d, v3mv1),r.o-v1);
+	float v = inv_det * dot(cross(r.o-v1, v2mv1),r.d);
+
+	if (0 < t && 0 < u && 0 < v && (u + v) < 1)
+	{
+		return true;
+	}
+	return false;
+}
 
 void clear_rays()
 {

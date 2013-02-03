@@ -50,16 +50,9 @@ bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_normal) con
 	// check whichs meshes bounding boxes are intersected by the ray
 	vector<int> intersectingBoxes;
 	for (int meshIndex = 0; meshIndex < boundingBoxes.size(); ++meshIndex) {
-		Ray localRay(r);
-		localRay.o -= positions.at(meshIndex);
-		// FIXME
-		if (boundingBoxes.at(meshIndex).TestIntersection(localRay, zNear, zFar)) {
+		if (boundingBoxes.at(meshIndex).TestIntersection(r, zNear, zFar)) {
 			intersectingBoxes.push_back(meshIndex);
 		}
-//// HACK
-//else {
-//intersectingBoxes.push_back(i);
-//}
 	}
 
 	// now check only these meshes for intersection
@@ -168,7 +161,7 @@ void Scene::RenderBox(const Box& box) const {
 Box Scene::CalculateBoundingBox(const Mesh& mesh, const vec3& pos) {
 
 	vec3 bbMin(__FLT_MAX__, __FLT_MAX__, __FLT_MAX__);
-	vec3 bbMax(__FLT_MIN__, __FLT_MIN__, __FLT_MIN__);
+	vec3 bbMax(-__FLT_MAX__, -__FLT_MAX__, -__FLT_MAX__);
 
 	const vector<Vec3f>& vertices = mesh.GetVertices();
 	for (vector<Vec3f>::const_iterator vertIt = vertices.begin(); vertIt != vertices.end(); ++vertIt) {
@@ -195,7 +188,7 @@ Box Scene::CalculateBoundingBox(const Mesh& mesh, const vec3& pos) {
 	}
 
 	bbMin += pos;
-	bbMin += pos;
+	bbMax += pos;
 
 	return Box(bbMin, bbMax);
 }

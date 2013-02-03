@@ -1,6 +1,7 @@
 #include <cmath>
 #include <cassert>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 #include <limits>
@@ -110,6 +111,23 @@ GLfloat light_diffuses[nbrLightSoucres][4] =
 /*********************************************************************/
 // raytracing
 /*********************************************************************/
+
+void save(const string& filename = "image.ppm") {
+	std::ofstream f;
+	f.open(filename.c_str());
+	f << "P3" << std::endl;
+	f << _sample_width << " " << _sample_height << std::endl;
+	f << "255" << std::endl;
+	for(int i = 0; i < rayTracedImage.size(); i++) {
+		f << rayTracedImage[i].x << " " << rayTracedImage[i].y << " " << rayTracedImage[i].z;
+		if ((i + 1) % _sample_width != 0) {
+			f << " ";
+		} else {
+			f << std::endl;
+		}
+	}
+	f.close();
+}
 
 void init_lights() {
 	// supposing, that GL_LIGHT0 == 0
@@ -299,6 +317,9 @@ void ray_trace()
 	}
 	// Feed with raytraced image data
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, &rayTracedImage[0]);
+
+	// save to disk
+	save();
 }
 
 // Draw the rays shot on the scene

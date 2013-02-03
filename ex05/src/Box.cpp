@@ -1,6 +1,17 @@
 
 #include "Box.h"
 
+Box::Box(const Box& other)
+	: bounds(other.bounds)
+{
+}
+
+Box::Box(const vec3& min, const vec3& max)
+{
+	bounds[0] = min;
+	bounds[1] = max;
+}
+
 /**
  * Tests intersection with a ray.
  * Optimized method. see:

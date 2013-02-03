@@ -6,7 +6,7 @@
 
 using namespace glm;
 
-/*
+/**
  * A simple structure representing a ray.
  */
 class Ray

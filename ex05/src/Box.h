@@ -8,7 +8,7 @@
 
 using namespace glm;
 
-/*
+/**
  * A simple structure representing a box.
  */
 class Box
@@ -16,18 +16,8 @@ class Box
 public:
 	vec3 bounds[2];
 
-	Box()
-	{
-	}
-	Box(const Box& other)
-		:  bounds(other.bounds)
-	{
-	}
-	Box(const vec3& min, const vec3& max)
-	{
-		bounds[0] = min;
-		bounds[1] = max;
-	}
+	Box(const Box& other);
+	Box(const vec3& min, const vec3& max);
 
 	bool TestIntersection(const Ray& r, float t0, float t1) const;
 };

@@ -131,6 +131,20 @@ void save(const string& filename = "image.ppm") {
 	f.close();
 }
 
+void toRGB(float& x) {
+	x = (int) (x * 255);
+	if (x > 255) {
+		std::cout << "x > 255" << std::endl;
+		x = 0;
+	}
+}
+
+void toRGB(vec3& color) {
+	toRGB(color.x);
+	toRGB(color.y);
+	toRGB(color.z);
+}
+
 void prvec3(const vec3& v) {
 	std::cout << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
 }

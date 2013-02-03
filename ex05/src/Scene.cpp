@@ -45,7 +45,7 @@ void Scene::AddMesh(const string& fileName, const vec3& position) {
 	boundingBoxes.push_back(boundingBox);
 }
 
-bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_normal) const {
+bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3& color, vec3& n, vec3* out_normal) const {
 
 	// check whichs meshes bounding boxes are intersected by the ray
 	vector<int> intersectingBoxes;
@@ -85,7 +85,7 @@ bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_normal) con
 	if (intersected) {
 		out_t = minT;
 
-		if (out_normal != NULL) {
+//		if (out_normal != NULL) {
 			const Mesh& mesh = meshes.at(minMeshIndex);
 			const vec3& meshPos = positions.at(minMeshIndex);
 			const vector< vector<int> >& faces = mesh.GetFaces();
@@ -107,10 +107,13 @@ bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_normal) con
 			interpolatedNormal * 3.0f;
 			interpolatedNormal.normalize();
 
-			*out_normal = *((vec3*)&interpolatedNormal);
-		}
+			n = vec3(interpolatedNormal.GetX(),interpolatedNormal.GetY(),interpolatedNormal.GetZ());
+
+//			*out_normal = *((vec3*)&interpolatedNormal);
+//		}
 	}
 
+	color = vec3(1,0,0);
 	return intersected;
 }
 

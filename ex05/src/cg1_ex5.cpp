@@ -20,6 +20,8 @@ using namespace glm;
 #include "Ray.h"
 #include "Scene.h"
 
+#define print(var) std::cout << var << std::endl;
+
 
 // global variables //////////////////////////////////////////
 int _id_window, _id_screen, _id_world;
@@ -127,6 +129,10 @@ void save(const string& filename = "image.ppm") {
 		}
 	}
 	f.close();
+}
+
+void prvec3(const vec3& v) {
+	std::cout << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
 }
 
 void init_lights() {

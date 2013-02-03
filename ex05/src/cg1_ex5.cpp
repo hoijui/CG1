@@ -190,9 +190,9 @@ void ray_trace()
 //		vec3 intersectionNormal;
 //		bool intersected = scene.GetIntersectionPos(ray, t, &intersectionNormal);
 		if (intersected) {
-			rayTracedImage[i] = vec3(1, 0, 0);
+			rayTracedImage[i] = vec3(1.0f, 1.0f, 1.0f);
 		} else {
-			rayTracedImage[i] = vec3(0, 0, 0);
+			rayTracedImage[i] = vec3(0.0f, 0.0f, 0.0f);
 		}
 	}
 

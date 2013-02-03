@@ -175,10 +175,19 @@ void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 &normal
 		color = mat_amb * light_amb;
 		// check light direction ...
 		float norm_dot_light = dot(normal, light_dir);
+		float norm_dot_h = dot(normal, half);
 		// ... and add diffuse light only if reflection is possible
 		if (norm_dot_light > 0.0) {
 			// add diffuse light
 			color += mat_diff * light_diff * norm_dot_light;
+			if (norm_dot_h > 0.0) {
+				// rs * L * (H.N)^n
+				vec3 mat_spec = vec3(1, 1, 1);
+				vec3 light_spec = vec3(1, 1, 1);
+				float mat_shin = 1;
+				color += mat_spec * light_spec * pow(norm_dot_h, mat_shin);
+				//color += gl_FrontMaterial.specular * gl_LightSource[0].specular * pow(NdotH, gl_FrontMaterial.shininess);
+			}
 		}
 	}
 }

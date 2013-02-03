@@ -816,6 +816,8 @@ int main(int argc, char** argv)
 
 	redisplay_all();
 
+	ray_trace();
+
 	glutMainLoop();
 
 	return 0;

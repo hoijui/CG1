@@ -123,6 +123,7 @@ static void save(const string& filename = "image.ppm") {
 	f << _sample_width << " " << _sample_height << std::endl;
 	f << "255" << std::endl;
 	for(int i = 0; i < rayTracedImage.size(); i++) {
+		toRGB(rayTracedImage[i]);
 		f << rayTracedImage[i].x << " " << rayTracedImage[i].y << " " << rayTracedImage[i].z;
 		if ((i + 1) % _sample_width != 0) {
 			f << " ";
@@ -320,7 +321,6 @@ void ray_trace()
 		if (intersected) {
 			newColor = vec3(0.0f, 0.0f, 0.0f);
 			get_color(newColor, ray, ray.att(t), surfaceNormal, mat_amb, mat_diff);
-			toRGB(newColor);
 			rayTracedImage[i] = newColor;
 		} else {
 			rayTracedImage[i] = vec3(0.0f, 0.0f, 0.0f);

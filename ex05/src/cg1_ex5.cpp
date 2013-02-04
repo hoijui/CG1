@@ -22,6 +22,8 @@ using namespace glm;
 
 #define print(var) std::cout << var << std::endl;
 
+static void toRGB(float& x);
+static void toRGB(vec3& color);
 
 // global variables //////////////////////////////////////////
 int _id_window, _id_screen, _id_world;
@@ -114,7 +116,7 @@ GLfloat light_diffuses[][4] =
 // raytracing
 /*********************************************************************/
 
-void save(const string& filename = "image.ppm") {
+static void save(const string& filename = "image.ppm") {
 	std::ofstream f;
 	f.open(filename.c_str());
 	f << "P3" << std::endl;
@@ -131,25 +133,24 @@ void save(const string& filename = "image.ppm") {
 	f.close();
 }
 
-void toRGB(float& x) {
+static void toRGB(float& x) {
 	x = (int) (x * 255);
 	if (x > 255) {
 		std::cout << "x > 255" << std::endl;
 		x = 0;
 	}
 }
-
-void toRGB(vec3& color) {
+static void toRGB(vec3& color) {
 	toRGB(color.x);
 	toRGB(color.y);
 	toRGB(color.z);
 }
 
-void prvec3(const vec3& v) {
+static void prvec3(const vec3& v) {
 	std::cout << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
 }
 
-void init_lights() {
+static void init_lights() {
 	// supposing, that GL_LIGHT0 == 0
 	for (int i = 0; i < nbrLightSources; i++) {
 		int light = GL_LIGHT0 + i;
@@ -160,7 +161,7 @@ void init_lights() {
 	}
 }
 
-void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 &normal, const vec3 &mat_amb, const vec3 &mat_diff) {
+static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 &normal, const vec3 &mat_amb, const vec3 &mat_diff) {
 	// do net set color to (0,0,0) because of recursive calls
 	//color = vec3(0.0f, 0.0f, 0.0f);
 	for (int i = 0; i < nbrLightSources; i++) {

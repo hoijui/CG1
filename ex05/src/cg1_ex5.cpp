@@ -199,26 +199,6 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 }
 
 
-bool intersect_triangle(const Ray &r, const vec3 &v1, const vec3 &v2, const vec3 &v3, float &t)
-{
-	// see ray tracing slides p. 23
-	// this is the moeller trombore algorithm explained here:
-	// http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-9-ray-triangle-intersection/m-ller-trumbore-algorithm/
-	vec3 v2mv1 = v2 - v1;
-	vec3 v3mv1 = v3 - v1;
-	float det = dot(cross(r.d,v3mv1),v2mv1);
-	float inv_det = 1 / det;
-	t = inv_det * dot(cross(r.o-v1, v2mv1),v3mv1);
-	float u = inv_det * dot(cross(r.d, v3mv1),r.o-v1);
-	float v = inv_det * dot(cross(r.o-v1, v2mv1),r.d);
-
-	if (0 < t && 0 < u && 0 < v && (u + v) < 1)
-	{
-		return true;
-	}
-	return false;
-}
-
 void clear_rays()
 {
 	rays.clear();

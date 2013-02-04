@@ -22,7 +22,7 @@ class Scene {
 
 		void AddMesh(const string& fileName, const vec3& position, const float resizeFactor, const vec3& color);
 
-		bool GetIntersectionPos(const Ray& r, float& out_t, vec3& out_color, vec3* out_normal = NULL) const;
+		bool GetIntersectionPos(const Ray& r, float& out_t, vec3* out_color = NULL, vec3* out_normal = NULL) const;
 
 		void Display() const;
 

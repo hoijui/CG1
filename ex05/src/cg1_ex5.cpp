@@ -319,7 +319,7 @@ void ray_trace()
 	for (size_t i = 0; i < rays.size(); i++) {
 		const Ray& ray = rays.at(i);
 		float t = -1.0f; // intersection multiplier
-		bool intersected = scene.GetIntersectionPos(ray, t, mat_amb, &surfaceNormal);
+		bool intersected = scene.GetIntersectionPos(ray, t, &mat_amb, &surfaceNormal);
 		if (intersected) {
 			newColor = vec3(0.0f, 0.0f, 0.0f);
 			get_color(newColor, ray, ray.att(t), surfaceNormal, mat_amb, mat_diff);

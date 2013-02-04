@@ -47,7 +47,7 @@ void Scene::AddMesh(const string& fileName, const vec3& position, const float re
 	colors.push_back(color);
 }
 
-bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3& out_color, vec3* out_normal) const {
+bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_color, vec3* out_normal) const {
 
 	// check whichs meshes bounding boxes are intersected by the ray
 	vector<int> intersectingBoxes;
@@ -111,9 +111,10 @@ bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3& out_color, vec3
 
 			*out_normal = *((vec3*)&interpolatedNormal);
 		}
+		if (out_color != NULL) {
+			*out_color = colors.at(minMeshIndex);
+		}
 	}
-
-	out_color = vec3(1.0f, 0.0f, 0.0f);
 
 	return intersected;
 }

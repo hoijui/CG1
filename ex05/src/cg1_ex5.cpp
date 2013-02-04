@@ -170,7 +170,7 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 		vec3 light_amb = vec3(*light_ambients[i]);
 		vec3 light_diff = vec3(*light_diffuses[i]);
 		// get light direction
-		vec3 light_dir = normalize(light_pos - vertex);
+		vec3 light_dir = normalize(vertex - light_pos);
 		//prvec3(light_dir);
 		// get half vector
 		vec3 half = normalize(r.d + light_dir);

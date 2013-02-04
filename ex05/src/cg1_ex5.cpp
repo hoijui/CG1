@@ -325,7 +325,7 @@ void ray_trace()
 	rayTracedImage.resize(w*h, vec3(0, 1, 0));
 
 	// TODO : write the samples with the correct color (i.e raytrace)
-	glColor3f(0,0,1);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	vec3 matColor;
 	vec3 newColor;

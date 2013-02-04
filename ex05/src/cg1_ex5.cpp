@@ -73,7 +73,7 @@ std::string _vis_names[vis_N] = { "raytraced image", "opengl shaded" };
 
 static Scene scene;
 
-const int nbrLightSoucres = 1;
+const int nbrLightSources = 1;
 GLfloat light_positions[][4] =
 {
 { 1.0, 1.0, 1.0, 0.0 },
@@ -151,7 +151,7 @@ void prvec3(const vec3& v) {
 
 void init_lights() {
 	// supposing, that GL_LIGHT0 == 0
-	for (int i = 0; i < nbrLightSoucres; i++) {
+	for (int i = 0; i < nbrLightSources; i++) {
 		int light = GL_LIGHT0 + i;
 		glLightfv(light, GL_POSITION, light_positions[i]);
 		glLightfv(light, GL_AMBIENT, light_ambients[i]);
@@ -163,7 +163,7 @@ void init_lights() {
 void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 &normal, const vec3 &mat_amb, const vec3 &mat_diff) {
 	// do net set color to (0,0,0) because of recursive calls
 	//color = vec3(0.0f, 0.0f, 0.0f);
-	for (int i = 0; i < nbrLightSoucres; i++) {
+	for (int i = 0; i < nbrLightSources; i++) {
 		vec3 light_pos = vec3(*light_positions[i]);
 		vec3 light_amb = vec3(*light_ambients[i]);
 		vec3 light_diff = vec3(*light_diffuses[i]);

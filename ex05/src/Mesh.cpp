@@ -157,6 +157,15 @@ void Mesh::StdDist() {
 	CalculateNormals();
 	CalculateSphericalTextureCoordinates();
 }
+void Mesh::Resize(const float resizeFactor) {
+
+	for (int v = 0; v < vertices.size(); ++v) {
+		vertices.at(v) *= resizeFactor;
+	}
+
+	CalculateNormals();
+	CalculateSphericalTextureCoordinates();
+}
 
 void Mesh::CalculateNormals() {
 

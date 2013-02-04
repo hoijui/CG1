@@ -51,6 +51,7 @@ public:
 		void Center();
 		//! Scales the object, so the average distance from (0, 0, 0) is one
 		void StdDist();
+		void Resize(const float resizeFactor);
 
 		void SetSmoothRendering(bool enabled);
 

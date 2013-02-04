@@ -312,17 +312,14 @@ void ray_trace()
 	vec3 newColor;
 	vec3 mat_amb = vec3(0.9, 0.9, 0.9);
 	vec3 mat_diff = vec3(0.5, 0.5, 0.5);
-	vec3 n;
+	vec3 surfaceNormal;
 	for (size_t i = 0; i < rays.size(); i++) {
 		const Ray& ray = rays.at(i);
 		float t = -1.0f; // intersection multiplier
-		bool intersected = scene.GetIntersectionPos(ray, t, mat_amb, n);
-		// XXX use the following 2 lines instead of the above, later on
-//		vec3 intersectionNormal;
-//		bool intersected = scene.GetIntersectionPos(ray, t, &intersectionNormal);
+		bool intersected = scene.GetIntersectionPos(ray, t, mat_amb, &surfaceNormal);
 		if (intersected) {
-			newColor = vec3(0, 0, 0);
-			get_color(newColor, ray, ray.att(t), n, mat_amb, mat_diff);
+			newColor = vec3(0.0f, 0.0f, 0.0f);
+			get_color(newColor, ray, ray.att(t), surfaceNormal, mat_amb, mat_diff);
 			toRGB(newColor);
 			rayTracedImage[i] = newColor;
 		} else {

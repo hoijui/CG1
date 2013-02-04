@@ -20,7 +20,7 @@ class Scene {
 		Scene();
 		Scene(const Scene& other);
 
-		void AddMesh(const string& fileName, const vec3& position);
+		void AddMesh(const string& fileName, const vec3& position, const float resizeFactor, const vec3& color);
 
 		bool GetIntersectionPos(const Ray& r, float& out_t, vec3& out_color, vec3* out_normal = NULL) const;
 
@@ -34,6 +34,7 @@ class Scene {
 		vector<Mesh> meshes;
 		vector<vec3> positions;
 		vector<Box> boundingBoxes;
+		vector<vec3> colors;
 };
 
 #endif // _SCENE_H_

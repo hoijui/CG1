@@ -32,17 +32,19 @@ Scene::Scene(const Scene& other)
 {
 }
 
-void Scene::AddMesh(const string& fileName, const vec3& position) {
+void Scene::AddMesh(const string& fileName, const vec3& position, const float resizeFactor, const vec3& color) {
 
 	Mesh newMesh = Mesh::loadOff(fileName);
 	newMesh.Center();
 	newMesh.StdDist();
+	newMesh.Resize(resizeFactor);
 
 	Box boundingBox = CalculateBoundingBox(newMesh, position);
 
 	meshes.push_back(newMesh);
 	positions.push_back(position);
 	boundingBoxes.push_back(boundingBox);
+	colors.push_back(color);
 }
 
 bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3& out_color, vec3* out_normal) const {
@@ -124,7 +126,8 @@ void Scene::Display() const {
 		RenderBox(boundingBoxes.at(meshIndex));
 
 		const vec3& pos = positions.at(meshIndex);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		const vec3& color = colors.at(meshIndex);
+		glColor3fv(&color[0]);
 		glTranslatef(pos.x, pos.y, pos.z);
 		meshes.at(meshIndex).Display();
 		glColor3f(1.0f, 1.0f, 1.0f);

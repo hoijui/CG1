@@ -806,8 +806,8 @@ int main(int argc, char** argv)
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	// Create scene
-	scene.AddMesh("data/sphere.off", vec3(0.0f, 0.0f, 0.0f));
-	scene.AddMesh("data/sphere.off", vec3(3.0f, 3.0f, 0.0f));
+	scene.AddMesh("data/sphere.off", vec3(0.0f, 0.0f, 0.0f), 1.0f,   vec3(1.0f, 0.0f, 0.0f));
+	scene.AddMesh("data/sphere.off", vec3(3.0f, 3.0f, 0.0f), 1.0f,   vec3(0.0f, 1.0f, 0.0f));
 
 	redisplay_all();
 

@@ -311,9 +311,10 @@ void ray_trace()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	vec3 matColor;
 	vec3 newColor;
-	vec3 mat_amb = vec3(0.9, 0.9, 0.9);
+	vec3 mat_amb;
 	vec3 mat_diff = vec3(0.5, 0.5, 0.5);
 	vec3 surfaceNormal;
+	const vec3 BACKGROUND_COLOR(0.0f, 0.0f, 0.0f);
 	for (size_t i = 0; i < rays.size(); i++) {
 		const Ray& ray = rays.at(i);
 		float t = -1.0f; // intersection multiplier
@@ -323,7 +324,7 @@ void ray_trace()
 			get_color(newColor, ray, ray.att(t), surfaceNormal, mat_amb, mat_diff);
 			rayTracedImage[i] = newColor;
 		} else {
-			rayTracedImage[i] = vec3(0.0f, 0.0f, 0.0f);
+			rayTracedImage[i] = BACKGROUND_COLOR;
 		}
 	}
 

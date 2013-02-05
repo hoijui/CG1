@@ -106,8 +106,7 @@ bool Scene::GetIntersectionPos(const Ray& r, float& out_t, vec3* out_color, vec3
 					= (vertexNormals.at(0) * facN0)
 					+ (vertexNormals.at(1) * facN1)
 					+ (vertexNormals.at(2) * facN2);
-			interpolatedNormal * 3.0f;
-			interpolatedNormal.normalize();
+			interpolatedNormal = interpolatedNormal.normalize();
 
 			*out_normal = *((vec3*)&interpolatedNormal);
 		}

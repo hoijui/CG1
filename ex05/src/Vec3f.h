@@ -66,7 +66,7 @@ class Vec3f
 		float norm() const {
 			return sqrt(normSquared());
 		}
-		Vec3f normalize() {
+		Vec3f normalize() const {
 			return *this * (1.0f / norm());
 		}
 

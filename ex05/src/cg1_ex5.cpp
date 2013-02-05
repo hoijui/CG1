@@ -197,7 +197,7 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 			}
 		}
 	}
-	color /= nbrLightSources;
+	color /= nbrLightSources * 3.0f;
 }
 
 

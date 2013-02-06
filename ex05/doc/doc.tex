@@ -22,7 +22,7 @@
 
 \pdfinfo{%
   /Title    (Computer Graphics I - WS12/13 - Excercise 5 - Trace my Ray)
-  /Author   (Team 6: Rolf Schröder [340126], Robin Vobruba [343773], Bernd Loeber)
+  /Author   (Team 6: Rolf Schröder [340126], Robin Vobruba [343773], Bernd Loeber [346336])
   /Creator  ()
   /Producer ()
   /Subject  ()
@@ -57,8 +57,6 @@
 % Berechnen Sie den effektiven Brechungswinkel für Transmission durch 10 cm Wasser.
 % (0.5 Punkte)
 
-Der Brechungswinkel hängt von dem Einfallswinkel ab.
-Daher wird hier die Formel für den Brechungswinkel hergeleitet.
 
 \begin{align*}
 n_W &= 1.33 \quad \text{Wasser-Brechungsindizes} \\
@@ -67,8 +65,10 @@ n_1 \sin(\alpha_1) &= n_2 \sin(\alpha_2) \\
 \sin(\alpha_1) &= \frac{n_2}{n_1} \sin(\alpha_2) \\
 \alpha_1 &= \arcsin(\frac{n_2}{n_1} \sin(\alpha_2)) \\
 \alpha_W &= \arcsin(\frac{n_L}{n_W} \sin(\alpha_L)) \\
-\alpha_W &= \arcsin(\frac{1.000292}{1.33} \sin(\alpha_L)) \\
+\beta &= \arcsin(\frac{1.000292}{1.33} \sin(\alpha)) \\
 \end{align*}
+
+Der effektive Brechungswinkel beträgt 0 Grad, da der Strahl mit dem selben Winkel aus dem Wasser austritt mit dem er auf das Wasser getroffen ist.
 
 \image{img/brechungswinkel}{0.8}{Lichtbrechung in verschiedenen Medien}
 
@@ -99,15 +99,16 @@ TODO
 \image{img/sonneneinstrahlung}{0.8}{Sonneneinstrahlung}
 
 Siehe fig. \ref{fig:img/sonneneinstrahlung}.
-Die Lichtenergie beträgt ca. $700 \frac{W * min}{m^2}$.
-Hierbei wird davon ausgegangen,
-dass keine Wolken oder Smog/Feinstaub die Sonne verdecken.
-Da die Sonne mittags fast orthogonal auf die Fläche scheint,
+Die Solarkonstante beträgt $1367 * \frac{W}{m^2}$. Rechnet man diese auf die 60 Sekunden um, so erhält man $82020 * \frac{Ws}{m^2}*$ bzw. $82020 * \frac{J}{m^2}*$.
+Da nur ca. $54\%$ der Sonnenenergie am Boden ankommt, beträgt die gemessene Energie rund $44290,8* \frac{J}{m^2}*$.
+Hierbei wird davon ausgegangen, dass keine Wolken oder Smog/Feinstaub die Sonne verdecken. Da die Sonne mittags quasi orthogonal auf die Fläche scheint,
 sind auch keine Schatten zu erwarten.
 
 Quellen:
 \begin{itemize}
 \item https://de.wikipedia.org/wiki/Sonnenstrahlung
+\item http://de.wikipedia.org/wiki/Solarkonstante
+\item http://education.gsfc.nasa.gov/experimental/all98invProject.Site/Pages/trl/inv2-1.abstract.html
 \end{itemize}
 
 
@@ -115,14 +116,10 @@ Quellen:
 % Beschreiben Sie, wie man Ray Tracing und Radiosity geeignet kombinieren kann.
 % (1 Punkt)
 
-Ray Tracing nutzt perfekte Reflektionen und Radiosity geht von perfekter Streuung aus (Lambertstrahler).
-Man kann beide nutzen um realistische (zu gewissen Anteilen streuende und reflektierende) Beleuchtung zu erstellen.
+Ray Tracing nutzt perfekte Reflektionen und Radiosity geht von perfekter Streuung aus (Lambertstrahler), welche es in der Realität nicht, bzw. nur sehr selten gibt.
+Man kann beide nutzen um realistische (zu gewissen Anteilen streuende und reflektierende, gerichtet diffuse) Beleuchtung zu erstellen.
 
-Mittels Radiosity ist es möglich diffuses Licht korrekt wiederzugeben.
-Dabei werden auch Effekte wie Farbbluten, indirekte Beleuchtung und Schattenverläufe korrekt wiedergegeben. 
-
-Ein Beispiel hierfür wäre die glatte Oberfläche einer Küchenarbeitsplatte.
-Hierbei würde ein Großteil der Lichtstrahlen der Deckenlampe auf die Decke reflektiert und ein kleiner Anteil
+Mittels Radiosity ist es möglich diffuses Licht korrekt wiederzugeben. Dabei werden auch Effekte wie Farbbluten, indirekte Beleuchtung und Schattenverläufe korrekt wiedergegeben. Ray Tracing kann spiegelnde und transparente Flächen korrekt wiedergeben.
 
 
 \subsection*{4. Bidirectional path tracing}
@@ -131,18 +128,19 @@ Hierbei würde ein Großteil der Lichtstrahlen der Deckenlampe auf die Decke ref
 % (1 Punkte)
 
 \textbf{Vorteile}
-
-Das Integral konvergiert schneller als beim herkömmlichen Path Tracing.
-Performanzgewinn durch schnellere Konvergenz ist größer als der Aufwand für das Tracen der zwei Strahlen (Shooting und Gathering).
-Sehr exaktes Verfahren. Wird teilweise für Referenzbilder verwendet.
-Simuliert Effekte wie weiche Schatten, Kaustiken und Motion Blur ohne Extraaufwand
-Basiert nicht auf perfekt diffusen Lambertstrahlern, wie Radiosity, welche es in der Realität nicht gibt.
+\begin{itemize}
+\item Das Integral konvergiert schneller als beim herkömmlichen Path Tracing.
+\item Performanzgewinn durch schnellere Konvergenz ist größer als der Aufwand für das Tracen der zwei Strahlen (Shooting und Gathering).
+\item Sehr exaktes Verfahren. Wird teilweise für Referenzbilder verwendet.
+\item Simuliert Effekte wie weiche Schatten, Kaustiken und Motion Blur ohne Extraaufwand.
+\item Basiert nicht auf perfekt diffusen Lambertstrahlern, wie Radiosity, welche es in der Realität nicht gibt.
+\end{itemize}
 
 \textbf{Nachteile}
-
-Um Störungen (Noise) im Bild zu vermeiden eine hohe Anzahl von Strahlen getracet werden.
-Obwohl es schneller als normales Path Tracing ist, benötigt Bidirectional Path Tracing viel Rechenzeit.
-Pefekte spekuläre Reflektionen können nicht dargestellt werden.
-
+\begin{itemize}
+\item Um Störungen (Noise) im Bild zu vermeiden eine hohe Anzahl von Strahlen getracet werden.
+\item Obwohl es schneller als normales Path Tracing ist, benötigt Bidirectional Path Tracing viel Rechenzeit.
+\item Pefekt spekuläre Reflektionen können nicht dargestellt werden, da nicht unterschieden werden kann, ob der Strahl von der Reflektion oder vom Bidirectional Path Tracing kommt.
+\end{itemize}
 
 \end{document}

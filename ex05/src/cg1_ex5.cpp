@@ -177,6 +177,7 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 		vec3 light_diff = vec3(*light_diffuses[i]);
 		// get light direction
 		vec3 light_dir = normalize(vertex - light_pos);
+		light_dir = normalize(light_pos - vertex);
 		//prvec3(light_dir);
 		// get half vector
 		vec3 half = normalize(r.d + light_dir);
@@ -186,20 +187,25 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 		color += mat_amb * light_amb;
 //		prvec3(color);
 		//prvec3(color);
+		//bool intersected = false;
+		Ray rayToLightSrc = Ray(vertex, light_dir);
+		float t;
+		vec3 dummy;
+		bool intersected = scene.GetIntersectionPos(rayToLightSrc, t, &dummy, &dummy);
+		intersected = (intersected && t > 0.1);
 		// check light direction ...
 		float norm_dot_light = dot(normal, light_dir);
 		float norm_dot_h = dot(normal, half);
-		// ... and add diffuse light only if reflection is possible
-		if (norm_dot_light > 0.0) {
+		// ... and add diffuse light only if reflection is possible and not behind another object
+		if (norm_dot_light > 0.0 && !intersected) {
 			// add diffuse light
 			color += mat_diff * light_diff * norm_dot_light;
 			if (norm_dot_h > 0.0) {
 				// rs * L * (H.N)^n
 				vec3 mat_spec = vec3(1, 1, 1);
 				vec3 light_spec = vec3(1, 1, 1);
-				float mat_shin = 1;
+				float mat_shin = 2;
 				color += mat_spec * light_spec * pow(norm_dot_h, mat_shin);
-				//color += gl_FrontMaterial.specular * gl_LightSource[0].specular * pow(NdotH, gl_FrontMaterial.shininess);
 			}
 		}
 	}
@@ -322,6 +328,7 @@ void ray_trace()
 	clear_rays();
 
 	create_primary_rays(rays, w, h);
+//	create_primary_rays_from_z_to_origin(rays, 5.0, w, h);
 
 	rayTracedImage.clear();
 	rayTracedImage.resize(w*h, vec3(0, 1, 0));

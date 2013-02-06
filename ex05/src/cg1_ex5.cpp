@@ -76,22 +76,28 @@ std::string _vis_names[vis_N] = { "raytraced image", "opengl shaded" };
 static Scene scene;
 
 const int nbrLightSources = 1;
-GLfloat light_positions[][4] =
+GLfloat light_positions[][3] =
 {
-{ 1.0, 1.0, 1.0, 0.0 },
-{ 5.0, 1.0, 1.0, 0.0 },
+{ -10.0, -25.0, -1.0},
+{ 0.0, 0.0, 100.0},
+{ 10.0, 0.0, 0.0},
+{ 0.0, 10.0, 0.0},
 };
 
 GLfloat light_ambients[][4] =
 {
 { 1.0, 1.0, 1.0}, // default
-{ 1.0, 1.0, 1.0},
+{ 1.0, 0.0, 0.0},
+{ 1.0, 1.0, 1.0}, // default
+{ 1.0, 1.0, 1.0}, // default
 };
 
 GLfloat light_diffuses[][4] =
 {
 { 1.0, 1.0, 1.0}, // default
 { 1.0, 1.0, 1.0},
+{ 1.0, 1.0, 1.0}, // default
+{ 1.0, 1.0, 1.0}, // default
 };
 
 //const int nbrSpheres = 2;

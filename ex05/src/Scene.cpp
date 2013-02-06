@@ -21,6 +21,9 @@
 static float zNear = -10000.f;
 static float zFar = 10000.f;
 
+static void prvec3(const vec3& v) {
+	std::cout << "(" << v.x << ", " << v.y << ", " << v.z << ")" << std::endl;
+}
 Scene::Scene()
 {
 }

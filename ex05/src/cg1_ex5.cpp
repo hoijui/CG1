@@ -288,6 +288,19 @@ void create_primary_rays(std::vector<Ray>& rays, int resx, int resy)
 	}
 }
 
+void create_primary_rays_from_z_to_origin(std::vector<Ray>& rays, float z, int resx, int resy)
+{
+	vec3 origin = vec3(0, 0, z);
+	for (int y = 0; y < resy; y++) {
+		for (int x = 0; x < resx; x++) {
+			vec3 direction = vec3(-resx / 2 + x, -resy / 2 + y, -2 * z);
+			// normalize
+			direction /= direction.length();
+			rays.push_back(Ray(origin, direction));
+		}
+	}
+}
+
 // Ray trace the scene
 void ray_trace()
 {

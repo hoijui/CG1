@@ -57,22 +57,27 @@
 % Berechnen Sie den effektiven Brechungswinkel für Transmission durch 10 cm Wasser.
 % (0.5 Punkte)
 
+Allgemein:
+\begin{align*}
+n_1 \sin(\alpha_1) &= n_2 \sin(\alpha_2) \\
+\alpha_1 &= \arcsin(\sin(\alpha_2 \frac{n_2}{n_1}))
+\end{align*}
 
+Brechunswinkel Luft-Wasser-Luft, siehe fig. \ref{fig:img/brechungswinkel}:
 \begin{align*}
 n_W &= 1.33 \quad \text{Wasser-Brechungsindizes} \\
 n_L &= 1.000292 \quad \text{Luft-Brechungsindizes} \\
-n_1 \sin(\alpha_1) &= n_2 \sin(\alpha_2) \\
-%\sin(\alpha_1) &= \frac{n_2}{n_1} \sin(\alpha_2) \\
-%\alpha_W &= \arcsin( \sin(\alpha_L) &/ \frac{n_L}{n_W}) \\
-\beta &= \arcsin(\sin(\alpha) &/ \frac{1.000292}{1.33}) \\
-\gamma &= \arcsin(\sin(\beta) &/ \frac{1.33}{1.000292}) \\
+\beta
+	&= \arcsin(\sin(\alpha) \frac{n_L}{n_W}) \\
+	&= \arcsin(\sin(\alpha) \frac{1.000292}{1.33}) \\
+\gamma
+	&= \arcsin(\sin(\beta) \frac{n_W}{n_L}) \\
+	&= \arcsin(\sin(\beta) \frac{1.33}{1.000292}) \\
 \end{align*}
 
 Der effektive Brechungswinkel beträgt 0 Grad, da der Strahl mit dem selben Winkel aus dem Wasser austritt mit dem er auf das Wasser getroffen ist.
 
 \image{img/brechungswinkel}{0.8}{Lichtbrechung in verschiedenen Medien}
-
-Siehe fig. \ref{fig:img/brechungswinkel}.
 
 Quellen:
 \begin{itemize}
@@ -99,8 +104,8 @@ Das Planksche Strahlengesetz beschreibt die Verteilung von elektromagnetischer E
 \image{img/sonneneinstrahlung}{0.8}{Sonneneinstrahlung}
 
 Siehe fig. \ref{fig:img/sonneneinstrahlung}.
-Die Solarkonstante beträgt $1367 * \frac{W}{m^2}$. Rechnet man diese auf die 60 Sekunden um, so erhält man $82020 * \frac{Ws}{m^2}$ bzw. $82020 * \frac{J}{m^2}$.
-Da nur ca. $54\%$ der Sonnenenergie am Boden ankommt, beträgt die gemessene Energie rund $44290,8* \frac{J}{m^2}$, bzw. $738,18 &* \frac{Wmin}{m^2}$.
+Die Solarkonstante beträgt $1367 * \frac{W}{m^2}$. Rechnet man diese auf die 60 Sekunden um, so erhält man $82020 * \frac{W s}{m^2}$ bzw. $82020 * \frac{J}{m^2}$.
+Da nur ca. $54\%$ der Sonnenenergie am Boden ankommt, beträgt die gemessene Energie rund $44290.8 * \frac{J}{m^2}$, bzw. $738.18 * \frac{W min}{m^2}$.
 Hierbei wird davon ausgegangen, dass keine Wolken oder Smog/Feinstaub die Sonne verdecken. Da die Sonne mittags quasi orthogonal auf die Fläche scheint,
 sind auch keine Schatten zu erwarten.
 

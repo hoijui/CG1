@@ -832,11 +832,21 @@ int main(int argc, char** argv)
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 	// Create scene
-	scene.AddMesh("data/sphere.off", vec3(0.0f, 0.0f, 0.0f), 1.0f,   vec3(1.0f, 0.0f, 0.0f));
+	scene.AddMesh("data/sphere.off", vec3(0.0f, 0.0f, 0.0f), 4.0f,   vec3(1.0f, 0.0f, 0.0f));
 	scene.AddMesh("data/sphere.off", vec3(3.0f, 3.0f, 0.0f), 1.0f,   vec3(0.0f, 1.0f, 0.0f));
-	scene.AddMesh("data/drei.off",   vec3(0.0f, 0.0f, -5.0f), 15.0f, vec3(0.3f, 0.3f, 0.3f));
+	scene.AddMesh("data/drei.off",   vec3(0.0f, 0.0f, -5.0f), 10.0f, vec3(0.8f, 0.8f, 0.8f));
 
 	redisplay_all();
+
+//	Ray r = Ray(vec3(0, 0, 10), vec3(0, -85.3333, -0.333333));
+//	float t;
+//	vec3 dummy;
+//	vec3 dummyN;
+//	bool intersected = scene.GetIntersectionPos(r, t, &dummy, &dummyN);
+//	print(intersected);
+//	prvec3(dummyN);
+//	prvec3(r.att(t));
+//	print(t);
 
 	ray_trace();
 

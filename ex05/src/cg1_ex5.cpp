@@ -433,6 +433,54 @@ void draw_camera()
 	glEnd();
 }
 
+void draw_lights()
+{
+	// cube "radius"
+	const float cr = 1.0f;
+	for (int i = 0; i < nbrLightSources; i++) {
+		// draw a small cube as light representation
+		const vec3 pos(
+				light_positions[i][0],
+				light_positions[i][1],
+				light_positions[i][2]);
+
+		// draw the 6 sides of the cube
+		glBegin(GL_QUADS);
+		glColor3fv(&light_diffuses[i][0]);
+
+		glVertex3f(pos.x + cr, pos.y + cr, pos.z + cr);
+		glVertex3f(pos.x + cr, pos.y + cr, pos.z - cr);
+		glVertex3f(pos.x + cr, pos.y - cr, pos.z - cr);
+		glVertex3f(pos.x + cr, pos.y - cr, pos.z + cr);
+
+		glVertex3f(pos.x - cr, pos.y + cr, pos.z + cr);
+		glVertex3f(pos.x - cr, pos.y + cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y - cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y - cr, pos.z + cr);
+
+		glVertex3f(pos.x + cr, pos.y + cr, pos.z + cr);
+		glVertex3f(pos.x + cr, pos.y + cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y + cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y + cr, pos.z + cr);
+
+		glVertex3f(pos.x + cr, pos.y - cr, pos.z + cr);
+		glVertex3f(pos.x + cr, pos.y - cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y - cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y - cr, pos.z + cr);
+
+		glVertex3f(pos.x + cr, pos.y - cr, pos.z + cr);
+		glVertex3f(pos.x - cr, pos.y - cr, pos.z + cr);
+		glVertex3f(pos.x - cr, pos.y + cr, pos.z + cr);
+		glVertex3f(pos.x + cr, pos.y + cr, pos.z + cr);
+
+		glVertex3f(pos.x + cr, pos.y - cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y - cr, pos.z - cr);
+		glVertex3f(pos.x - cr, pos.y + cr, pos.z - cr);
+		glVertex3f(pos.x + cr, pos.y + cr, pos.z - cr);
+		glEnd();
+	}
+}
+
 void full_screen_quad(){
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -612,6 +660,7 @@ void world_display()
 
 	glDisable(GL_LIGHTING);
 	draw_camera();
+	draw_lights();
 
 	glMultMatrixf(&modelview[0][0]);
 	draw_rays();

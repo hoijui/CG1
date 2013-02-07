@@ -21,6 +21,7 @@ using namespace glm;
 #include "Scene.h"
 
 #define print(var) std::cout << var << std::endl;
+#define SHADOW 0
 
 static void toRGB(float& x);
 static void toRGB(vec3& color);
@@ -187,12 +188,14 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 		color += mat_amb * light_amb;
 //		prvec3(color);
 		//prvec3(color);
-		//bool intersected = false;
+		bool intersected = false;
+#if SHADOW
 		Ray rayToLightSrc = Ray(vertex, light_dir);
 		float t;
 		vec3 dummy;
-		bool intersected = scene.GetIntersectionPos(rayToLightSrc, t, &dummy, &dummy);
+		intersected = scene.GetIntersectionPos(rayToLightSrc, t, &dummy, &dummy);
 		intersected = (intersected && t > 0.1);
+#endif
 		// check light direction ...
 		float norm_dot_light = dot(normal, light_dir);
 		float norm_dot_h = dot(normal, half);

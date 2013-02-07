@@ -21,7 +21,7 @@ using namespace glm;
 #include "Scene.h"
 
 #define print(var) std::cout << var << std::endl;
-#define SHADOW 0
+#define SHADOW 1
 
 static void toRGB(float& x);
 static void toRGB(vec3& color);
@@ -172,13 +172,13 @@ static void init_lights() {
 static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 &normal, const vec3 &mat_amb, const vec3 &mat_diff) {
 	// do net set color to (0,0,0) because of recursive calls
 	//color = vec3(0.0f, 0.0f, 0.0f);
+	const float RAY_START_EPS = 0.05f;
 	for (int i = 0; i < nbrLightSources; i++) {
 		vec3 light_pos = vec3(*light_positions[i]);
 		vec3 light_amb = vec3(*light_ambients[i]);
 		vec3 light_diff = vec3(*light_diffuses[i]);
 		// get light direction
-		vec3 light_dir = normalize(vertex - light_pos);
-		light_dir = normalize(light_pos - vertex);
+		vec3 light_dir = normalize(light_pos - vertex);
 		//prvec3(light_dir);
 		// get half vector
 		vec3 half = normalize(r.d + light_dir);
@@ -190,11 +190,9 @@ static void get_color(vec3 &color, const Ray &r, const vec3 &vertex, const vec3 
 		//prvec3(color);
 		bool intersected = false;
 #if SHADOW
-		Ray rayToLightSrc = Ray(vertex, light_dir);
+		Ray rayToLightSrc = Ray(vertex, light_dir, RAY_START_EPS);
 		float t;
-		vec3 dummy;
-		intersected = scene.GetIntersectionPos(rayToLightSrc, t, &dummy, &dummy);
-		intersected = (intersected && t > 0.1);
+		intersected = scene.GetIntersectionPos(rayToLightSrc, t);
 #endif
 		// check light direction ...
 		float norm_dot_light = dot(normal, light_dir);
